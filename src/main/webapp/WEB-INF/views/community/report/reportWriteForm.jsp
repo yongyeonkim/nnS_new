@@ -265,7 +265,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
       
       function fn_insertReport(){
          var comSubmit = new ComSubmit("frm");
-         comSubmit.setUrl("<c:url value='/shop/goodsDetail/reportWrite' />");
+         comSubmit.setUrl("<c:url value='/community/reportWrite' />");
          comSubmit.submit();
       }
       

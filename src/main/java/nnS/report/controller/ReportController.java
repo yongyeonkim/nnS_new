@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -20,27 +22,32 @@ public class ReportController {
 	@Resource(name="reportService")
 	private ReportServiceImpl reportService;
 
-	@RequestMapping(value="/shop/goodsDetail/reportWriteForm")
+	@RequestMapping(value="/community/reportWriteForm")
 	public ModelAndView reportWriteForm(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("reportWriteForm");
 
 		return mv;
 	}
 	
-	@RequestMapping(value="/shop/goodsDetail/reportWrite")
-	public ModelAndView reportWrite(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/myPage/reportList");
+	@RequestMapping(value="/community/reportWrite")
+	public ModelAndView reportWrite(CommandMap commandMap,HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("redirect:/community/reportList");
 		
-		reportService.insertReportBoard(commandMap.getMap());
+		HttpSession session = request.getSession();
+		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
+		
+		reportService.insertReportBoard(commandMap.getMap(),request);
 		
 		return mv;		
 	}
 	
 	@RequestMapping(value = "/myPage/reportList")
-	public ModelAndView myQnaList(CommandMap commandMap) throws Exception {
+	public ModelAndView myQnaList(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("reportList");
 		
 		String url = "";
+		HttpSession session = request.getSession();
+		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
 		List<Map<String,Object>> list = reportService.selectMyReportList(commandMap.getMap());
 		url = "myPage";
 		mv.addObject("url",url);
@@ -65,9 +72,8 @@ public class ReportController {
 		ModelAndView mv = new ModelAndView("reportDetail");
 		
 		Map<String,Object> map = reportService.selectReportDetail(commandMap.getMap());
-		mv.addObject("map", map);
-		/* mv.addObject("list",map.get("list")); */
-		
+		mv.addObject("map", map.get("map"));
+		mv.addObject("list",map.get("list"));
 		
 		return mv;		
 	}

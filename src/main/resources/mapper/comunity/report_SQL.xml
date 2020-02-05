@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="report">
-
+    <!-- 신고목록 -->
     <select id="selectReportList" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 							SELECT  R.REPORT_NUM,
@@ -23,7 +23,7 @@
 		ORDER BY R.REPORT_NUM
 		]]>
 	</select>
-	
+	<!-- 내 신고 내역보기 -->
 	<select id="selectMyReportList" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 							SELECT  R.REPORT_NUM,
@@ -41,12 +41,15 @@
 		         ) M
 		WHERE   R.REPORT_DEL_GB = 'N'
 		AND     R.REPORT_WRITER = M.MEM_NUM(+)
-		AND     M.MEM_ID = 1234
+		AND     M.MEM_ID = #{MEM_ID}
 		ORDER BY R.REPORT_NUM
 		]]>
 	</select>
-	
-	<insert id="insertReportBoard" parameterType="hashmap">
+	<!-- 글쓰기 -->
+	<insert id="insertReportBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
+	 <selectKey keyProperty="REPORT_NUM" resultType="string" order="BEFORE">
+	       SELECT REPORT_SEQ.NEXTVAL FROM DUAL 
+	 </selectKey>
 	   <![CDATA[
 			   INSERT
 		INTO    REPORT  (
@@ -58,16 +61,16 @@
 		                REPORT_PRONUM
 		                )
 		VALUES          (
-		                REPORT_SEQ.nextval,
+		                #{REPORT_NUM},
 		                #{REPORT_TITLE},
-		                (SELECT MEM_NUM FROM MEMBER WHERE MEM_ID = 1234),
+		                (SELECT MEM_NUM FROM MEMBER WHERE MEM_ID = #{MEM_ID}),
 		                #{REPORT_CONTENT},
 		                #{REPORT_TYPE},
 		                #{REPORT_PRONUM}
 		                )
 	   ]]>
 	</insert>
-	
+	<!-- 상세보기 -->
 	<select id="selectReportDetail" parameterType="hashmap" resultType="hashmap">
 	  <![CDATA[
 			  SELECT  R.REPORT_NUM,
@@ -88,8 +91,8 @@
 		AND     R.REPORT_NUM = #{REPORT_NUM}
 	  ]]>
 	</select>
-	
-	<update id="updateReportCount" parameterType="hashmap">
+	<!-- 조회수 증가 -->
+	<update id="updateCount" parameterType="hashmap">
 		<![CDATA[
 			UPDATE REPORT
 			SET
@@ -98,7 +101,7 @@
 				REPORT_NUM = #{REPORT_NUM}	
 		]]>
 	</update>
-	
+	<!-- 신고 삭제 -->
 	<update id="deleteReport" parameterType="hashmap">
 	   <![CDATA[
 			   UPDATE  REPORT
@@ -106,5 +109,44 @@
 		WHERE   REPORT_NUM = #{REPORT_NUM}
 	   ]]>
 	</update>
+	
+	<!-- 신고사항 파일 추가 -->
+	<insert id="insertFile" parameterType="hashmap">
+		<![CDATA[
+			INSERT
+			INTO FILES (
+							FILES_NUM,
+							FILES_BOARD_TYPE,
+							FILES_PARENT,
+							FILES_ORGNAME,
+							FILES_STDNAME,
+							FILES_SIZE
+							)
+			VALUES			(
+							FILES_SEQ.NEXTVAL,
+							'1',
+							#{BOARD_IDX},
+							#{FILES_ORG},
+							#{FILES_STD},
+							#{FILES_SIZE}
+							)
+		]]>
+	</insert>
+	
+	<!-- 파일 상세보기 -->
+	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT
+				FILES_NUM,
+				FILES_ORGNAME,
+				ROUND(FILES_SIZE/1024, 1) AS FILES_SIZE
+			FROM
+				FILES
+			WHERE
+				FILES_BOARD_TYPE = '1'
+				AND FILES_PARENT = #{REPORT_NUM}
+				AND FILES_DEL = 'N'
+		]]>
+	</select>
 	
 </mapper>

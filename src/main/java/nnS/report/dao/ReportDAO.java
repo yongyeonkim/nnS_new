@@ -25,7 +25,7 @@ public class ReportDAO extends AbstractDAO {
 	}
 	public void updateReportCount(Map<String, Object> map) throws Exception{//
 		// TODO Auto-generated method stub
-		update("report.updateReportCount",map);
+		update("report.updateCount",map);
 		
 	}
 	@SuppressWarnings("unchecked")
@@ -38,6 +38,16 @@ public class ReportDAO extends AbstractDAO {
 		// TODO Auto-generated method stub
 		update("report.deleteReport",map);
 		
+	}
+	public void insertFile(Map<String, Object> map)throws Exception {
+		// TODO Auto-generated method stub
+		insert("report.insertFile",map);
+		
+	}
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> selectFileList(Map<String, Object> map)throws Exception {
+		// TODO Auto-generated method stub
+		return (List<Map<String, Object>>)selectList("report.selectFileList", map);
 	}
 	
 

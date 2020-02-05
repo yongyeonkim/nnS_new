@@ -181,15 +181,17 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
             <td colspan="4"><pre>${map.REPORT_CONTENT }</pre></td>
          </tr>
          <tr>
-            <th scope="row">첨부파일</th>
-            <td colspan="3">
-               <c:forEach var="row" items="${list }">
-                  <input type="hidden" id="REPORT_NUM" value="${row.REPORT_NUM }">
-                  <a href="#this" id="${row.REPORT_NUM }" name="file">${row.ORG}</a>
-                  (${file.SIZE }kb)
-               </c:forEach>
-            </td>
-         </tr>
+			<th scope="row">첨부파일</th>
+			<td colspan="3">
+				<c:forEach var="row" items="${list }">
+					<div>
+						<input type="hidden" id="FILES_NUM" value="${row.FILES_NUM }">
+						<a href="#this" name="file">${row.FILES_ORGNAME }</a>
+						(${row.FILES_SIZE}kb)
+					</div>
+				</c:forEach>
+			</td>
+		</tr>
       </tbody>
    </table>
    <a href="#this" class="btn" id="list">목록으로</a>
@@ -212,7 +214,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
          });
          $("a[name='file']").on("click", function(e){
             e.preventDefault();
-            fn_downloadFile($(this).attr('id'));
+            fn_downloadFile($(this));
          });
       });
       
@@ -232,12 +234,12 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
          
       }
       function fn_downloadFile(obj){
-         var idx=obj;
-         var comSubmit = new ComSubmit();
-         comSubmit.setUrl("<c:url value='/common/downloadFile.do'/>");
-         comSubmit.addParam("NUM",num);
-         comSubmit.submit();
-      }
+			var idx=obj.parent().find("#FILES_NUM").val();
+			var comSubmit = new ComSubmit();
+			comSubmit.setUrl("<c:url value='/common/downloadFile'/>");
+			comSubmit.addParam("FILES_NUM",idx);
+			comSubmit.submit();
+	}
    </script>
 </body>
 </html>

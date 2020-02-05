@@ -158,7 +158,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
          <ul>
          <li><a href="accountModifyForm">회원정보변경</a></li>
          <li><a href="pwModifyForm">비밀번호 변경</a></li>
-         <li><a href="myInfoDelete">회원 탈퇴</a></li>
+         <li><a href="deleteAccount">회원 탈퇴</a></li>
          <li  class="selected"><a href="reportList">신고내역</a></li>
          <li><a href="qnaList">Q&A</a></li>
          </ul>
@@ -180,9 +180,9 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 				<th scope="col">글번호</th>
 				<th scope="col">제목</th>
 				<th scope="col">작성자</th>
-				<th scope="col">조회수</th>
 				<th scope="col">작성일</th>
 				<th scope="col">처리상태</th>
+				<th scope="col">조회수</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -194,9 +194,9 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 							<td class="title"><a href="#this" name="title">${row.REPORT_TITLE }&nbsp;&nbsp;&nbsp;&nbsp;[${row.REPORT_TYPE }]</a>
 								<input type="hidden" id="REPORT_NUM" value="${row.REPORT_NUM }"></td>
 						    <td>${row.MEM_ID }</td>
-							<td>${row.REPORT_COUNT }</td>
 							<td>${row.REPORT_DATE }</td>
 							<td>${row.REPORT_STATUS }</td>
+							<td>${row.REPORT_COUNT }</td>
 							
 						</tr>
 					</c:forEach>
@@ -236,7 +236,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 
 		function fn_openBoardWrite() {
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/shop/goodsDetail/reportWriteForm' />");
+			comSubmit.setUrl("<c:url value='/community/reportWriteForm' />");
 			comSubmit.submit();
 		}
 	
