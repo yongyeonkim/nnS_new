@@ -5,7 +5,12 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/join.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/join2.css'/>" />
 <link rel="stylesheet" type="text/css"/>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 
@@ -249,130 +254,214 @@ function zipcode() {//우편번호 검색창
    $("#joinForm").on("submit",function(e){
    });
    </script>
+   <script>
+   $(".login-form").validate({
+	   rules: {
+	     username: {
+	       required: true,
+	       minlength: 4
+	     },     
+	     email: {
+	       required: true,
+	       email:true
+	     },
+	     password: {
+	       required: true,
+	       minlength: 5
+	     },
+	     cpassword: {
+	       required: true,
+	       minlength: 5,
+	       equalTo: "#password"
+	     }
+	   },
+	   //For custom messages
+	   messages: {
+	     username:{
+	       required: "Enter a username",
+	       minlength: "Enter at least 4 characters"
+	     }
+	   },
+	   errorElement : 'div',
+	   errorPlacement: function(error, element) {
+	     var placement = $(element).data('error');
+	     if (placement) {
+	       $(placement).append(error)
+	     } else {
+	       error.insertAfter(element);
+	     }
+	   }
+	 });
+
+	 </script>
 </head>
 
 
 <body>
-   <div>
-   <div>
-      <div>
-      <h1>회원가입</h1>
+
+<div id="login-page" class="row" style="width:60%;">
+  <div class="col s12 z-depth-4 card-panel" style="border-radius: 20px;">
+    <form id="joinForm" method="post">
+      <div class="row">
+        <div class="input-field col s12 center">
+          <h4>회원가입</h4>
+          <p class="center">Join to our community now !</p>
+        </div>
       </div>
-      <form id="joinForm" method="post">
-         <div>
-            <div>
-               아이디<input type="text" id="MEM_ID" name="MEM_ID" > 
-               <button onclick="fn_idCheck();" type="button">아이디 중복 확인
-            </div>
-            <span id = "chkMsg"></span>
+      
+      <div class="row margin">
+        <div class="input-field col s12">
+          <input type="text" id="MEM_ID" name="MEM_ID"  style="width:80%;">
+          <label for="username">아이디</label>
+          <button onclick="fn_idCheck();" type="button">아이디 중복 확인
             
-            <div>
-               비밀번호<input type="password" id="MEM_PW" name="MEM_PW"> 
-            </div>
-            
-            <div>
-               비밀번호 확인<input type="password" id="password2"> 
-            </div>
-            <span id="pw"></span>
-            
-            
-            <div>
-               이름<input type="text" id="MEM_NAME" name="MEM_NAME"> 
-            </div>
-            
-            <div>
-
-               생년월일<input type="text" id="MEM_BIRTH" name="MEM_BIRTH" placeholder="ex)19950703"> 
-
-            </div>
-            
-            <div>
-               <form>
-
-                  <input type="radio" id="MEM_GEN_M" name="MEM_GEN" value="남성"/>남성
-                  <input type="radio" id="MEM_GEN_F" name="MEM_GEN" value="여성"/>여성
-
-               </form>
-            </div>
-            
-            <div>
-               <input type="hidden" id="MEM_EMAIL" name="MEM_EMAIL">
-               이메일<input type="text" id="email1" name="email1"> 
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "chkMsg"></span>
+      </div>
+      
+      <div class="row margin">
+        <div class="input-field col s12">
+          <input type="password" id="MEM_PW" name="MEM_PW">
+          <label for="username">비밀번호</label>
+        </div>
+      </div>
+      
+      <div class="row margin">
+        <div class="input-field col s12">
+          <input type="password" id="password2"> 
+          <label for="username">비밀번호 확인</label>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="pw"></span>
+      </div>
+      
+       
+      <div class="row margin">
+        <div class="input-field col s12">
+          <input type="text" id="MEM_NAME" name="MEM_NAME">
+          <label for="username">이름</label>
+        </div>
+      </div>
+       
+      <div class="row margin">
+        <div class="input-field col s12">
+          <input type="text" id="MEM_BIRTH" name="MEM_BIRTH" placeholder="ex)19950703">
+          <label for="username">생년월일</label>
+        </div>
+      </div>
+       
+      <div class="row margin">
+        <div class="input-field col s12">
+             <input type="radio" id="MEM_GEN_M" name="MEM_GEN" value="남성"/>&nbsp;&nbsp;남성&nbsp;&nbsp;
+             <input type="radio" id="MEM_GEN_F" name="MEM_GEN" value="여성"/>&nbsp;&nbsp;여성&nbsp;&nbsp;
+             
+        </div>
+      </div>
+       <br/>
+      <div class="row margin">
+        <div class="input-field col s12">
+          	   <input type="hidden" id="MEM_EMAIL" name="MEM_EMAIL">
+               <input type="text" id="email1" name="email1" style="width:45%;" > 
                @
-               <input type="text" id="email2" name="email2" value=""> 
-            
+               <input type="text" id="email2" name="email2" value="" style="width:45%;" > 
+            	<!--
                <select id="email" name="email">
                   <option value="self">직접입력</option>
                   <option value="naver.com">naver.com</option>
                   <option value="hanmail.net">hanmail.net</option>
                   <option value="gmail.com">gmail.com</option>
                   <option value="nate.com">nate.com</option>
-
                </select>
-
+ 				-->
                <button type="button" id="emailBtn">이메일 발송</button>
-               <input type="text" id="emailAuth" name="emailAuth" placeholder="인증번호"/>
+               <br/>
+               <input type="text" id="emailAuth" name="emailAuth" placeholder="인증번호" style="width:85%;" />
                <button type="button" id="emailAuthBtn">이메일 인증</button>
                <input type="hidden" path="random" id="random" value="${random }"/>
-               
-               <span id = "chkEm"></span>
-               
-            </div>
-            <div>
-               <input type="hidden" id="MEM_PHONE" name="MEM_PHONE">
-               	휴대전화<select id="phone1" name="phone1">
-                  <option value="010">010</option>
-                  <option value="011">011</option>
-                  <option value="016">016</option>
-                  <option value="017">017</option>
-                  <option value="018">018</option>
-                  <option value="019">019</option>
-               </select> 
-               
-               -<input type="number" id="phone2" name="phone2"> 
-               
-               -<input type="number" id="phone3" name="phone3">
-            </div>
-            
-            <div>
-               우편번호<input type="text" id="MEM_ZIP" name="MEM_ZIP">
-               <input type="button" onclick="zipcode()" value="우편번호 찾기"><br>
-            </div>
-            
-            <div>
-               집 주소<input type="text" id="MEM_ADD1" name="MEM_ADD1">
-            </div>
-            
-            <div>
-               상세 주소<input type="text" id="MEM_ADD2" name="MEM_ADD2">
-            </div>
-         
-            <div>
-               <label>
-                  <h1>nns# 서비스 이용약관 동의 <span>(필수)</span></h1>
-                  <input type="checkbox" name="agree_required">
-                  <svg width="30" height="30" viewBox="0 0 31 31">
-                     <g fill="none" fill-rule="evenodd">
-                        <g>
-                           <circle class="Circle__fill" cx="15.5" cy="15.5" r="15.5"></circle>
-                           <circle class="Circle__border" cx="15.5" cy="15.5" r="14.9" stroke-width="1.2"></circle>
-                        </g>
-                        <path stroke-width="2.4" d="M7.154 15.369l6.027 6.027L23.846 10.73"></path>
-                     </g>
-                  </svg>
-               </label>
-               <div class="lReCa">
-                  <iframe src="https://s3-ap-northeast-1.amazonaws.com/dabang-static/html/station3_180816_dabang_serviceaccessterms.html"
-                     scrolling="yes" width="100%" height="100%" frameborder="0" allowtransparency="true"></iframe>
-               </div>
-            </div>
-         </div>
-         <button id="join">회원가입</button>
-         <button onclick="back();" type="button">취소</button>
-
-      </form>
-
-   </div>
-   </div>
+          <label for="username">이메일</label>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "chkEm"></span>
+      </div>
+       
+      <div class="row margin">
+        <div class="input-field col s12">
+          <input type="hidden" id="MEM_PHONE" name="MEM_PHONE">
+          <input type="number" id="phone1" name="phone1" style="width:30%;">
+          <!-- 
+          <select id="phone1" name="phone1">
+             <option value="010">010</option>
+             <option value="011">011</option>
+             <option value="016">016</option>
+             <option value="017">017</option>
+             <option value="018">018</option>
+             <option value="019">019</option>
+          </select> 
+           -->
+          -<input type="number" id="phone2" name="phone2" style="width:30%;"> 
+          
+          -<input type="number" id="phone3" name="phone3" style="width:30%;">
+          
+          <label for="username">휴대전화</label>
+        </div>
+      </div>
+       
+      <div class="row margin">
+        <div class="input-field col s12">
+          <input type="text" id="MEM_ZIP" name="MEM_ZIP" style="width:90%;">
+           <input type="button" onclick="zipcode()" value="우편번호 찾기"><br>
+          <label for="username">우편번호</label>
+        </div>
+      </div>
+       
+      <div class="row margin">
+        <div class="input-field col s12">
+          <input type="text" id="MEM_ADD1" name="MEM_ADD1" style="width:90%;">
+          <label for="username">주소</label>
+        </div>
+      </div>
+       
+      <div class="row margin">
+        <div class="input-field col s12">
+          <input type="text" id="MEM_ADD2" name="MEM_ADD2" style="width:90%;">
+          <label for="username">상세주소</label>
+        </div>
+      </div>
+      
+      <div>
+          <label>
+          <fieldset>
+          <legend>nns# 서비스 이용약관 동의</legend>
+             <svg width="30" height="30" viewBox="0 0 31 31">
+                <g fill="none" fill-rule="evenodd">
+                   <g>
+                      <circle class="Circle__fill" cx="15.5" cy="15.5" r="15.5"></circle>
+                      <circle class="Circle__border" cx="15.5" cy="15.5" r="14.9" stroke-width="1.2"></circle>
+                   </g>
+                   <path stroke-width="2.4" d="M7.154 15.369l6.027 6.027L23.846 10.73"></path>
+                </g>
+             </svg>
+          </label>
+          <div class="lReCa">
+             <iframe src="https://s3-ap-northeast-1.amazonaws.com/dabang-static/html/station3_180816_dabang_serviceaccessterms.html"
+                scrolling="yes" width="100%" height="100%" frameborder="0" allowtransparency="true"></iframe>
+          </div>
+          <br/>
+          <input type="checkbox" name="agree_required"> 동의합니다.
+          </fieldset>
+       </div>
+      
+      <div class="row">
+        <div class="input-field col s12">
+        	<button id="join" class="btn waves-effect waves-light col s12" style="width:60%;">회원가입</button>
+         	<button onclick="back();" type="button" class="btn waves-effect waves-light col s12" style="width:35%; margin:0 0 0 20px">취소</button>
+          
+          
+        </div>
+        <div class="input-field col s12">
+          <p class="margin center medium-small sign-up">Already have an account? <a href="/nnS/loginForm">Login</a></p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 </body>
 </html>

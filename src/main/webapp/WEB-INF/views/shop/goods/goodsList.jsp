@@ -141,6 +141,17 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
    background-color: #fff;
    border: 1px solid #888;
 }
+td{
+	margin:0 0 0 10px
+}
+td img
+{
+	width:250px; 
+	height:250px;
+	margin:10px 10px 10px 0px; 
+	border:3px solid #000; 
+
+}
 </style>
 </head>
 <body>
@@ -158,19 +169,17 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
    
    		<table class="board_list">
 		<colgroup>
-			<col width="10%" />
-			<col width="*" />
-			<col width="15%" />
-			<col width="20%" />
+			<col width="33%" />
+			<col width="33%" />
+			<col width="33%" />
 		</colgroup>
 		<thead>
 			<tr>
-				<th bgcolor="#e9e9e9">글번호</th>
-				<th bgcolor="#e9e9e9">이미지</th>
-				<th bgcolor="#e9e9e9">제목</th>
-				<th bgcolor="#e9e9e9">조회수</th>
-				<th bgcolor="#e9e9e9">작성일</th>
-				<th bgcolor="#e9e9e9">작성시간</th>
+			<!--
+				<th bgcolor="#e9e9e9">컬럼1</th>
+				<th bgcolor="#e9e9e9">컬럼2</th>
+				<th bgcolor="#e9e9e9">컬럼3</th>
+			 -->
 			</tr>
 		</thead>
 		<tbody>
@@ -292,25 +301,40 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 				$.each(
 								data.list,
 								function(key, value) {
-									str += "<tr>"
-											+ "<td>"
-											+ value.GOODS_NUM
-											+ "</td>"
-											+ "<td>"
-											+ "<img alt='' width='50' height='50' src="
-											+ $('#path').val()
-											+ value.GOODS_THUMBNAIL
-											+ ">"
-											+ "</td>"
-											+ "<td class='title'>"
+									var cnt = (key+1)%3;
+									var imgpath = "";
+									if(cnt == 1){
+										str += "<tr>";
+									}
+									if(value.GOODS_THUMBNAIL == null){
+										imgpath = 	"<c:url value='/resources/images/no_image.png'/>"
+									}else{
+										imgpath = $('#path').val() + value.GOODS_THUMBNAIL
+									}
+									str += "<td>"
 											+ "<a href='#this' name='title'>"
+											+ "<img alt='' src="
+											//+ "<c:url value='/resources/images/no_image.png'/>"
+											//+ $('#path').val()
+											//+ value.GOODS_THUMBNAIL
+											+ imgpath
+											+ ">"
+											+ "<br/>상품번호 : " 
+											+ value.GOODS_NUM
+											+ "<br/>상품명 : "
 											+ value.GOODS_TITLE
-											+ "</a>"
+											+ "<br/>조회수 : "
+											+ value.GOODS_COUNT
+											+ "<br/>게시일 : "
+											+ value.GOODS_DATE
+											+ "&nbsp;"
+											+ value.GOODS_TIME
 											+ "<input type='hidden' id='IDX' value=" + value.GOODS_NUM + ">"
-											+ "</td>" + "<td>" + value.GOODS_COUNT
-											+ "</td>" + "<td>" + value.GOODS_DATE
-											+ "</td>" + "<td>" + value.GOODS_TIME
-											+ "</td>" + "</tr>";
+											+ "</a>"
+											+ "</td>";
+									if(cnt == 0){
+										str += "</tr>";
+									}
 								});
 				body.append(str);
 

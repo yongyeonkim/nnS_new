@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=euc-kr"%>
 <html>
-<head><title>로그인</title>
+<head>
+<title>로그인</title>
+
+
    <style>
    @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
    
@@ -16,7 +19,7 @@
         padding-bottom: 40px;
         font-family: "Nanum Gothic", arial, helvetica, sans-serif;
         background-repeat: no-repeat;
-        background:linear-gradient(to bottom right, #ffffff, #ffffff);
+        background:linear-gradient(to bottom right, #f0e199, #f0e199);
    }
    
     .card {
@@ -150,7 +153,7 @@
             </div>
          
             <div class="card-body">
-               <input type="button" class="btn btn-lg btn-primary btn-block" value="로그인" onclick="fsubmit();">
+               <input type="button" class="btn btn-lg btn-primary btn-block" value="로그인" onclick="fsubmit();" style="background-color:#26a69a;">
             </div>
          
             <div align="center">

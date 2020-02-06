@@ -13,7 +13,7 @@ table{width:100%;border-spacing:0;border-collapse:collapse;word-break:break-all;
 table thead th,table tbody th, .fb{font-family:'맑은 고딕',Malgun Gothic,sans-serif;font-weight:800;}
 address,caption,cite,code,em{font-style:normal;font-weight:normal;}
 caption{margin:0;padding:0;font-size:0;line-height:0;overflow:hidden;visibility:hidden;}
-legend{position:absolute;font-size:0;line-height:0;text-indent:-9999em;overflow:hidden}
+legend{}
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block;}
 textarea,label, input, button, select, img {vertical-align:middle;}
 button {cursor:pointer;}

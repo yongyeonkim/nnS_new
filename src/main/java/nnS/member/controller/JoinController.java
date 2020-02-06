@@ -69,6 +69,7 @@ public class JoinController {
    
    @RequestMapping(value = "/memberVerify")
    public ModelAndView insertMember(CommandMap commandMap) throws Exception{ //회원가입성공
+	   System.out.println(commandMap.getMap());
 	   joinService.insertMember(commandMap.getMap());
 	   ModelAndView mv = new ModelAndView("/member/join/joinConfirm");
 	   return mv;
