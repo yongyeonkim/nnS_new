@@ -105,7 +105,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
    border-right: 1px solid #666;
    border-bottom: 1px solid #666;
    border-left: 8px solid #666;
-   background-color: #ddd;
+   background-color: #f0e199;
    margin: 8px 0;
 }
 #vertical_tab-container ul li a,
@@ -144,10 +144,10 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 <div id="content">
 	<div id="vertical_tab-container">
 	<ul>
-		<li class="selected"><a href="noticeList">공지사항</a></li>
-         <li><a href="boardList">자유게시판</a></li>
-         <li><a href="reportList">신고게시판</a></li>
-         <li><a href="qnaList">Q&A게시판</a></li>
+		<li class="selected"><a href="noticeList"><img src="./../resources/images/tab_notice.png" width="100" height="30"></a></li>
+         <li><a href="boardList"><img src="./../resources/images/tab_board.png" width="100" height="30"></a></li>
+         <li><a href="reportList"><img src="./../resources/images/tab_report.png" width="100" height="30"></a></li>
+         <li><a href="qnaList"><img src="./../resources/images/tab_qna.png" width="100" height="30"></a></li>
 	</ul>
 	</div>
 	<div id="main-container">

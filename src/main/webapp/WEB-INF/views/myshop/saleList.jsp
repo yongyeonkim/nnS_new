@@ -226,7 +226,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 			<c:choose>
 				<c:when test="${fn:length(list) > 0}">
 					<c:forEach items="${list }" var="low">
-						<c:if test="${low.GOODS_STATUS eq '판매등록'}">
+						<c:if test="${low.GOODS_STATUS eq '1'}">
 					      	      	<tr>
 					      	      		<td width="200px" align="center">
 					      	      			${low.GOODS_NUM }
@@ -236,7 +236,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 					      	      			<input type="hidden" id="GOODS_NUM" name="GOODS_NUM" value="${low.GOODS_NUM }">
 					      	      		</td>
 					      	      		<td width="200px" align="center">
-					      	      			이미지 넣어주세영
+					      	      		<img alt='' width='50' height='50' src="/nnS/file/${low.GOODS_THUMBNAIL}">
 					      	      		</td>
 					      	      		<td width="100px" align="center">
 					      	      			${low.GOODS_DATE }
@@ -279,7 +279,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 			<c:choose>
 				<c:when test="${fn:length(list) > 0}">
 					<c:forEach items="${list }" var="low">
-						<c:if test="${low.GOODS_STATUS eq '판매중'}">
+						<c:if test="${low.GOODS_STATUS eq '2'}">
 					      	      	<tr>
 					      	      		<td width="200px" align="center">
 					      	      			${low.GOODS_NUM }
@@ -332,7 +332,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 			<c:choose>
 				<c:when test="${fn:length(list) > 0}">
 					<c:forEach items="${list }" var="low">
-						<c:if test="${low.GOODS_STATUS eq '판매완료'}">
+						<c:if test="${low.GOODS_STATUS eq '3'}">
 					      	      	<tr>
 					      	      		<td width="200px" align="center">
 					      	      			${low.GOODS_NUM }
@@ -375,21 +375,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 <script type="text/javascript">
 
 $(document).ready(function() {
-
-	//Default Action
-	$(".goodsTab_content").hide(); //Hide all content
-	$("ul.goodsTabs li:first").addClass("active").show(); //Activate first goodsTab
-	$(".goodsTab_content:first").show(); //Show first goodsTab content
 	
-	//On Click Event
-	$("ul.goodsTabs li").click(function() {
-		$("ul.goodsTabs li").removeClass("active"); //Remove any "active" class
-		$(this).addClass("active"); //Add "active" class to selected goodsTab
-		$(".goodsTab_content").hide(); //Hide all goodsTab content
-		var activegoodsTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active goodsTab + content
-		$(activegoodsTab).fadeIn(); //Fade in the active content
-		return false;
-	});
 	
 	
 	//Default Action
@@ -420,10 +406,6 @@ function fn_openBoardDetail(obj) {
 	comSubmit.submit();
 }
 
-function fnMove(seq){
-    var offset = $("#goodsTab" + seq).offset();
-    $('html, body').animate({scrollTop : offset.top}, 400);
-}
 
 </script>
 </body>

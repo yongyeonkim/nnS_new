@@ -14,11 +14,11 @@
 #header .header_area .top_menu ul{overflow:hidden;}
 #header .header_area .top_menu ul li{float:left;}
 #header .header_area .top_menu ul li a{display:block;padding:0 8px;}
-#header .tab_cate {width:100%;height:200px;background: url(../images/top_li.gif) 0 0 repeat-x;}
+#header .tab_cate {width:100%;height:200px;background: url(../images/header_bg.png) 0 0 repeat-x;}
 
 #header .tabs_area {
 	clear: both;
-	background: url(../images/top_li.gif) 0 0 repeat-x;
+	background: url(../images/header_bg.png) 0 0 repeat-x;
 	width: 1020px;
 	margin: 0 auto;
 }
@@ -30,7 +30,7 @@
 }
 
 #header .tab_cate .tabs {
-	padding: 10px 0 0 0;
+	padding: 0 0 0 0;
 	font-size: 0;
 }
 
@@ -43,15 +43,17 @@
 }
 
 #header .tab_cate ul.tabs li a.tab_a1 {
-	background: url(../images/menu_01.png);
-	width: 500px;
-	height: 65px;
+	background: url(../images/header_btn2.png);
+	margin: 0 0 0 170px;
+	width: 250px;
+	height: 50px;
 }
 
 #header .tab_cate ul.tabs li a.tab_a2 {
-	background: url(../images/menu_02.png);
-	width: 500px;
-	height: 65px;
+	background: url(../images/header_btn1.png);
+	margin: 0 0 0 200px;
+	width: 250px;
+	height: 50px;
 }
 
 #header .tab_cate ul.tabs li a {
@@ -64,7 +66,7 @@
 }
 
 #header .tab_cate ul.tabs li a:hover {
-	background-position: 0 150px;
+	background-position: 0 3px;
 }
 
 #header .tab_cate ul.tabs li a span {

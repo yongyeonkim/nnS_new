@@ -39,6 +39,9 @@ public class MyshopController {
 		System.out.println(list); 
 		ModelAndView mv = new ModelAndView("saleList");
 		mv.addObject("list",list);
+		String filePath_temp = request.getSession().getServletContext().getRealPath("") + "/file/";
+		mv.addObject("path", filePath_temp);
+		request.setAttribute("path", filePath_temp);
 		return mv;
 	}
 
