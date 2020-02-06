@@ -28,7 +28,7 @@ public class QnaDAO extends AbstractDAO{
 	
 	  public void updateQnaCount(Map<String, Object> map)throws Exception {//조회수 증가
 	  // TODO Auto-generated method stub 
-	  update("qna.updateQnaCount",map);
+	  update("qna.updateCount",map);
 	  
 	  }
 	 
@@ -58,6 +58,25 @@ public class QnaDAO extends AbstractDAO{
 		// TODO Auto-generated method stub
 		return (List<Map<String, Object>>)selectList("qna.selectQnaAnswer", map);
 	}
-	
+	public void insertFile(Map<String, Object> map)throws Exception {
+		// TODO Auto-generated method stub
+		insert("qna.insertFile",map);
+		
+	}
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> selectFileList(Map<String, Object> map)throws Exception {
+		// TODO Auto-generated method stub
+		return (List<Map<String, Object>>)selectList("qna.selectFileList", map);
+		
+	}
+	public void deleteFileList(Map<String, Object> map)throws Exception {
+		// TODO Auto-generated method stub
+		update("qna.deleteFileList", map);
+
+		
+	}
+	public void updateFile(Map<String, Object> map) throws Exception{
+		update("qna.updateFile", map);
+	}
 
 }

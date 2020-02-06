@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="qna">
-
+    <!-- 내 질문내역 -->
     <select id="selectMyQnaList" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 					SELECT  A.*, 
@@ -24,7 +24,7 @@
 		        WHERE   Q.QNA_WRITER = M.MEM_NUM(+)
 		        AND     Q.QNA_PARENT IS NULL
 		        AND     Q.QNA_DEL_GB = 'N'
-		        AND     M.MEM_ID = 1234
+		        AND     M.MEM_ID = #{MEM_ID}
 		        ORDER BY Q.QNA_NUM
 		        ) A
 		LEFT OUTER JOIN
@@ -36,7 +36,7 @@
 		ON  A.QNA_NUM = B.QNA_NUM
 		]]>
 	</select>
-	
+	<!-- 글 목록 -->
 	<select id="selectQnaList" parameterType="hashmap" resultType="hashmap">
 		
 		<![CDATA[
@@ -72,7 +72,7 @@
 		
 	</select>
 	
-	
+	<!-- 글쓰기 -->
 	<insert id="insertQnaBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="QNA_NUM">
 		<selectKey keyProperty="QNA_NUM" resultType="string" order="BEFORE">
 			SELECT QNA_SEQ.NEXTVAL FROM DUAL
@@ -89,14 +89,14 @@
 	VALUES          (
 	                #{QNA_NUM},
 	                #{QNA_TITLE},
-	                (SELECT MEM_NUM FROM MEMBER WHERE MEM_ID = 1234),
+	                (SELECT MEM_NUM FROM MEMBER WHERE MEM_ID = #{MEM_ID}),
 	                #{QNA_CONTENT},
 	                #{QNA_TYPE}
 	                )
 	]]>
 	</insert>
-	
-	<update id="updateQnaCount" parameterType="hashmap">
+	<!-- 조회수 증가 -->
+	<update id="updateCount" parameterType="hashmap">
 		<![CDATA[
 			UPDATE QNA
 			SET
@@ -105,7 +105,7 @@
 				QNA_NUM = #{QNA_NUM}	
 		]]>
 	</update>
-	
+	<!-- 상세보기 -->
 	<select id="selectQnaDetail" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 					SELECT  A.*, 
@@ -138,7 +138,7 @@
 		ON  A.QNA_NUM = B.QNA_NUM
 		]]>
 	</select>
-	
+	<!-- 글 수정 -->
 	<update id="updateQnaModify" parameterType="hashmap">
 		<![CDATA[
 					UPDATE  QNA
@@ -148,7 +148,7 @@
 		WHERE   QNA_NUM = #{QNA_NUM}
 		]]>
 	</update>
-	
+	<!-- 글삭제 -->
 	<update id="deleteQna" parameterType="hashmap">
 		<![CDATA[
 					UPDATE  QNA
@@ -156,7 +156,7 @@
 		WHERE   QNA_NUM = #{QNA_NUM}
 		]]>
 	</update>
-	
+	<!-- 답변쓰기 -->
 	<insert id="insertQnaAnswer" parameterType="hashmap">
 	  
 	   <![CDATA[
@@ -173,14 +173,14 @@
 	              ( 
 	                QNA_SEQ.NEXTVAL,
 	                #{QNA_TITLE},
-	                (SELECT MEM_NUM FROM MEMBER  WHERE MEM_LEVEL=2 AND MEM_ID = 'TEST2'),
+	                (SELECT MEM_NUM FROM MEMBER WHERE MEM_ID = #{MEM_ID}),
 	                #{QNA_CONTENT},
 	                #{QNA_TYPE},
 	                #{QNA_NUM}
 	              )
 	   ]]>
 	</insert>
-	
+	<!-- 답변내역 보기 -->
 	<select id="selectQnaAnswer" parameterType="hashmap" resultType="hashmap">
 	   <![CDATA[
 	    SELECT  Q.QNA_NUM,
@@ -202,6 +202,59 @@
 	   ]]>
 	</select>
 	
+	<!-- QNA 파일 추가 -->
+	<insert id="insertFile" parameterType="hashmap">
+		<![CDATA[
+			INSERT
+			INTO FILES (
+							FILES_NUM,
+							FILES_BOARD_TYPE,
+							FILES_PARENT,
+							FILES_ORGNAME,
+							FILES_STDNAME,
+							FILES_SIZE
+							)
+			VALUES			(
+							FILES_SEQ.NEXTVAL,
+							'2',
+							#{BOARD_IDX},
+							#{FILES_ORG},
+							#{FILES_STD},
+							#{FILES_SIZE}
+							)
+		]]>
+	</insert>
 	
+	<!-- 파일 상세보기 -->
+	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT
+				FILES_NUM,
+				FILES_ORGNAME,
+				ROUND(FILES_SIZE/1024, 1) AS FILES_SIZE
+			FROM
+				FILES
+			WHERE
+				FILES_BOARD_TYPE = '2'
+				AND FILES_PARENT = #{QNA_NUM}
+				AND FILES_DEL = 'N'
+		]]>
+	</select>
+	<!-- 파일 수정 -->
+	<update id="deleteFileList" parameterType="hashmap">
+		<![CDATA[
+			UPDATE	FILES
+			SET		FILES_DEL = 'Y'
+			WHERE	FILES_PARENT = #{IDX}
+		]]>
+    </update>
+	 
+	 <update id="updateFile" parameterType="hashmap">
+		<![CDATA[
+			UPDATE	FILES
+			SET		FILES_DEL = 'N'
+			WHERE	FILES_NUM = #{FILE_IDX}
+		]]>
+    </update>
 	
 </mapper>

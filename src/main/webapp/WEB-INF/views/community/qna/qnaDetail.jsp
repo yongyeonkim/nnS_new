@@ -138,7 +138,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
    border: 1px solid #888;
 }
 /* 답변글 보기에 쓰는거 */
-.answer a{cursor:pointer;}
+.answer p{cursor:pointer;}
 .answer .hide{display:none;}
 </style>
 <body>
@@ -187,33 +187,36 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 			<tr>
 				<td colspan="4"><pre>${map.QNA_CONTENT }</pre></td>
 			</tr>
-			<%-- <tr>
+			<tr>
 				<th scope="row">첨부파일</th>
 				<td colspan="3">
 					<c:forEach var="row" items="${list }">
-						<input type="hidden" id="QNA_NUM" value="${row.QNA_NUM }">
-						<a href="#this" id="${row.QNA_NUM }" name="file">${row.ORIGINAL_FILE_NAME }</a>
-						(${file.FILE_SIZE }kb)
+						<div>
+							<input type="hidden" id="FILES_NUM" value="${row.FILES_NUM }">
+							<a href="#this" name="file">${row.FILES_ORGNAME }</a>
+							(${row.FILES_SIZE}kb)
+						</div>
 					</c:forEach>
 				</td>
-			</tr> --%>
+			</tr>
 		</tbody>
 	</table>
 	    <c:choose>
-	    <c:when test="${fn:length(list)>0 }">
-	    <c:forEach items="${list }" var="answer">
+	    <c:when test="${fn:length(asList)>0 }">
+	    <c:forEach items="${asList }" var="answer">
 		<div class="answer">
-				<a><img src="" alt="답변 보기"/></a>
+				<p>답변보기</p>
 				<table class="hide">
 					<tr>
 					  <th>작성자</th><td>${answer.MEM_ID }(운영자)</td><th>작성 날짜</th><td>${answer.QNA_DATE }</td>
 					</tr>
 					<tr><th>제목</th><td>RE: ${answer.QNA_TITLE }</td>
 					<tr>
-					   <th>내용</th><td>${answer.QNA_CONTENT}</td>
+					   <th>내용</th><td><pre>${answer.QNA_CONTENT}</pre></td>
 					</tr>
-					<tr>
-					  <td><a href="#this" class="btn" id="deleteAnswer">삭제하기</a></td>
+					<tr align="right">
+					  <td><a href="#this" class="btn" id="deleteAnswer" name="deleteAnswer">삭제하기</a>
+					  <input type="hidden" id="QNA_NUM" value="${answer.QNA_NUM }"></td>
 					</tr>
 				</table>
 		</div>
@@ -222,7 +225,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 		</c:choose>
 			
 		<div class="answer">
-				<a><img src="" alt="답변 쓰기"/></a>
+				<p>답변쓰기</p>
 				<table class="hide">
 					<tr>
 					  <th>제목</th>
@@ -232,17 +235,18 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 					  <th>내용</th>
 					  <td><textarea rows="20" cols="100" title="내용" id="QNA_CONTENT" name="QNA_CONTENT"></textarea></td>
 					</tr>
-					<tr>
+					<tr align="right">
 					 <td><a href="#this" class="btn" id="write">답변달기</a></td>
-					
 					</tr> 
 				</table>
 				
 		</div>
 	
 	<a href="#this" class="btn" id="list">목록으로</a>
+	<c:if test="${map.MEM_ID eq session_MEM_ID }">
 	<a href="#this" class="btn" id="update">수정하기</a>
 	<a href="#this" class="btn" id="delete">삭제하기</a>
+	</c:if>
 	</form>
 	</div>
 	</div>
@@ -266,14 +270,14 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 				e.preventDefault();
 				fn_deleteBoard();
 			});
-			$("#deleteAnswer").on("click", function(e){ //삭제하기 버튼
-				e.preventDefault();
-				fn_deleteAnswerBoard();
+			$("a[name='deleteAnswer']").on("click", function(e){ //삭제하기 버튼
+				e.preventDefault(); 
+				fn_deleteAnswerBoard($(this));
 			});
-			/* $("a[name='file']").on("click", function(e){
+			 $("a[name='file']").on("click", function(e){
 				e.preventDefault();
-				fn_downloadFile($(this).attr('id'));
-			}); */
+				fn_downloadFile($(this));
+			}); 
 		});
 		
 		function fn_openBoardList(){
@@ -309,27 +313,28 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 			comSubmit.submit();
 			
 		}
-		function fn_deleteAnswerBoard(){
-			var idx = "${answer.QNA_NUM}";
+		function fn_deleteAnswerBoard(obj){
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/community/qnaDelete' />");
-			comSubmit.addParam("QNA_NUM", idx);
+			comSubmit.setUrl("<c:url value='/community/qnaDetail/answerDelete' />");
+			comSubmit.addParam("QNA_NUM", obj.parent().find("#QNA_NUM").val());
+			comSubmit.addParam("Q_QNA_NUM", "${map.QNA_NUM}");
+			
 			comSubmit.submit();
 			
 		}
-		/* function fn_downloadFile(obj){
-			var idx=obj;
+		function fn_downloadFile(obj){
+			var idx=obj.parent().find("#FILES_NUM").val();
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/common/downloadFile.do'/>");
-			comSubmit.addParam("QNA_NUM",idx);
+			comSubmit.setUrl("<c:url value='/common/downloadFile'/>");
+			comSubmit.addParam("FILES_NUM",idx);
 			comSubmit.submit();
-		} */
+	}
 		
 		//답변글 보기에 쓰는 거 
 		//html dom 이 다 로딩된 후 실행된다.
 		$(document).ready(function(){
-			// menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
-			$(".answer>a").click(function(){
+			// menu 클래스 바로 하위에 있는 p 태그를 클릭했을때
+			$(".answer>p").click(function(){
 				var submenu = $(this).next("table");
 
 				// submenu 가 화면상에 보일때는 위로 접고 아니면 아래로 펼치기

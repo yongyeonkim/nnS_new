@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +23,11 @@ public class QnaController {
 	private QnaServiceImpl qnaService;
 
 	@RequestMapping(value = "/myPage/qnaList")
-	public ModelAndView myQnaList(CommandMap commandMap) throws Exception {
+	public ModelAndView myQnaList(CommandMap commandMap,HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("qnaList");
 		
+		HttpSession session = request.getSession();
+		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
 		String url = "";
 		List<Map<String,Object>> list = qnaService.selectMyQnaList(commandMap.getMap());
 		url = "myPage";//myPage용 탭메뉴보이기
@@ -45,18 +50,22 @@ public class QnaController {
 	}
 
 	
-	  @RequestMapping(value = "/community/qnaDetail") public ModelAndView
-	  qnaDetail(CommandMap commandMap) throws Exception { ModelAndView mv = new
-	  ModelAndView("qnaDetail");
-	  
-	  Map<String,Object> map = qnaService.selectQnaDetail(commandMap.getMap());
-	  List<Map<String,Object>>list=qnaService.selectQnaAnswer(commandMap.getMap());
-	  mv.addObject("list",list);
-	  mv.addObject("map", map);
-		 
-		/* mv.addObject("list",map.get("list")); */
-	  
-	  return mv; 
+	  @RequestMapping(value = "/community/qnaDetail") 
+	  public ModelAndView qnaDetail(CommandMap commandMap, HttpServletRequest request) throws Exception { 
+		  ModelAndView mv = new ModelAndView("qnaDetail");
+		  
+		  HttpSession session = request.getSession();
+		  commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
+		  
+		  Map<String,Object> map = qnaService.selectQnaDetail(commandMap.getMap());
+		  List<Map<String,Object>>list=qnaService.selectQnaAnswer(commandMap.getMap());
+		  
+		  mv.addObject("session_MEM_ID",map.get("MEM_ID"));
+		  mv.addObject("asList",list);//qnaAnswer
+		  mv.addObject("map", map.get("map"));//qna글
+		  mv.addObject("list",map.get("list"));//파일
+		  
+		  return mv; 
 	  }
 	 
 	
@@ -68,10 +77,12 @@ public class QnaController {
 	}
 	
 	@RequestMapping(value = "/community/qnaWrite")
-	public ModelAndView qnaWrite(CommandMap commandMap) throws Exception {
+	public ModelAndView qnaWrite(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/community/qnaDetail");
 		
-		qnaService.insertQnaBoard(commandMap.getMap());
+		HttpSession session = request.getSession();
+		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
+		qnaService.insertQnaBoard(commandMap.getMap(),request);
 		mv.addObject("QNA_NUM", commandMap.get("QNA_NUM"));
 		
 		return mv;		
@@ -79,21 +90,19 @@ public class QnaController {
 	
 	@RequestMapping(value = "/community/qnaModifyForm")
 	public ModelAndView qnaModifyForm(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("qnaWriteForm");
-		
-		String url="modify";//qnawriteFrom의 수정버튼 보이게 하기
-        Map<String,Object>map=qnaService.selectQnaDetail(commandMap.getMap());
-		mv.addObject("map",map);
-		mv.addObject("url",url);
-		
+		ModelAndView mv = new ModelAndView("qnaModifyForm");
+		Map<String,Object> map = qnaService.selectQnaDetail(commandMap.getMap());
+		mv.addObject("map", map.get("map"));
+		mv.addObject("list", map.get("list"));
 		return mv;		
 	}
 	
 	@RequestMapping(value = "/community/qnaModify")
-	public ModelAndView qnaModify(CommandMap commandMap) throws Exception {
+	public ModelAndView qnaModify(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/community/qnaDetail");
 		
-		qnaService.updateQna(commandMap.getMap());
+		qnaService.updateQna(commandMap.getMap(),request);
+		
 		mv.addObject("QNA_NUM",commandMap.get("QNA_NUM"));
 		
 		
@@ -108,8 +117,12 @@ public class QnaController {
 	}
 	
 	@RequestMapping(value = "/community/qnaDetail/answerWrite")
-	public ModelAndView qnaAnswerWrite(CommandMap commandMap) throws Exception {//관리자만 가능하게 어떻게?
+	public ModelAndView qnaAnswerWrite(CommandMap commandMap, HttpServletRequest request) throws Exception {//관리자만 가능하게 어떻게?
+		
 		ModelAndView mv = new ModelAndView("redirect:/community/qnaDetail");
+		
+		HttpSession session = request.getSession();
+		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
 		qnaService.insertQnaAnswer(commandMap.getMap());
 		mv.addObject("QNA_NUM", commandMap.get("QNA_NUM"));
 		return mv;		
@@ -118,6 +131,9 @@ public class QnaController {
 	@RequestMapping(value = "/community/qnaDetail/answerDelete")
 	public ModelAndView qnaAnswerDelete(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/community/qnaDetail");
+		mv.addObject("QNA_NUM", commandMap.getMap().get("Q_QNA_NUM"));
+		
+		qnaService.deleteQna(commandMap.getMap());
 		
 		return mv;		
 	}

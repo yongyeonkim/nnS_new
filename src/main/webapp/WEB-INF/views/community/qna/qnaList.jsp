@@ -158,7 +158,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
          <ul>
          <li><a href="accountModifyForm">회원정보변경</a></li>
          <li><a href="pwModifyForm">비밀번호 변경</a></li>
-         <li><a href="myInfoDelete">회원 탈퇴</a></li>
+         <li><a href="deleteAccount">회원 탈퇴</a></li>
          <li><a href="reportList">신고내역</a></li>
          <li class="selected"><a href="qnaList">Q&A</a></li>
          </ul>
@@ -188,9 +188,9 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 		<tbody>
 			<c:choose>
 				<c:when test="${fn:length(list) > 0}">
-					<c:forEach items="${list }" var="row">
+					<c:forEach items="${list }" var="row" varStatus="var">
 						<tr>
-							<td>${row.QNA_NUM }</td>
+							<td>${var.index + 1}</td>
 							<td class="title"><a href="#this" name="title">${row.QNA_TITLE }&nbsp;&nbsp;&nbsp;&nbsp;[${row.QNA_TYPE }]</a>
 								<input type="hidden" id="QNA_NUM" value="${row.QNA_NUM }"></td>
 						    <td>${row.MEM_ID }</td>

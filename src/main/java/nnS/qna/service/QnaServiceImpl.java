@@ -1,13 +1,16 @@
 package nnS.qna.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import nnS.common.util.FileUtils;
 import nnS.qna.dao.QnaDAO;
 
 @Service("qnaService")
@@ -17,6 +20,9 @@ public class QnaServiceImpl implements QnaService{
 	
 	@Resource(name="qnaDAO")
 	private QnaDAO qnaDAO;
+	
+	@Resource(name="fileUtils")
+	private FileUtils fileUtils;
 	
 	@Override
 	public List<Map<String, Object>> selectMyQnaList(Map<String, Object> map) throws Exception {//내 글보기
@@ -29,9 +35,15 @@ public class QnaServiceImpl implements QnaService{
 		return qnaDAO.selectQnaList(map);
 	}
 	@Override
-	public void insertQnaBoard(Map<String, Object> map) throws Exception {//글쓰기
+	public void insertQnaBoard(Map<String, Object> map, HttpServletRequest request) throws Exception {//글쓰기
 		// TODO Auto-generated method stub
 		qnaDAO.insertQnaBoard(map);
+		
+		map.put("IDX", map.get("QNA_NUM"));
+		List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(map, request); 
+		for(int i=0, size=list.size(); i<size; i++){ qnaDAO.insertFile(list.get(i));
+
+		}
 		
 	}
 
@@ -39,17 +51,33 @@ public class QnaServiceImpl implements QnaService{
 	public Map<String, Object> selectQnaDetail(Map<String, Object> map) throws Exception {//상세보기
 		// TODO Auto-generated method stub
 	    qnaDAO.updateQnaCount(map); 
-		Map<String, Object> resultMap = qnaDAO.selectQnaDetail(map);
+	    Map<String, Object> resultMap = new HashMap<String,Object>();
+		Map<String, Object> tempMap = qnaDAO.selectQnaDetail(map);
+        resultMap.put("map",tempMap);
+		
+		List<Map<String,Object>> list = qnaDAO.selectFileList(map); 
+		resultMap.put("list", list);
 		
 		return resultMap;
 
 	}
 
 	@Override
-	public void updateQna(Map<String, Object> map) throws Exception {//수정하기
+	public void updateQna(Map<String, Object> map, HttpServletRequest request) throws Exception {//수정하기
 		// TODO Auto-generated method stub
 		qnaDAO.updateQnaModify(map);
+		map.put("IDX", map.get("QNA_NUM"));
 		
+		qnaDAO.deleteFileList(map);
+		List<Map<String,Object>> list = fileUtils.parseUpdateFileInfo(map, request);
+		Map<String,Object> tempMap = null; 
+		for(int i=0, size=list.size(); i<size; i++){ 
+			tempMap = list.get(i); if(tempMap.get("IS_NEW").equals("Y")){
+				qnaDAO.insertFile(tempMap); 
+				} else{
+					qnaDAO.updateFile(tempMap);
+					} 
+			}		
 	}
 
 	@Override
@@ -62,7 +90,6 @@ public class QnaServiceImpl implements QnaService{
 	public void insertQnaAnswer(Map<String, Object> map) throws Exception{//답변달기
 		// TODO Auto-generated method stub
 		qnaDAO.insertQnaAnswer(map);
-		
 	}
 	@Override
 	public List<Map<String, Object>> selectQnaAnswer(Map<String, Object> map)throws Exception {

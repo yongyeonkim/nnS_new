@@ -144,6 +144,10 @@
       <put-attribute name="body" value="/WEB-INF/views/community/qna/qnaWriteForm.jsp" />
    </definition>
    
+   <definition name="qnaModifyForm" extends="default">
+      <put-attribute name="body" value="/WEB-INF/views/community/qna/qnaModifyForm.jsp" />
+   </definition>
+   
    <!-- report -->
    <definition name="reportList" extends="default">
       <put-attribute name="body" value="/WEB-INF/views/community/report/reportList.jsp" />

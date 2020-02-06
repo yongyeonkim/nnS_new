@@ -158,45 +158,37 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 			</colgroup>
 			<tbody>
 				<tr>
-				    <!-- ${map.QNA_XXX}는 qnaDetail에서 넘어온 작성 내용. 수정폼으로 사용 될 때 보여짐-->
+				    
 					<th scope="row">제목</th>
-					<td><input type="text" id="QNA_TITLE" name="QNA_TITLE"  value="${map.QNA_TITLE}"class="wdp_90"></input></td>
+					<td><input type="text" id="QNA_TITLE" name="QNA_TITLE" class="wdp_90"></input></td>
 					<th scope="row">유형</th>
 					<td><select name="QNA_TYPE" id="QNA_TYPE">
-                    <!-- 수정 폼으로 사용될 때, 선택했던 유형이 selected되게 삼항연산자를 사용 한다  -->
-					<option value="상품 관련 문의" ${param.QNA_TYPE eq "상품 관련 문의" ? "selected" :""}>상품 관련 문의</option>
+					<option value="상품 관련 문의">상품 관련 문의</option>
 					
-					<option value="회원 관리 문의" ${param.QNA_TYPE eq "회원 관리 문의" ? "selected" :""}>회원 관리 문의</option>
+					<option value="회원 관리 문의">회원 관리 문의</option>
 					
-					<option value="게시판 사용 관련 문의" ${param.QNA_TYPE eq "게시판 사용 관련 문의" ? "selected" :"" }>게시판 사용 관련 문의</option>
-					<option value="기타 문의" ${param.QNA_TYPE eq "기타 문의" ? "selected" :"" }>기타 문의</option>
+					<option value="게시판 사용 관련 문의">게시판 사용 관련 문의</option>
+					<option value="기타 문의">기타 문의</option>
 					
 					</select></td>
 				</tr>
 				<tr>
 					<td colspan="2" class="view_text">
-						<textarea rows="20" cols="100" title="내용" id="QNA_CONTENT" name="QNA_CONTENT">${map.QNA_CONTENT}</textarea>
+						<textarea rows="20" cols="100" title="내용" id="QNA_CONTENT" name="QNA_CONTENT"></textarea>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<div id="fileDiv">
 			<p>
-				<input type="file" name="file_0" id="file">
+				<input type="file" name="file_0" id="file"  accept="image/gif,image/jpeg,image/png">
 				<a href="#this" class="btn" id="delete" name="delete">삭제</a>
 			</p>
 		</div>
 		
 		<br/><br/>
 		<a href="#this" class="btn" id="addFile">파일 추가</a>
-		<c:choose>
-         <c:when test="${url eq 'modify'}">
-		<a href="#this" class="btn" id="update">수정하기</a>
-		 </c:when>
-		 <c:otherwise>
 		<a href="#this" class="btn" id="write">작성하기</a>
-		 </c:otherwise>
-		 </c:choose>
 		<a href="#this" class="btn" id="list">목록으로</a>
 	</form>
    
@@ -212,10 +204,6 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 				e.preventDefault();
 				fn_openBoardList();
 			});
-			$("#update").on("click", function(e){ //수정하기 버튼 
-				e.preventDefault(); fn_updateBoard(); 
-				});
-
 			$("#write").on("click", function(e){ //작성하기 버튼
 				e.preventDefault();
 				fn_insertBoard();
@@ -235,13 +223,6 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 			comSubmit.setUrl("<c:url value='/community/qnaList' />");
 			comSubmit.submit();
 		}
-		function fn_updateBoard(){//수정하기 
-			var idx = "${map.QNA_NUM}";
-			var comSubmit = new ComSubmit("frm"); 
-			comSubmit.setUrl("<c:url value='/community/qnaModify' />");
-			comSubmit.addParam("QNA_NUM", idx);
-			comSubmit.submit();
-		}
 		
 		function fn_insertBoard(){
 			var comSubmit = new ComSubmit("frm");
@@ -250,7 +231,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 		}
 		
 		function fn_addFile(){
-			var str = "<p><input type='file' name='file_"+(gfv_count++)+"'><a href='#this' class='btn' name='delete'>삭제</a></p>";
+			var str = "<p><input type='file' name='file_"+(gfv_count++)+"'accept='image/gif,image/jpeg,image/png'>"+"<a href='#this' class='btn' name='delete'>삭제</a></p>";
 			$("#fileDiv").append(str);
 			$("a[name='delete']").on("click", function(e){
 				e.preventDefault();
