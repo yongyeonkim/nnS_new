@@ -26,6 +26,12 @@ public class LoginServiceImpl implements LoginService{
 		// TODO Auto-generated method stub
 		return loginDAO.findIdWithEmail(map);
 	}
+	
+	@Override
+	public int findId(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return loginDAO.findId(map);
+	}
 
 	@Override
 	public int findPwWithEmail(Map<String, Object> map) throws Exception {

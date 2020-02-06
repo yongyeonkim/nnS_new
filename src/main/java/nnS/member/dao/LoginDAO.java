@@ -20,6 +20,11 @@ public class LoginDAO extends AbstractDAO{
 		// TODO Auto-generated method stub
 		return (Map<String, Object>) selectOne("login.findIdWithEmail", map);
 	}
+	
+	public int findId(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return (Integer)selectOne("login.findId", map);
+	}
 
 	
 	public int findPwWithEmail(Map<String, Object> map) throws Exception {

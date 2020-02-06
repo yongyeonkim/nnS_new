@@ -91,15 +91,26 @@ public class LoginController {
 	@RequestMapping(value = "/findId") // 아이디 찾기 폼을 보여주는 메소드
 	public ModelAndView findId(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("findAccount");
+		int ran = new Random().nextInt(900000) + 100000;
+		
+		mv.addObject("random",ran);
+		
 		return mv;
 	}
 
-	@RequestMapping(value = "/findIdResult", method = RequestMethod.POST) // 입력한 정보에 맞춰서 아이디를 찾아주는 거
-	public ModelAndView findIdResult(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("findIdResult");
-		Map<String, Object> map = loginService.findIdWithEmail(commandMap.getMap());
-		mv.addObject("id", map);
-		return mv;
+	@RequestMapping(value = "/findIdResult", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+
+	public @ResponseBody String findIdResult(CommandMap commandMap) throws Exception {
+		String id = String.valueOf(loginService.findId(commandMap.getMap()));
+		
+		if(id.equals("1")) {
+			String findId = (String)(loginService.findIdWithEmail(commandMap.getMap()).get("MEM_ID"));
+			System.out.println(findId);
+			return findId;
+			
+		}else {
+			return id;
+		}
 	}
 	
 	
@@ -107,54 +118,40 @@ public class LoginController {
 	@RequestMapping(value = "/findPw") // 비밀번호 찾기 폼을 보여주는 메소드
 	public ModelAndView findPw(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("findAccount");
+		int ran = new Random().nextInt(900000) + 100000;
+		
+		mv.addObject("random",ran);
+		
 		return mv;
 	}
 	
-	@RequestMapping(value = "/findPwResult") //비밀번호 찾기
-	public @ResponseBody String findPwResult(CommandMap commandMap) throws Exception {
+	@RequestMapping(value = "/findPwResult", method=RequestMethod.GET) //비밀번호 찾기
+	@ResponseBody
+	public boolean findPwEmail(CommandMap commandMap,@RequestParam String MEM_ID, @RequestParam String MEM_EMAIL, @RequestParam int random, HttpServletRequest req) throws Exception {
 		
-		System.out.println(commandMap.getMap());
 		
-	    	String mv = String.valueOf(loginService.findPwWithEmail(commandMap.getMap()));
+		String emailCheck = String.valueOf(loginService.findPwWithEmail(commandMap.getMap()));
+		System.out.println(emailCheck);
+		if(emailCheck.equals("1")) {
+			int ran = new Random().nextInt(900000) + 100000;
+			   HttpSession session = req.getSession(true);
+			   String authCode = String.valueOf(ran);
+			   session.setAttribute("authCode", authCode);
+			   session.setAttribute("random", random);
+			   String subject = "nnS 비밀번호 변경 코드 안내 입니다.";
+			   StringBuilder sb = new StringBuilder();
+			   sb.append("귀하의 임시 비밀번호는 " + authCode + "입니다.");
+			   
+			   commandMap.put("MEM_ID", MEM_ID);
+			   commandMap.put("MEM_EMAIL", MEM_EMAIL);
+			   commandMap.put("authCode", authCode);
+			   loginService.updateTempPw(commandMap.getMap());
+			   return mailService.send(subject, sb.toString(),"cwjjgl183@gmail.com", MEM_EMAIL, null);
+		}else {
+			  return false;
+		}
+	}
+	
 
-		System.out.println(mv);
-		
-		return mv;
-	}
-	
-	@RequestMapping(value = "/passwordEmail" ,method=RequestMethod.GET)
-	   @ResponseBody
-	   public boolean createEmailAuth(@RequestParam String userEmail, @RequestParam int random, HttpServletRequest req) {
-		
-	    //이메일 인증
-	      int ran = new Random().nextInt(900000) + 100000;
-	      HttpSession session = req.getSession(true);
-	      String authCode = String.valueOf(ran);
-	      session.setAttribute("authCode", authCode);
-	      session.setAttribute("random", random);
-	      String subject = "임시 비밀번호 발급 안내 입니다.";
-	      StringBuilder sb = new StringBuilder();
-	      sb.append("귀하의 임시 비밀번호는 " + authCode + " 입니다.");
-	      return mailService.send(subject, sb.toString(),"cwjjgl183@gmail.com", userEmail, null);
-	   }
-	
-	@RequestMapping(value="/passwordAuth", method=RequestMethod.GET)//인증번호확인
-	   @ResponseBody
-	   public ResponseEntity<String> emailConfirm(@RequestParam String authCode, @RequestParam String random, HttpSession session){
-	      String originalJoinCode = (String) session.getAttribute("authCode");
-	      String originalRandom = Integer.toString((Integer) session.getAttribute("random"));
-	      if(originalJoinCode.equals(authCode) && originalRandom.equals(random)) 
-	       
-	         return new ResponseEntity<String>("complete", HttpStatus.OK);   
-	      
-	      else return new ResponseEntity<String>("false", HttpStatus.OK);
-	   }
-	
-	 @RequestMapping(value = "/emailAuth", method = RequestMethod.GET) 
-	   public ModelAndView join(CommandMap commandMap) throws Exception { //이메일 인증기능 처리
-	     ModelAndView mv = new ModelAndView("member/join/welcome");
-	     
-	     return mv; 
-	   }
 
 }

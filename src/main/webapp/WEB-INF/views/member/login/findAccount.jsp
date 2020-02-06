@@ -1,350 +1,198 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="/WEB-INF/views/member/login/userIdSearchModal.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
-<meta charset="UTF-8">
-<style type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <style>
+#modal {
+  position:relative;
+  width:100%;
+  height:100%;
+  z-index:1;
+}
 
-h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
-.container {width: 700px; margin: 10px auto;}
-ul.goodsTabs {
-   margin: 0;
-   padding: 0;
-   float: left;
-   list-style: none;
-   height: 32px;
-   border-bottom: 1px solid #999;
-   border-left: 1px solid #999;
-   width: 100%;
+#modal h2 {
+  margin:0;   
 }
-ul.goodsTabs li {
-   
-   float: left;
-   margin: 0;
-   padding: 0;
-   height: 31px;
-   line-height: 31px;
-   border: 1px solid #999;
-   border-left: none;
-   margin-bottom: -1px;
-   background: #F0F0F0;
-   overflow: hidden;
-   position: relative;
+
+#modal button {
+  display:inline-block;
+  width:100px;
+  margin-left:calc(100% - 100px - 10px);
 }
-ul.goodsTabs li a {
-   text-decoration: none;
-   color: #000;
-   display: block;
-   font-size: 1.2em;
-   padding: 0 20px;
-   border: 1px solid #fff;
-   outline: none;
+
+#modal .modal_content {
+  width:300px;
+  margin:100px auto;
+  padding:20px 10px;
+  background:#fff;
+  border:2px solid #666;
 }
-ul.goodsTabs li a:hover {
-   background: #ccc;
+
+#modal .modal_layer {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0, 0, 0, 0.5);
+  z-index:-1;
 }   
-html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
-   background: #fff;
-   border-bottom: 1px solid #fff;
-}
-.goodsTab_container {
-   border: 1px solid #999;
-   border-top: none;
-   clear: both;
-   float: left; 
-   width: 100%;
-   background: #fff;
-   -moz-border-radius-bottomright: 5px;
-   -khtml-border-radius-bottomright: 5px;
-   -webkit-border-bottom-right-radius: 5px;
-   -moz-border-radius-bottomleft: 5px;
-   -khtml-border-radius-bottomleft: 5px;
-   -webkit-border-bottom-left-radius: 5px;
-}
-.goodsTab_content {
-   padding: 20px;
-   font-size: 1.2em;
-}
-.goodsTab_content h2 {
-   font-weight: normal;
-   padding-bottom: 10px;
-   border-bottom: 1px dashed #ddd;
-   font-size: 1.8em;
-}
-.goodsTab_content h3 a{
-   color: #254588;
-}
-.goodsTab_content img {
-   float: left;
-   margin: 0 20px 20px 0;
-   border: 1px solid #ddd;
-   padding: 5px;
-}
- #content
-{
-   background-color: #ffffff;
-   padding: 20px 10px;
-   overflow: auto;
-}
-#vertical_tab-container
-{
-   float: left;
-   margin: 50px 0 0 0;
-   width: 126px;
-}
-#vertical_tab-container ul
-{
-   list-style: none;
-   text-align: center;
-}
-#vertical_tab-container ul li
-{
-   border-top: 1px solid #666;
-   border-right: 1px solid #666;
-   border-bottom: 1px solid #666;
-   border-left: 8px solid #666;
-   background-color: #ddd;
-   margin: 8px 0;
-}
-#vertical_tab-container ul li a,
-#vertical_tab-container ul li a:visited
-{
-   text-decoration: none;
-   color: #666;
-   display: block;
-   padding: 15px 5px;
-}
-#vertical_tab-container ul li:hover
-{
-   border-left: 8px solid #333;
-}
-#vertical_tab-container ul li a:hover
-{
-   color: #000;
-}
-#vertical_tab-container ul li.selected
-{
-   border-right: none;
-   background-color: #fff;
-   border-left: 8px solid #006699;
-}
-#main-container
-{
-   min-height: 400px;
-   margin: 0 0 0 125px;
-   padding: 20px;
-   background-color: #fff;
-   border: 1px solid #888;
-}
 </style>
 </head>
-<body>
-
-  <div id="content">
-   
-   <div id="main-container">
-      <table border="1" align="center">
-      <tbody>
-         <tr>
-            <td>
-               <div class="container">
-                   <ul class="goodsTabs">
-                       <li><a href="#goodsTab1">아이디찾기</a></li>
-                       <li><a href="#goodsTab2">비밀번호찾기</a></li>
-                   </ul>
-                   <div class="goodsTab_container">
-                       <div id="goodsTab1" class="goodsTab_content">
-                           <h2>아이디찾기</h2>
-                           <form id="frm1" method="post" action="findIdResult">
-                        <br>
-                           * 이름 <input type="text" name="MEM_NAME" id="MEM_NAME"><br>
-                           <div>
-                              <input type="hidden" id="MEM_EMAIL" name="MEM_EMAIL">
-                              * Email<input type="text" id="findIdEmail1" name="findIdEmail1"> 
-                              @
-                              <input type="text" id="findIdEmail2" name="findIdEmail2" value=""> 
-            
-                              <select id="email" name="email">
-                                 <option value="self">직접입력</option>
-                                 <option value="naver.com">naver.com</option>
-                                 <option value="hanmail.net">hanmail.net</option>
-                                 <option value="gmail.com">gmail.com</option>
-                                 <option value="nate.com">nate.com</option>
-                              </select> 
-                           </div>
-                        </form>
-                        <p/>
-                        <button id="findid" onclick="fsubmitid();">찾기</button>
-                        <input type="button" value="취소" onclick="back()"/>
-                        
-                        <table align="center">
-
-                     </table>
-                     </div>
-                     
-                  </div>
-                       <div id="goodsTab2" class="goodsTab_content">
-                             <h2>비밀번호찾기</h2>
-                           <form id="frm2" method="post" action="findPwResult">
-                           <br>
-                           * 아이디 <input type="text" name="MEM_ID" id="MEM_ID"><br>
-                           <div>
-                              <input type="hidden" id="MEM_EMAIL" name="MEM_EMAIL">
-                              * Email<input type="text" id="findPwEmail1" name="findPwEmail1"> 
-                              @
-                              <input type="text" id="findPwEmail2" name="findPwEmail2" value=""> 
-            
-                              <select id="email2" name="email2">
-                                 <option value="self">직접입력</option>
-                                 <option value="naver.com">naver.com</option>
-                                 <option value="hanmail.net">hanmail.net</option>
-                                 <option value="gmail.com">gmail.com</option>
-                                 <option value="nate.com">nate.com</option>
-                              </select> 
-                           </div>
-                        </form>
-                        <p/>
-                           <button id="findpw" onclick="fsubmitpw();">찾기</button>
-                           <input type="button" value="취소" onclick="back()"/>
-
-                           
-                           <div>
-                        <br>
-                     </div>
-                     </div>
-            </div>
-         </td>
-      </tr>
-   </tbody>
-   </table>
-   </div>
-</div>
-   
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script type="text/javascript">
-
-   $(function(){   
-      $(document).ready(function(){
-         $('select[name=email]').change(function() {
-            if($(this).val()=="self"){
-               $('#findIdEmail2').val("");
-               $("#findIdEmail2").attr("readonly", false);
-               $('#findIdEmail2').focus();
-            } else {
-               $('#findIdEmail2').val($(this).val());
-               $("#findIdEmail2").attr("readonly", true);
-            }
-         });
-      });
-      });
-      
-   
-   $(function(){   
-      $(document).ready(function(){
-         $('select[name=email2]').change(function() {
-            if($(this).val()=="self"){
-               $('#findPwEmail2').val("");
-               $("#findPwEmail2").attr("readonly", false);
-               $('#findPwEmail2').focus();
-            } else {
-               $('#findPwEmail2').val($(this).val());
-               $("#findPwEmail2").attr("readonly", true);
-            }
-         });
-      });
-      });  
-	   
-	   
-   
-
-/* function fsubmitid(){
-   
-   if(id.MEM_ID!=null && id.MEM_ID!=''){
-      str += "<tr>"
-         + "<td>"
-         + "입력하신 정보로 등록된 아이디는"
-         + id.MEM_ID
-         + "입니다."
-   }
-   else if(id.MEM_ID==null || id.MEM_ID!=''){
-      str += "조회된 아이디가 없습니다."
-   }
-   body.append(str);
-}
-
-
-function fsubmitpw(){   
-   
-   ${eCheck}
-   
-   if(id.MEM_ID!=null&&id.MEM_ID!=''){
-      str+="임시 비밀번호를 회원님의 이메일로 발송하였습니다"
-   }
-   body.append(str);
-} */
-
-
-function fsubmitid(){
-	var name = $("#MEM_NAME").val();
-	var email = $("#findIdEmail1").val()+"@"+$("#findIdEmail2").val();
-	
-	$("#MEM_NAME").val(name);
-	$("#MEM_EMAIL").val(email);
-	frm1.submit(); 
-}
-
-/*  function fsubmitpw(){
-	var id = $("#MEM_ID").val();
-	var email = $("#findPwEmail1").val()+"@"+$("#findPwEmail2").val();
-	
-	$("#MEM_ID").val(name);
-	$("#MEM_EMAIL").val(email);
-	frm2.submit();
-} */ 
-
-$(function(){
-	   $(document).on("click", "#fsubmitpw", function(){ //이메일 발송
-	   $.ajax({
-	      type:"get",
-	      url : "<c:url value='/createEmailAuth1'/>",
-	      data : "userEmail=" + $("#findPwEmail1").val()+"@"+$("#findPwEmail2").val() + "&random=" + $("#random").val(),
-	      success : function(data){
-	         alert("사용가능한 이메일입니다. 이메일 확인해주세요");
-	      },
-	      error: function(data){
-	         alert("에러가 발생했습니다.");
-	         return false;
-	      }
-	   });
-	   });
-	   
-}); 
-
-function back(){
-   history.go(-1);
+<script>
+function search_check(num) {
+	if (num == '1') {
+		document.getElementById("searchP").style.display = "none";
+		document.getElementById("searchI").style.display = "";	
+	} else {
+		document.getElementById("searchI").style.display = "none";
+		document.getElementById("searchP").style.display = "";
+	}
 }
 
 $(document).ready(function() {
+	/////////모///달///기///능///////////
+	// 1. 모달창 히든 불러오기
+	$('#background_modal').hide();
+	$(document).on("click", "#searchBtn", function(){
+		$('#background_modal').show();
+		$(".className").remove(); 
+	});
+	// 2. 모달창 닫기 버튼
+	$('.close').on('click', function() {
+		$('#background_modal').hide();
+	});
+	// 3. 모달창 위도우 클릭 시 닫기
+	$(window).on('click', function() {
+		if (event.target == $('#background_modal').get(0)) {
+            $('#background_modal').hide();
+         }
+	});
+	
+	
+});
 
-   //Default Action
-   $(".goodsTab_content").hide(); //Hide all content
-   $("ul.goodsTabs li:first").addClass("active").show(); //Activate first goodsTab
-   $(".goodsTab_content:first").show(); //Show first goodsTab content
-   
-   //On Click Event
-   $("ul.goodsTabs li").click(function() {
-      $("ul.goodsTabs li").removeClass("active"); //Remove any "active" class
-      $(this).addClass("active"); //Add "active" class to selected goodsTab
-      $(".goodsTab_content").hide(); //Hide all goodsTab content
-      var activegoodsTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active goodsTab + content
-      $(activegoodsTab).fadeIn(); //Fade in the active content
-      return false;
-   });
+//아이디 & 스토어 값 저장하기 위한 변수
+var idV = "";
+// 아이디 값 받고 출력하는 ajax
+var idSearch_click = function(){
+	var name = $('#MEM_NAME').val();
+	alert(name);
+	$.ajax({
+		type:"POST",
+		url:"${pageContext.request.contextPath}/findIdResult?MEM_NAME="
+				+name+"&MEM_EMAIL="+$('#MEM_EMAIL').val(),
+		success:function(data){
+			if(data == "0"){
+				$('#MEMID').text("회원 정보를 확인해주세요!");
+				
+			} else{
+				$('#MEMID').text(data); 
+				// 아이디값 별도로 저장
+				idV = data;
+			}
+		}
+	});
+}
 
-});  
+var pwSearch_click = function(){
+	var id = $('#MEM_ID').val();
+	alert(id);
+	$.ajax({
+		type:"get",
+		url : "<c:url value='/findPwResult'/>",
+		data : "MEM_ID="+ $("#MEM_ID").val() + "&MEM_EMAIL=" + $("#MEM_EMAIL2").val() + "&random=" + $("#random").val(),
+		success : function(data){
+			if(data == true){
+			alert("임시비밀번호를 발송하였습니다.");
+			}else{
+				alert("..?");
+			}
+		},
+		error: function(data){
+			alert("에러가 발생했습니다.");
+			return false;
+		}
+	});
+	
+}
+
+
+//https://www.phpschool.com/gnuboard4/bbs/board.php?bo_table=qna_html&wr_id=144669 ->script 충돌
+//https://lsk925.tistory.com/32 -> ajax 참고
 </script>
+<body>
+	<div class="full">
+		<div class="container">
+			<div class="area_inputs wow fadeIn">
+				<div class="sub_title font-weight-bold text-black">
+					<h3>아이디/비밀번호 찾기</h3>
+					<p>인증된 이메일만 정보 찾기가 가능합니다 :)</p>
+					<br/>
+				</div>
+				<div style="margin-bottom: 10px;"
+					class="custom-control custom-radio custom-control-inline">
+					<input type="radio" class="custom-control-input" id="search_1" name="search_total" onclick="search_check(1)" checked="checked">
+					<label class="custom-control-label font-weight-bold text-black"	for="search_1">아이디 찾기</label>
+				</div>
+				<div class="custom-control custom-radio custom-control-inline">
+					<input type="radio" class="custom-control-input" id="search_2" name="search_total" onclick="search_check(2)"> 
+					<label class="custom-control-label font-weight-bold text-black" for="search_2">비밀번호 찾기</label>
+				</div>
+				
+				<!-- 아이디 찾기 -->
+				<div id="searchI">
+					<div class="form-group">
+						<label class="font-weight-bold text-black" for="inputName_1">이름</label>
+						<div>
+							<input type="text" class="form-control" id="MEM_NAME" name="MEM_NAME" placeholder="ex) 스머프">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="font-weight-bold text-black" for="inputEmail_1">이메일</label>
+						<div>
+							<input type="email" class="form-control" id="MEM_EMAIL" name="MEM_EMAIL" placeholder="ex) E-mail@gmail.com"">
+						</div>
+					</div>
+					<div class="form-group">
+						<button id="searchBtn" type="button" onclick="idSearch_click()" class="btn btn-primary btn-block">확인</button>
+					<a class="btn btn-danger btn-block"	href="${pageContext.request.contextPath}">취소</a>
+					</div>
+				</div>
+				
+				
+				<!-- 비밀번호 찾기 -->
+				<div id="searchP" style="display: none;">
+					<div class="form-group">
+						<label class="font-weight-bold text-black" for="inputId">아이디</label>
+						<div>
+							<input type="text" class="form-control" id="MEM_ID" name="MEM_ID" placeholder="ex) space">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="font-weight-bold text-black" for="inputEmail_2">이메일</label>
+						<div>
+							<input type="email" class="form-control" id="MEM_EMAIL2" name="MEM_EMAIL2" placeholder="ex) E-mail@gmail.com">
+						</div>
+					</div>
+					<div class="form-group">
+						<button id="searchBtn2" type="button" onclick="pwSearch_click()" class="btn btn-primary btn-block">확인</button>
+						<input type="hidden" path="random" id="random" value="${random}"/>
+					<a class="btn btn-danger btn-block"	href="${pageContext.request.contextPath}">취소</a>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
+
