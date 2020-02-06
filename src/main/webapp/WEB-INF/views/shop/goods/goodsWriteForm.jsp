@@ -60,8 +60,7 @@
 	      		<input type="text" id="GOODS_TITLE" name="GOODS_TITLE" value=<c:if test="${request_type eq 'modify'}">"${map.GOODS_TITLE}"</c:if>>
 	      	</li>
       		<li>
-	      		작성자 <br/>
-	      		<input type="text" id="MEM_ID" name="MEM_ID" value=<c:if test="${request_type eq 'modify'}">"${map.MEM_ID}"</c:if>>
+	      		<input type="hidden" id="MEM_ID" name="MEM_ID" value="${session_MEM_ID}">
 	      	</li>
 	      	<li>
 	      		상품정보 <br/>
@@ -107,7 +106,7 @@
 			</c:forEach> 
 		</c:if>
 		<p>
-			<input type="file" name="file">
+			<input type="file" name="file" accept="image/gif,image/jpeg,image/png">>
 			<a href="#this" class="btn" id="delete" name="delete">삭제</a>
 		</p>
 		</div>
@@ -179,7 +178,7 @@
 	} 
 
 	function fn_addFile(){ 
-		var str = "<p>" + "<input type='file' id='file_"+(gfv_count)+"' name='file_"+(gfv_count)+"'>"+ "<a href='#this' class='btn' id='delete_"+(gfv_count)+"' name='delete_"+(gfv_count)+"'>삭제</a>" + "</p>";
+		var str = "<p>" + "<input type='file' id='file_"+(gfv_count)+"' name='file_"+(gfv_count)+"' accept='image/gif,image/jpeg,image/png'>"+ "<a href='#this' class='btn' id='delete_"+(gfv_count)+"' name='delete_"+(gfv_count)+"'>삭제</a>" + "</p>";
 		$("#fileDiv").append(str); 
 		$("#delete_"+(gfv_count++)).on("click", function(e){ //삭제 버튼 
 			e.preventDefault(); 

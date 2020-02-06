@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface ShopService {
 	
-	List<Map<String, Object>> selectGoodsList(Map<String, Object> map, String keyword, String searchType) throws Exception;
+	List<Map<String, Object>> selectGoodsList(Map<String, Object> map, String keyword, String searchType, String sortType) throws Exception;
 	
 	void insertGoods(Map<String, Object> map, HttpServletRequest request) throws Exception;
 

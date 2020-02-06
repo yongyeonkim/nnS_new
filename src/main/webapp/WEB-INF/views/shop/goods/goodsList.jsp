@@ -11,12 +11,84 @@
 
 h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 .container {width: 700px; margin: 10px auto;}
+ul.goodsTabs {
+	margin: 0;
+	padding: 0;
+	float: left;
+	list-style: none;
+	height: 32px;
+	border-bottom: 1px solid #999;
+	border-left: 1px solid #999;
+	width: 100%;
+}
+ul.goodsTabs li {
+	
+	float: left;
+	margin: 0;
+	padding: 0;
+	height: 31px;
+	line-height: 31px;
+	border: 1px solid #999;
+	border-left: none;
+	margin-bottom: -1px;
+	background: #F0F0F0;
+	overflow: hidden;
+	position: relative;
+}
+ul.goodsTabs li a {
+	text-decoration: none;
+	color: #000;
+	display: block;
+	font-size: 1.2em;
+	padding: 0 20px;
+	border: 1px solid #fff;
+	outline: none;
+}
+ul.goodsTabs li a:hover {
+	background: #ccc;
+}	
+html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
+	background: #fff;
+	border-bottom: 1px solid #fff;
+}
+.goodsTab_container {
+	border: 1px solid #999;
+	border-top: none;
+	clear: both;
+	float: left; 
+	width: 100%;
+	background: #fff;
+	-moz-border-radius-bottomright: 5px;
+	-khtml-border-radius-bottomright: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-khtml-border-radius-bottomleft: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+}
+.goodsTab_content {
+	padding: 20px;
+	font-size: 1.2em;
+}
+.goodsTab_content h2 {
+	font-weight: normal;
+	padding-bottom: 10px;
+	border-bottom: 1px dashed #ddd;
+	font-size: 1.8em;
+}
 
+.goodsTab_content h3 a{
+	color: #254588;
+}
+.goodsTab_content img {
+	float: left;
+	margin: 0 20px 20px 0;
+	border: 1px solid #ddd;
+	padding: 5px;
+}
  #content
 {
    background-color: #ffffff;
    padding: 20px 10px;
-   width: 1024px;
    overflow: auto;
 }
 #vertical_tab-container
@@ -73,12 +145,13 @@ h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 </head>
 <body>
 	<h2 align=center>상품목록</h2>
+<div id="content">
    <div id="vertical_tab-container">
       <ul>
-         <li class="selected"><a href="shop">전체상품</a></li>
-         <li><a href="shop">인기상품</a></li>
-         <li><a href="shop">신규상품</a></li>
-         <li><a href="shop">카테고리</a></li>
+         <li <c:if test="${sortType eq 'all'}">class="selected"</c:if>><a href=<c:url value="/shop/allGoodsList"/>>전체상품</a></li>
+         <li <c:if test="${sortType eq 'like'}">class="selected"</c:if>><a href=<c:url value="/shop/likeGoodsList"/>>인기상품</a></li>
+         <li <c:if test="${sortType eq 'new'}">class="selected"</c:if>><a href=<c:url value="/shop/newGoodsList"/>>신규상품</a></li>
+         <li <c:if test="${sortType eq ''}">class="selected"</c:if>><a href=<c:url value="/shop"/>>카테고리</a></li>
       </ul>
    </div>
    <div id="main-container">
@@ -108,7 +181,7 @@ h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 							<td>${row.GOODS_NUM}</td>
 							<td>${이미지}</td>
 							<td class="title"><a href="#this" name="title">${row.GOODS_TITLE}</a>
-								<input type="hidden" id="IDX" value="${row.GOODS_NUM}"></td>
+								<input type="hidden" id="IDX" value="${row.GOODS_NUM}">
 							<td>${row.GOODS_COUNT}</td>
 							<td>${row.GOODS_DATE}</td>
 							<td>${row.GOODS_TIME}</td>
@@ -135,61 +208,19 @@ h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 				<input type="text" class="txt" placeholder="Search" name="keyword" id="keyword" value="${keyword}"/>&nbsp;
 				<input type="submit" value="검색" class="search_btn" onClick="onSearch()"/>
 				<input type="hidden" id="path" value="${path}" />
+				<input type="hidden" id="sortType" value="${sortType}" />
 			</fieldset>
 		</form>
 		<div id="PAGE_NAVI" align="center"></div>
 		<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
    
-	<!-- <table border="1" align="center">
-		<li>
-          전체상품
-      	</li>
-		<table border="0" align="center">
-          <tr>
-            <td>
-               <img src="https://m.sandboxstore.net/web/product/big/201812/fc5894526dadbe5e309f0eb69df14097.jpg"
-		                           width="250" height="250" alt="" />
-             	<br>걔쩌는 후드티
-				<br>65,000원
-            </td>
-            <td>
-               <img src="https://m.sandboxstore.net/web/product/big/201812/fc5894526dadbe5e309f0eb69df14097.jpg"
-		                           width="250" height="250" alt="" />
-             	<br>걔쩌는 후드티
-				<br>65,000원
-            </td>
-            <td>
-               <img src="https://m.sandboxstore.net/web/product/big/201812/fc5894526dadbe5e309f0eb69df14097.jpg"
-		                           width="250" height="250" alt="" />
-             	<br>걔쩌는 후드티
-				<br>65,000원
-            </td>
-          </tr>
-          <tr>
-            <td>
-               <img src="https://m.sandboxstore.net/web/product/big/201812/fc5894526dadbe5e309f0eb69df14097.jpg"
-		                           width="250" height="250" alt="" />
-             	<br>걔쩌는 후드티
-				<br>65,000원
-            </td>
-            <td>
-               <img src="https://m.sandboxstore.net/web/product/big/201812/fc5894526dadbe5e309f0eb69df14097.jpg"
-		                           width="250" height="250" alt="" />
-             	<br>걔쩌는 후드티
-				<br>65,000원
-            </td>
-            <td>
-               <img src="https://m.sandboxstore.net/web/product/big/201812/fc5894526dadbe5e309f0eb69df14097.jpg"
-		                           width="250" height="250" alt="" />
-             	<br>걔쩌는 후드티
-				<br>65,000원
-            </td>
-          </tr>
-      </table>
-	</table> -->
-   </div>
-   
 	
+	<c:if test="${session_MEM_ID ne null }">
+		<a href="#this" class="btn" id="write">글쓰기</a>
+	</c:if>
+
+   </div>
+</div>
     
     <%@ include file="/WEB-INF/include/include-body.jspf" %>
 	
@@ -214,7 +245,7 @@ h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 		
 		function fn_goodsWrite() {
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/shop/goodsWrite' />");
+			comSubmit.setUrl("<c:url value='/shop/goodsWriteForm' />");
 			comSubmit.submit();
 		}
 	
@@ -222,6 +253,7 @@ h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/shop/goodsDetail' />");
 			comSubmit.addParam("GOODS_NUM", obj.parent().find("#IDX").val());
+			comSubmit.addParam("LIKE_MEM_ID", "${session_MEM_ID}");
 			comSubmit.submit();
 		}
 		
@@ -233,6 +265,7 @@ h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 			comAjax.addParam("PAGE_ROW", 15);
 			comAjax.addParam("keyword", $('#keyword').val());
 			comAjax.addParam("searchType", $('#searchType').val());
+			comAjax.addParam("sortType", $('#sortType').val());
 			comAjax.addParam("path", $('#path').val());
 			comAjax.ajax();
 		}

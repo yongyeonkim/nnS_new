@@ -38,10 +38,12 @@ public class ShopController{
 	private ShopServiceImpl shopService;
 	
 	@RequestMapping(value="/shop")
-	public ModelAndView shopMain(@RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception{
+	public ModelAndView shopMain(@RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("goodsList");
 		request.setAttribute("searchType", searchType);
 		request.setAttribute("keyword", keyword);
+		request.setAttribute("sortType", "all");
+		mv.addObject("sortType", "all");
 		String filePath_temp = request.getSession().getServletContext().getRealPath("") + "/file/";
 		mv.addObject("path", filePath_temp);
 		request.setAttribute("path", filePath_temp);
@@ -50,11 +52,12 @@ public class ShopController{
 	}
 	
 	@RequestMapping(value="/shop/selectGoodsList")
-	public ModelAndView selectGoodsList(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
+	public ModelAndView selectGoodsList(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("jsonView");
+		
 		System.out.println("검색어: " + keyword);
 		System.out.println("검색타입: " + searchType);
-    	List<Map<String,Object>> list = shopService.selectGoodsList(commandMap.getMap(), keyword, searchType);
+    	List<Map<String,Object>> list = shopService.selectGoodsList(commandMap.getMap(), keyword, searchType, sortType);
     	mv.addObject("list", list);
         if(list.size() > 0){
             mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));
@@ -62,28 +65,49 @@ public class ShopController{
         else{
             mv.addObject("TOTAL", 0);
         }
-    	
+    	System.out.println("@@@@@"+sortType);
     	return mv;
 	}
 	
 	@RequestMapping(value="/shop/allGoodsList")
-	public ModelAndView shopAllGoodsList() throws Exception{
-		ModelAndView mv = new ModelAndView("/shop/goods/goodsList");
+	public ModelAndView shopAllGoodsList(@RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("goodsList");
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("sortType", "all");
+		mv.addObject("sortType", "all");
+		String filePath_temp = request.getSession().getServletContext().getRealPath("") + "/file/";
+		mv.addObject("path", filePath_temp);
+		request.setAttribute("path", filePath_temp);
 		
 		return mv;
 	}
 	
 	@RequestMapping(value="/shop/likeGoodsList")
-	public ModelAndView shopLikeGoodsList() throws Exception{
-		ModelAndView mv = new ModelAndView("/shop/goods/goodsList");
-
+	public ModelAndView shopLikeGoodsList(@RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("goodsList");
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("sortType", "like");
+		mv.addObject("sortType", "like");
+		String filePath_temp = request.getSession().getServletContext().getRealPath("") + "/file/";
+		mv.addObject("path", filePath_temp);
+		request.setAttribute("path", filePath_temp);
+		
 		return mv;
 	}
 	
 	@RequestMapping(value="/shop/newGoodsList")
-	public ModelAndView shopNewGoodsList() throws Exception{
-		ModelAndView mv = new ModelAndView("/shop/goods/goodsList");
-
+	public ModelAndView shopNewGoodsList(@RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("goodsList");
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("sortType", "new");
+		mv.addObject("sortType", "new");
+		String filePath_temp = request.getSession().getServletContext().getRealPath("") + "/file/";
+		mv.addObject("path", filePath_temp);
+		request.setAttribute("path", filePath_temp);
+		
 		return mv;
 	}
 	
@@ -99,6 +123,7 @@ public class ShopController{
 		ModelAndView mv = new ModelAndView("goodsWriteResult");
 
 		shopService.insertGoods(commandMap.getMap(), request);
+		mv.addObject("IDX", commandMap.getMap().get("IDX"));
 		
 		return mv;
 	}
@@ -121,7 +146,7 @@ public class ShopController{
 		ModelAndView mv = new ModelAndView("goodsWriteResult");
 
 		shopService.updateGoods(commandMap.getMap(), request);
-		mv.addObject("IDX", commandMap.get("IDX"));
+		mv.addObject("IDX", commandMap.getMap().get("IDX"));
 		
 		return mv;
 	}
@@ -138,8 +163,7 @@ public class ShopController{
 	// 상품 상세보기
 	@RequestMapping(value="/shop/goodsDetail")
 	public ModelAndView goodsDetail(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("goodsDetail"); 
-		
+		ModelAndView mv = new ModelAndView("goodsDetail");
 		Map<String,Object> map = shopService.selectGoodsDetail(commandMap.getMap());
 		
 		String filePath_temp = request.getSession().getServletContext().getRealPath("") + "/file/";
@@ -147,6 +171,7 @@ public class ShopController{
 		
 		mv.addObject("map", map.get("map"));
 		mv.addObject("goodsLikeMap", map.get("goodsLikeMap"));
+		mv.addObject("list", map.get("list"));
 		/* mv.addObject("list",map.get("list")); */
 		
 		return mv;
@@ -156,6 +181,7 @@ public class ShopController{
 	public ModelAndView goodsLike(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/shop/goodsDetail");
 		mv.addObject("GOODS_NUM", commandMap.getMap().get("LIKE_GOODS_NUM"));
+		mv.addObject("LIKE_MEM_ID", commandMap.getMap().get("LIKE_MEM_ID"));
 		shopService.insertGoodsLike(commandMap.getMap());
 		return mv;
 	}
@@ -164,7 +190,7 @@ public class ShopController{
 	public ModelAndView goodsUnlike(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/shop/goodsDetail");
 		mv.addObject("GOODS_NUM", commandMap.getMap().get("LIKE_GOODS_NUM"));
-		
+		mv.addObject("LIKE_MEM_ID", commandMap.getMap().get("LIKE_MEM_ID"));
 		shopService.deleteGoodsLike(commandMap.getMap());
 
 		return mv;

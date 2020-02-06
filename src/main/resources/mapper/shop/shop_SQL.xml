@@ -37,49 +37,9 @@
 			AND     G.GOODS_DEL_GB = 'N'
 			AND     G.GOODS_TSTATUS = 'N'
 			]]>
-			<include refid="search"></include>	
-			<!--
-			<if test = #{GOODS_CATEGORY != null>
-			    AND     G.GOODS_CATEGORY = #{GOODS_CATEGORY}
-			</if>
-			
-			<if test = #{SEARCH_TYPE != null>
-			    <if SEARCH_TYPE = 1>
-			        AND     G.GOODS_TITLE LIKE #{SEARCH_WORD}
-			    </if>
-			    <if SEARCH_TYPE = 2>
-			        AND     G.GOODS_CONTENT LIKE #{SEARCH_WORD}
-			    </if>
-			    <if SEARCH_TYPE = 3>
-			        AND     G.GOODS_HASH LIKE #{SEARCH_WORD}
-			    </if>
-			</if>
-			
-			<if test = #{SORT_TYPE} = 5>
-			AND     TOTAL_COUNT >= 10
-			</if>
-			
-			<if test = #{SORT_TYPE} = 1>
-			ORDER BY GOODS_PRICE DESC
-			</if>
-			<if test = #{SORT_TYPE} = 2>
-			ORDER BY GOODS_PRICE ASC
-			</if>
-			<if test = #{SORT_TYPE} = 3>
-			ORDER BY GOODS_TITLE ASC
-			</if>
-			<if test = #{SORT_TYPE} = 4>
-			ORDER BY GOODS_DATE ASC
-			</if>
-			<if test = #{SORT_TYPE} = 5>
-			ORDER BY TOTAL_COUNT DESC
-			</if>
-			<otherwise>
-			ORDER BY GOODS_DATE DESC
-			</>
-			;
- 			-->
+		<include refid="search"></include>	
 		<include refid="common.pagingPost"/>
+		<include refid="sort"></include>
 	</select>
 	
 	<sql id="search">
@@ -87,6 +47,14 @@
 			<if test="searchType == 'title'.toString()">AND G.GOODS_TITLE LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'content'.toString()">AND G.GOODS_CONTENT LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'brand'.toString()">AND G.GOODS_BRAND LIKE '%' || #{keyword} || '%'</if>
+		</if>
+	</sql>
+	
+	<sql id="sort">
+		<if test="sortType != null">
+			<if test="sortType == 'all'.toString()">ORDER BY AAA.GOODS_DATE DESC</if>
+			<if test="sortType == 'like'.toString()">ORDER BY AAA.TOTAL_COUNT2 DESC</if>
+			<if test="sortType == 'new'.toString()">AND AAA.RNUM BETWEEN 1 AND 10 ORDER BY AAA.GOODS_DATE DESC</if>
 		</if>
 	</sql>
 
@@ -208,7 +176,8 @@
 	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			SELECT 	GOODS_IMAGE_NUM,
-					GOODS_IMAGE_ORG
+					GOODS_IMAGE_ORG,
+					GOODS_IMAGE_STD
 			FROM	GOODS_IMAGE 
 			WHERE   GOODS_IMAGE_PARENT = #{GOODS_NUM} 
 			AND 	GOODS_IMAGE_DEL_GB = 'N'
@@ -266,7 +235,7 @@
 			SELECT	COUNT(*) AS GOODS_LIKE_YN
 			FROM	GOODS_LIKE
 			WHERE	GOODS_LIKE_PARENT = #{GOODS_NUM}
-			AND		GOODS_LIKE_USER = (SELECT MEM_NUM FROM MEMBER WHERE MEM_ID = 1234)
+			AND		GOODS_LIKE_USER = (SELECT MEM_NUM FROM MEMBER WHERE MEM_ID = #{LIKE_MEM_ID})
 		]]>
 		
 	</select>   

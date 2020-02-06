@@ -22,9 +22,10 @@ public class ShopServiceImpl implements ShopService {
 	private FileUtils fileUtils;
 	
 	@Override
-	public List<Map<String, Object>> selectGoodsList(Map<String, Object> map, String keyword, String searchType) throws Exception {
+	public List<Map<String, Object>> selectGoodsList(Map<String, Object> map, String keyword, String searchType, String sortType) throws Exception {
 		map.put("keyword", keyword);
 		map.put("searchType", searchType);
+		map.put("sortType", sortType);
 		return shopDAO.selectGoodsList(map);
 	}
 	
@@ -39,22 +40,6 @@ public class ShopServiceImpl implements ShopService {
 		
 		shopDAO.insertGoodsThumbnail(map);
 		
-		/*
-		
-		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request; 
-		Iterator<String> iterator = multipartHttpServletRequest.getFileNames(); 
-		MultipartFile multipartFile = null; 
-		
-		while(iterator.hasNext()){ multipartFile = multipartHttpServletRequest.getFile(iterator.next()); 
-			if(multipartFile.isEmpty() == false){ log.debug("------------- file start -------------"); 
-				log.debug("name : "+multipartFile.getName()); 
-				log.debug("filename : "+multipartFile.getOriginalFilename()); 
-				log.debug("size : "+multipartFile.getSize()); log.debug("-------------- file end --------------\n");
-			}
-		}
-
-		*/
-		
 	}
 	
 	@Override
@@ -64,10 +49,12 @@ public class ShopServiceImpl implements ShopService {
 		Map<String, Object> tempMap = shopDAO.selectGoodsDetail(map);
 		
 		resultMap.put("map", tempMap);
+		System.out.println("@@@@@@@@@@@@@@@@@"+tempMap);
 		
-		Map<String, Object> goodsLikeMap = shopDAO.selectGoodsLike(map);
-		resultMap.put("goodsLikeMap", goodsLikeMap);
-		
+		if(map.containsKey("LIKE_MEM_ID")) {
+			Map<String, Object> goodsLikeMap = shopDAO.selectGoodsLike(map);
+			resultMap.put("goodsLikeMap", goodsLikeMap);
+		}
 		
 		List<Map<String, Object>> list = shopDAO.selectFileList(map);
 		resultMap.put("list", list);
@@ -81,7 +68,7 @@ public class ShopServiceImpl implements ShopService {
 		shopDAO.updateGoods(map);
 		
 		map.put("IDX", map.get("GOODS_NUM"));
-		System.out.println("111****12132* " + map);
+
 		shopDAO.deleteFileList(map);
 		
 		List<Map<String, Object>> list = fileUtils.parseUpdateFileInfo(map, request);

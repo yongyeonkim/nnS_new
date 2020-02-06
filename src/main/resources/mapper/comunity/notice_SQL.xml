@@ -19,7 +19,7 @@
            SELECT  MEM_NUM, MEM_ID
            FROM    MEMBER
            ) M
-   WHERE   N.NOTICE_WRITER = MEM_ID(+)
+   WHERE   N.NOTICE_WRITER = MEM_NUM(+)
    AND     NOTICE_DEL_GB = 'N'
    
 ]]>

@@ -25,6 +25,7 @@ public class ReportController {
 	@RequestMapping(value="/community/reportWriteForm")
 	public ModelAndView reportWriteForm(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("reportWriteForm");
+		mv.addObject("GOODS_NUM", commandMap.get("GOODS_NUM"));
 
 		return mv;
 	}

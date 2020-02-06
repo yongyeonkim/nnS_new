@@ -4,6 +4,19 @@
 <html>
 <head>
 	<%@ include file="/WEB-INF/include/include-header.jspf" %>
+  	<script>
+  		$(document).ready(function(){ 
+  			$('.bxslider').bxSlider({ 
+  				auto: true, 
+  				speed: 500, 
+  				pause: 4000, 
+  				mode:'fade', 
+  				autoControls: true, 
+  				pager:true, 
+			}); 
+		});
+	</script>
+  	
 <meta charset="UTF-8">
 <style type="text/css">
 
@@ -198,9 +211,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 					</table>
 					<p align="center">
 						<input type="button" id="buy" name="buy" value="바로구매" /> 
-						<input type="button" id="like" name="like" value="좋아요" /> 
-						<input type="button" id="report" name="report" value="신고하기" />
-						
+						<a href='javascript: report_func();'><img src=<c:url value="/resources/images/report_btn.png"/> id='report_img' style="width:30px; height:30px"></a>
 						<c:choose>
 							<c:when test="${goodsLikeMap.GOODS_LIKE_YN eq 0}">
 						    	<a href='javascript: like_func();'><img src=<c:url value="/resources/images/unlike_btn.png"/> id='unlike_img' style="width:30px; height:30px"></a>
@@ -220,6 +231,12 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 					    <div class="goodsTab_container">
 					        <div id="goodsTab1" class="goodsTab_content">
 					            <h2>상품정보</h2>
+								  <ul class="bxslider"> 
+								  	<c:forEach var="row" items="${list}" varStatus="var"> 
+								  		<li><img alt="" style="width:100%; height:150px;" src="${path}${row.GOODS_IMAGE_STD}"/></li>
+									</c:forEach>
+								  </ul>
+								  
 					            <p>${map.GOODS_CONTENT}</p>
 					        </div>
 					        <div id="goodsTab2" class="goodsTab_content">
@@ -236,7 +253,13 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 			</tr>
 		</tbody>
 	</table>
+	<a href="#this" class="btn" id="list">목록으로</a>
+	<c:if test="${session_MEM_ID eq map.MEM_ID }">
+		<a href="#this" class="btn" id="update">수정하기</a>
+		<a href="#this" class="btn" id="delete">삭제하기</a>
+	</c:if>
    </div>
+   
 </div>
 	
 
@@ -276,10 +299,6 @@ $(document).ready(function() {
 });
 </script>
 	
-	<a href="#this" class="btn" id="list">목록으로</a>
-	<a href="#this" class="btn" id="update">수정하기</a>
-	<a href="#this" class="btn" id="delete">삭제하기</a>
-	
 	<%@ include file="/WEB-INF/include/include-body.jspf" %>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -309,10 +328,9 @@ $(document).ready(function() {
 		}
 		
 		function fn_goodsModify(){
-			var GOODS_NUM = "${map.GOODS_NUM}";
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/shop/goodsModifyForm' />");
-			comSubmit.addParam("GOODS_NUM", GOODS_NUM);
+			comSubmit.addParam("GOODS_NUM", "${map.GOODS_NUM}");
 			comSubmit.submit();
 		}
 	
@@ -333,27 +351,46 @@ $(document).ready(function() {
 		
 		/* 좋아요 */
 		function like_func(){
-			var GOODS_NUM = "${map.GOODS_NUM}";
-			var MEM_ID = 1234;
-			
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/shop/goodsDetail/goodsLike'/>");
-			comSubmit.addParam("LIKE_GOODS_NUM", GOODS_NUM);
-			comSubmit.addParam("LIKE_MEM_ID", MEM_ID);
-			alert(GOODS_NUM + " " + MEM_ID)
-			comSubmit.submit();
+			if(session_chk()){
+				var comSubmit = new ComSubmit();
+				comSubmit.setUrl("<c:url value='/shop/goodsDetail/goodsLike'/>");
+				comSubmit.addParam("LIKE_GOODS_NUM", "${map.GOODS_NUM}");
+				comSubmit.addParam("LIKE_MEM_ID", "${session_MEM_ID}");
+				comSubmit.submit();	
+			}
 		}
 		
 		function unlike_func(){
-			var GOODS_NUM = "${map.GOODS_NUM}";
-			var MEM_ID = 1234;
-			
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/shop/goodsDetail/goodsUnlike'/>");
-			comSubmit.addParam("LIKE_GOODS_NUM", GOODS_NUM);
-			comSubmit.addParam("LIKE_MEM_ID", MEM_ID);
-			alert(GOODS_NUM + " " + MEM_ID)
-			comSubmit.submit();
+			if(session_chk()){
+				var comSubmit = new ComSubmit();
+				comSubmit.setUrl("<c:url value='/shop/goodsDetail/goodsUnlike'/>");
+				comSubmit.addParam("LIKE_GOODS_NUM", "${map.GOODS_NUM}");
+				comSubmit.addParam("LIKE_MEM_ID", "${session_MEM_ID}");
+				comSubmit.submit();	
+			}
+		}
+		
+		function session_chk(){
+			if("${session_MEM_ID}" == null || "${session_MEM_ID}" == "" ){
+				alert("로그인이 필요합니다.");
+				var comSubmit = new ComSubmit();
+				comSubmit.setUrl("<c:url value='/loginForm'/>");
+				comSubmit.submit();
+				return false;
+			}else{
+				return true;
+			}
+		}
+		
+		/* 신고하기 */
+		function report_func(){
+			if(session_chk()){
+				var comSubmit = new ComSubmit();
+				comSubmit.setUrl("<c:url value='/community/reportWriteForm'/>");
+				comSubmit.addParam("GOODS_NUM", "${map.GOODS_NUM}");
+				comSubmit.addParam("MEM_ID", "${session_MEM_ID}");
+				comSubmit.submit();	
+			}
 		}
 	</script>
 

@@ -174,8 +174,8 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 
 				</select>
             	</td>
-            	<td scope="row" align="left">신고할 상품번호(임시)&nbsp;&nbsp;
-            	<input type="number" id="REPORT_PRONUM" name="REPORT_PRONUM" placeholder="상품에서넘어와야함"></td>
+            	<td scope="row" align="left">신고할 상품번호(${GOODS_NUM})
+            	<input type="hidden" id="REPORT_PRONUM" name="REPORT_PRONUM" value="${GOODS_NUM}"></td>
          		
          		<th scope="row" align="left">사유</th>
          		

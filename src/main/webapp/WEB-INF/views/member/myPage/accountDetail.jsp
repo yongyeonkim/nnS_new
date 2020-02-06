@@ -208,7 +208,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 <script type="text/javascript">
 
 function ch_info(){
-	document.location.href= "http://localhost:8000/nnS/myPage/accountModifyForm";   
+	document.location.href= "/nnS/myPage/accountModifyForm";   
 }
 
 $(document).ready(function() {
