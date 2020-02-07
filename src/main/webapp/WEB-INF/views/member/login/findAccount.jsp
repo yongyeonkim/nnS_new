@@ -102,14 +102,13 @@ var idV = "";
 // 아이디 값 받고 출력하는 ajax
 var idSearch_click = function(){
 	var name = $('#MEM_NAME').val();
-	alert(name);
 	$.ajax({
 		type:"POST",
 		url:"${pageContext.request.contextPath}/findIdResult?MEM_NAME="
 				+name+"&MEM_EMAIL="+$('#MEM_EMAIL').val(),
 		success:function(data){
 			if(data == "0"){
-				$('#MEMID').text("회원 정보를 확인해주세요!");
+				$('#MEMID').html("회원 정보가 틀렸습니다!").css("color", "blue");
 				
 			} else{
 				$('#MEMID').text(data); 
@@ -122,7 +121,6 @@ var idSearch_click = function(){
 
 var pwSearch_click = function(){
 	var id = $('#MEM_ID').val();
-	alert(id);
 	$.ajax({
 		type:"get",
 		url : "<c:url value='/findPwResult'/>",

@@ -3,52 +3,43 @@ package nnS.order.controller;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import nnS.common.common.CommandMap;
-import nnS.order.service.OrderServiceImpl;
+import nnS.shop.service.ShopServiceImpl;
+
+
 
 @Controller
 public class OrderController {
 	
-	@Resource(name="orderService")
-	private OrderServiceImpl orderService;
+	@Resource(name="shopService")
+	private ShopServiceImpl shopService;
 	
 	@RequestMapping(value="/shop/order/orderWriteForm")
 	public ModelAndView orderWriteForm(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("orderWriteForm");
+		ModelAndView mv = new ModelAndView("/shop/order/orderWriteForm");
 		
-		Map<String,Object> map = orderService.orderWriteForm(commandMap.getMap());
-
-		mv.addObject("orderG", map.get("orderG"));
-		mv.addObject("orderM", map.get("orderM"));
+		//Map<String,Object> map = shopService.orderGoodsDetail(commandMap.getMap());
+		//mv.addObject("map", map.get("map"));
 		
 		return mv;
 	}
 	
-	@RequestMapping(value="/shop/order/orderWrite", method = RequestMethod.POST)
-	public ModelAndView orderWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	@RequestMapping(value="/shop/order/orderWrite")
+	public ModelAndView orderWrite() throws Exception{
 		ModelAndView mv = new ModelAndView("/shop/order/orderWriteResult");
-		
-		orderService.insertOrder(commandMap.getMap(), request);
-		Map<String,Object> map = orderService.orderDetail(commandMap.getMap());
-		mv.addObject("order", map.get("order"));
-		
+
 		return mv;
 	}
 	
 	@RequestMapping(value="/shop/order/orderDetail")
-	public ModelAndView orderDetail(CommandMap commandMap) throws Exception{
+	public ModelAndView orderDetail() throws Exception{
 		ModelAndView mv = new ModelAndView("/shop/order/orderDetail");
 
-		Map<String,Object> map = orderService.orderDetail(commandMap.getMap());
-		mv.addObject("order", map.get("order"));
-		
 		return mv;
 	}
 	

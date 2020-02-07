@@ -71,7 +71,7 @@ h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 </head>
 <body>
 
-  <div id="content">
+	<div id="content">
    <div id="vertical_tab-container">
       <ul>
          <li><a href="/nnS/myshop">주문내역 조회</a></li>
@@ -81,49 +81,72 @@ h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
       </ul>
    </div>
    <div id="main-container">
-	<table border="1" align="center">
-		<li>
-          좋아요
-      	</li>
-		<table border="0" align="center">
-          <tr>
-            <td>
-               <input type="text" value="이미지 넣어주세영" width="250" height="250" alt="" />
-             	<br>${like.name }
-				<br>${like.price }
-            </td>
-            <td>
-               <input type="text" value="이미지 넣어주세영" width="250" height="250" alt="" />
-             	<br>걔쩌는 후드티
-				<br>65,000원
-            </td>
-            <td>
-              <input type="text" value="이미지 넣어주세영" width="250" height="250" alt="" />
-             	<br>걔쩌는 후드티
-				<br>65,000원
-            </td>
-          </tr>
-          <tr>
-            <td>
-               <input type="text" value="이미지 넣어주세영" width="250" height="250" alt="" />
-             	<br>걔쩌는 후드티
-				<br>65,000원
-            </td>
-            <td>
-               <input type="text" value="이미지 넣어주세영" width="250" height="250" alt="" />
-             	<br>걔쩌는 후드티
-				<br>65,000원
-            </td>
-            <td>
-               <input type="text" value="이미지 넣어주세영" width="250" height="250" alt="" />
-             	<br>걔쩌는 후드티
-				<br>65,000원
-            </td>
-          </tr>
-      </table>
-	</table>
+		<table border="1" align="center">
+			<li>
+				좋아요
+			</li>
+			<tbody>
+				<c:choose>
+					<c:when test="${fn:length(list) > 0 }">
+						<c:forEach items="${list}" var="row" varStatus="rowS">
+							<c:if test="${(rowS.index+1) % 3 eq 1}">
+							<tr>
+							</c:if>
+								<td align="center">
+								
+					      	      	<input type="hidden" name="title2" id="title2" value="${row.GOODS_NUM}">
+									<a href="#this" id="title" name="title"><img alt='' width='140' height='140' src="/nnS/file/${row.GOODS_THUMBNAIL}"></a><br/>
+									${row.GOODS_TITLE}<br/>
+									${row.GOODS_PRICE}<br/><br/>
+								</td>
+								
+							<c:if test="${(rowS.index+1) % 3 eq 0}">
+							</tr>
+							</c:if>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<tr>
+							<td colspan="4">조회된 결과가 없습니다.</td>
+						</tr>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+			</table>
    </div>
 </div>
+<script type="text/javascript">
 
+$(document).ready(function() {
+
+	//Default Action
+	$(".goodsTab_content").hide(); //Hide all content
+	$("ul.goodsTabs li:first").addClass("active").show(); //Activate first goodsTab
+	$(".goodsTab_content:first").show(); //Show first goodsTab content
+	
+	//On Click Event
+	$("ul.goodsTabs li").click(function() {
+		$("ul.goodsTabs li").removeClass("active"); //Remove any "active" class
+		$(this).addClass("active"); //Add "active" class to selected goodsTab
+		$(".goodsTab_content").hide(); //Hide all goodsTab content
+		var activegoodsTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active goodsTab + content
+		$(activegoodsTab).fadeIn(); //Fade in the active content
+		return false;
+	});
+	
+	$("a[name='title']").on("click", function(e) { //제목 
+		e.preventDefault();
+		fn_openBoardDetail($(this));
+	});
+
+});
+
+function fn_openBoardDetail(obj) {
+	var comSubmit = new ComSubmit();
+	comSubmit.setUrl("<c:url value='/shop/goodsDetail' />");
+	comSubmit.addParam("GOODS_NUM", $("#title2").val());
+	comSubmit.submit();
+}
+</script>
 </body>
 </html>
