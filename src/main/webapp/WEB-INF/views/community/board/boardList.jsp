@@ -2,9 +2,16 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<link rel="stylesheet" href="css/bootstrap.css">
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
 	<style type="text/css">
-
+/* UI Object */   
+.tbl_type,.tbl_type th,.tbl_type td{border:0}
+.tbl_type{width:100%;border-bottom:1px solid #bbbbbb;font-family:Tahoma;font-size:11px;text-align:center}
+.tbl_type caption{display:none}
+.tbl_type th{padding:7px 0 4px;border-bottom:1px solid #949494;border-top:1px solid #949494;background-color:#e1e6e5;color:#666;}
+.tbl_type td{padding:6px 0 4px;border-top:1px dashed #cecece;color:#595959}
+/* //UI Object */
 h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 .container {width: 700px; margin: 10px auto;}
 ul.goodsTabs {
@@ -81,15 +88,15 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 	padding: 5px;
 }
  #content
-{
+{	 
    background-color: #ffffff;
-   padding: 20px 10px;
+   padding: 20px 10px;  
    overflow: auto;
 }
 #vertical_tab-container
 {
    float: left;
-   margin: 50px 0 0 0;
+   margin: 70px 0 0 0;
    width: 126px;
 }
 #vertical_tab-container ul
@@ -99,43 +106,44 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 }
 #vertical_tab-container ul li
 {
-   border-top: 1px solid #666;
-   border-right: 1px solid #666;
-   border-bottom: 1px solid #666;
-   border-left: 8px solid #000000;   
-   background-color: #ffd538;  
-/*    이거가 선택된거 말고 나머지탭 색 */
+   border-top: 1px solid #fff;
+   border-right: 1px solid #fff;
+   border-bottom: 1px solid #595959;
+   border-left: 4px solid #595959;   
+   background-color: #fff;  
    margin: 8px 0;
-}
+}  
 #vertical_tab-container ul li a,
 #vertical_tab-container ul li a:visited
 {
    text-decoration: none;
    color: #666;
    display: block;
-   padding: 15px 5px;
+ 	padding: 3px 3px;
 }
 #vertical_tab-container ul li:hover
 {
-   border-left: 8px solid #333;
+   border-left: 4px solid #ffd04a;
 }
 #vertical_tab-container ul li a:hover
 {
-   color: #000;
+   color: #333;
 }
 #vertical_tab-container ul li.selected
 {
    border-right: none;
    background-color: #fff;
-   border-left: 8px solid #000000;
+   border-left: 4px solid #ffd04a;
 }
 #main-container
 {
    min-height: 400px;
    margin: 0 0 0 125px;
    padding: 20px;
-   background-color: #f2e8c4;
-   border: 1px solid #888;
+   border-top: 1px solid #fff;  
+   border-right: 1px solid #fff;     
+   border-left: 1px solid #fff; 
+   border-bottom: 1px solid #fff;    
 }
 </style>
 </head>
@@ -148,27 +156,28 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
          <li><a href="reportList"><img src="./../resources/images/tab_report.png" width="100" height="30"></a></li>
          <li><a href="qnaList"><img src="./../resources/images/tab_qna.png" width="100" height="30"></a></li>
 	</ul>
-	</div>
+	</div> 
 	<div id="main-container">
-	<table border="1" align="center" class="board_list">
+		<img src="./../resources/images/commu_btitle.png" width="200" height="70"> 
+	<table border="1" align="center" class="tbl_type">
 		<colgroup>
-			<col width="5%" />
+			<col width="10%" />
 			<col width="*" />
 			<col width="15%" />
-			<col width="25%" />
-			<col width="5%" />
-		</colgroup>
+			<col width="25%" />  
+			<col width="10%" />
+		</colgroup>  
 		<caption><h2>자유게시판</h2></caption>
 		<thead>
 			<tr>
-				<th scope="col">글번호</th>
-				<th scope="col">제목</th>
-				<th scope="col">작성자</th>
-				<th scope="col">작성일</th>
-				<th scope="col">조회수</th>
+				<th scope="col"><img src="./../resources/images/commu_num.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_title.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_writer.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_date.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_hit.png" height="25"></th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody class="body">
 			<!-- 스크립트를 통해 게시글에 대한 정보가 담김 -->
 		</tbody>
 	</table>
@@ -184,7 +193,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 	<br />
 
 	
-
+	<script src="js/bootstrap.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			fn_selectBoardList(1);
