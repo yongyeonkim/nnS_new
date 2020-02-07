@@ -173,8 +173,8 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 				<td>
 					<table border="1" align="center">
 						<colgroup>
-							<col width="15%"/>
 							<col width="35%"/>
+							<col width="15%"/>
 							<col width="15%"/>
 							<col width="35%"/>
 						</colgroup>
@@ -182,9 +182,9 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 						<tbody>
 							<tr colspan="2">
 								<td rowspan="2">
-									<img alt="" width="202" height="202" src="${path}${map.GOODS_THUMBNAIL}"/>
+									<img alt="" width="100%" height="300px" src="${path}${map.GOODS_THUMBNAIL}"/>
 								</td>
-								<td>
+								<td colspan="2">
 									브랜드 : ${map.GOODS_BRAND}<br />
 									모델명 : ${map.GOODS_TITLE} <br />	<!-- 테이블에 없음 --> 
 									성별 : ${map.GOODS_NUM} <br /><!-- 테이블에 없음 --> 

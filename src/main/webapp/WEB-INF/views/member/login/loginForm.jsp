@@ -1,8 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=euc-kr"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <html>
 <head>
-<title>·Î±×ÀÎ</title>
-
+<title>ë¡œê·¸ì¸</title>
 
    <style>
    @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
@@ -12,15 +11,9 @@
    }
    
    body {
-       width:100%;
-       height:100%;
-       margin: 0;
-        padding-top: 80px;
-        padding-bottom: 40px;
-        font-family: "Nanum Gothic", arial, helvetica, sans-serif;
-        background-repeat: no-repeat;
         background:linear-gradient(to bottom right, #f0e199, #f0e199);
    }
+   body,table,input,select,textarea,button,h1,h2,h3,h4,h5,h6,a{font-family:'ë§‘ì€ ê³ ë”•',Malgun Gothic,sans-serif;font-size:12px;color:#666;font-weight:400;}
    
     .card {
         margin: 0 auto; /* Added */
@@ -34,7 +27,7 @@
         height: auto;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
-            box-sizing: border-box;
+        box-sizing: border-box;
         padding: 10px;
         font-size: 16px;
    }
@@ -50,12 +43,12 @@
        }
        function checkIt(){
          if(!document.myform.MEM_ID.value){
-           alert("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏÁö ¾ÊÀ¸¼Ì½À´Ï´Ù.");
+           alert("ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì§€ ì•Šìœ¼ì…¨ìŠµë‹ˆë‹¤.");
            document.myform.id.focus();
            return false;
          }
          if(!document.myform.MEM_PW.value){
-           alert("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏÁö ¾ÊÀ¸¼Ì½À´Ï´Ù.");
+           alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì§€ ì•Šìœ¼ì…¨ìŠµë‹ˆë‹¤.");
            document.myform.passwd.focus();
            return false;
          }
@@ -66,11 +59,11 @@
           var id = $("#MEM_ID")[0].value;
           var pw = $("#MEM_PW")[0].value;
           if(id==null || id==''){
-             alert("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+             alert("ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
              return false;
           }
           if(pw==null || pw==''){
-             alert("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+             alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
              return false;
           }
           myform.submit();
@@ -78,48 +71,48 @@
        
        $(document).ready(function(){
           
-          // ÀúÀåµÈ ÄíÅ°°ªÀ» °¡Á®¿Í¼­ ID Ä­¿¡ ³Ö¾îÁØ´Ù. ¾øÀ¸¸é °ø¹éÀ¸·Î µé¾î°¨.
+          // ì €ì¥ëœ ì¿ í‚¤ê°’ì„ ê°€ì ¸ì™€ì„œ ID ì¹¸ì— ë„£ì–´ì¤€ë‹¤. ì—†ìœ¼ë©´ ê³µë°±ìœ¼ë¡œ ë“¤ì–´ê°.
           var userInputId = getCookie("userInputId");
           $("#MEM_ID").val(userInputId);  
           
-          if($("#MEM_ID").val() != ""){ // ±× Àü¿¡ ID¸¦ ÀúÀåÇØ¼­ Ã³À½ ÆäÀÌÁö ·Îµù ½Ã, ÀÔ·Â Ä­¿¡ ÀúÀåµÈ ID°¡ Ç¥½ÃµÈ »óÅÂ¶ó¸é,
-             $("#idSaveCheck").attr("checked", true); // ID ÀúÀåÇÏ±â¸¦ Ã¼Å© »óÅÂ·Î µÎ±â.
+          if($("#MEM_ID").val() != ""){ // ê·¸ ì „ì— IDë¥¼ ì €ì¥í•´ì„œ ì²˜ìŒ í˜ì´ì§€ ë¡œë”© ì‹œ, ì…ë ¥ ì¹¸ì— ì €ì¥ëœ IDê°€ í‘œì‹œëœ ìƒíƒœë¼ë©´,
+             $("#idSaveCheck").attr("checked", true); // ID ì €ì¥í•˜ê¸°ë¥¼ ì²´í¬ ìƒíƒœë¡œ ë‘ê¸°.
           }
           
-          $("#idSaveCheck").change(function(){ // Ã¼Å©¹Ú½º¿¡ º¯È­°¡ ÀÖ´Ù¸é,
-             if($("#idSaveCheck").is(":checked")){ // ID ÀúÀåÇÏ±â Ã¼Å©ÇßÀ» ¶§,
+          $("#idSaveCheck").change(function(){ // ì²´í¬ë°•ìŠ¤ì— ë³€í™”ê°€ ìˆë‹¤ë©´,
+             if($("#idSaveCheck").is(":checked")){ // ID ì €ì¥í•˜ê¸° ì²´í¬í–ˆì„ ë•Œ,
                 var userInputId = $("#MEM_ID").val();
-                setCookie("userInputId", userInputId, 7); // 7ÀÏ µ¿¾È ÄíÅ° º¸°ü
-             }else{ // ID ÀúÀåÇÏ±â Ã¼Å© ÇØÁ¦ ½Ã,
+                setCookie("userInputId", userInputId, 7); // 7ì¼ ë™ì•ˆ ì¿ í‚¤ ë³´ê´€
+             }else{ // ID ì €ì¥í•˜ê¸° ì²´í¬ í•´ì œ ì‹œ,
                 deleteCookie("userInputId");
              }
           });
           
-          // ID ÀúÀåÇÏ±â¸¦ Ã¼Å©ÇÑ »óÅÂ¿¡¼­ ID¸¦ ÀÔ·ÂÇÏ´Â °æ¿ì, ÀÌ·² ¶§µµ ÄíÅ° ÀúÀå.
-          $("#MEM_ID").keyup(function(){ // ID ÀÔ·Â Ä­¿¡ ID¸¦ ÀÔ·ÂÇÒ ¶§,
-             if($("#idSaveCheck").is(":checked")){ // ID ÀúÀåÇÏ±â¸¦ Ã¼Å©ÇÑ »óÅÂ¶ó¸é,
+          // ID ì €ì¥í•˜ê¸°ë¥¼ ì²´í¬í•œ ìƒíƒœì—ì„œ IDë¥¼ ì…ë ¥í•˜ëŠ” ê²½ìš°, ì´ëŸ´ ë•Œë„ ì¿ í‚¤ ì €ì¥.
+          $("#MEM_ID").keyup(function(){ // ID ì…ë ¥ ì¹¸ì— IDë¥¼ ì…ë ¥í•  ë•Œ,
+             if($("#idSaveCheck").is(":checked")){ // ID ì €ì¥í•˜ê¸°ë¥¼ ì²´í¬í•œ ìƒíƒœë¼ë©´,
                 var userInputId = $("#MEM_ID").val();
-                setCookie("userInputId", userInputId, 7); // 7ÀÏ µ¿¾È ÄíÅ° º¸°ü
+                setCookie("userInputId", userInputId, 7); // 7ì¼ ë™ì•ˆ ì¿ í‚¤ ë³´ê´€
              }
           });
        });
        
        
         
-       function setCookie(cookieName, value, exdays){ //ÄíÅ° ÀúÀåÇÏ´Â ÇÔ¼ö
+       function setCookie(cookieName, value, exdays){ //ì¿ í‚¤ ì €ì¥í•˜ëŠ” í•¨ìˆ˜
            var exdate = new Date();
-           exdate.setDate(exdate.getDate() + exdays); //¼³Á¤ ÀÏ¼ö¸¸Å­ ÇöÀç½Ã°£¿¡ ¸¸·á°ªÀ¸·Î ÁöÁ¤
+           exdate.setDate(exdate.getDate() + exdays); //ì„¤ì • ì¼ìˆ˜ë§Œí¼ í˜„ì¬ì‹œê°„ì— ë§Œë£Œê°’ìœ¼ë¡œ ì§€ì •
            var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
            document.cookie = cookieName + "=" + cookieValue;
        }
         
-       function deleteCookie(cookieName){ //ÄíÅ° »èÁ¦
+       function deleteCookie(cookieName){ //ì¿ í‚¤ ì‚­ì œ
            var expireDate = new Date();
            expireDate.setDate(expireDate.getDate() - 1);
            document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
        }
         
-       function getCookie(cookieName) { //ÄíÅ° °¡Á®¿À´Â ÇÔ¼ö
+       function getCookie(cookieName) { //ì¿ í‚¤ ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜
            cookieName = cookieName + '=';
            var cookieData = document.cookie;
            var start = cookieData.indexOf(cookieName);
@@ -141,7 +134,7 @@
       <div class="card align-middle" style="width:20rem; border-radius:20px;">
          <div>
             <div class="card-title" style="margin-top:30px;">
-               <h2 class="card-title text-center" style="color:#113366;">·Î±×ÀÎ Æû</h2>
+               <h2 class="card-title text-center" style="color:#113366;">ë¡œê·¸ì¸ í¼</h2>
             </div>
             
             <div class="card-body">   
@@ -153,12 +146,12 @@
             </div>
          
             <div class="card-body">
-               <input type="button" class="btn btn-lg btn-primary btn-block" value="·Î±×ÀÎ" onclick="fsubmit();" style="background-color:#26a69a;">
+               <input type="button" class="btn btn-lg btn-primary btn-block" value="ë¡œê·¸ì¸" onclick="fsubmit();" style="background-color:#26a69a;">
             </div>
          
             <div align="center">
                <label>
-                  <input type="checkbox" id ="idSaveCheck" value="idSaveCheck" >¾ÆÀÌµğÀúÀå
+                  <input type="checkbox" id ="idSaveCheck" value="idSaveCheck" >ì•„ì´ë””ì €ì¥
                </label>
             </div> 
 
@@ -168,7 +161,7 @@
    </form>
    
    <div align="center">
-      <input type="button" value="È¸¿ø°¡ÀÔ" onclick="location.href='/nnS/joinForm'"/><input type="button" value="ID/PW Ã£±â" onclick="location.href='/nnS/findId'"/>
+      <input type="button" value="íšŒì›ê°€ì…" onclick="location.href='/nnS/joinForm'"/><input type="button" value="ID/PW ì°¾ê¸°" onclick="location.href='/nnS/findId'"/>
     </div>
 
 </body>

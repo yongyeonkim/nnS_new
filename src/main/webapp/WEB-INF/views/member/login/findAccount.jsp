@@ -12,6 +12,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <style>
+  
+  html {
+      height: 100%;
+   }
+   
+   body {
+        background:linear-gradient(to bottom right, #f0e199, #f0e199);
+   }
+   body,table,input,select,textarea,button,h1,h2,h3,h4,h5,h6,a{font-family:'맑은 고딕',Malgun Gothic,sans-serif;font-size:12px;color:#666;font-weight:400;}
+   
 #modal {
   position:relative;
   width:100%;
@@ -46,6 +56,12 @@
   background:rgba(0, 0, 0, 0.5);
   z-index:-1;
 }   
+.card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   }
 </style>
 </head>
 <script>
@@ -130,7 +146,7 @@ var pwSearch_click = function(){
 </script>
 <body>
 	<div class="full">
-		<div class="container">
+		<div class="container card" style="width:500px; padding:30px; border-radius: 20px; background-color:#fff;">
 			<div class="area_inputs wow fadeIn">
 				<div class="sub_title font-weight-bold text-black">
 					<h3>아이디/비밀번호 찾기</h3>

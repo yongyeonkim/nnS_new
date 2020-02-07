@@ -16,7 +16,7 @@
 <title>nnS#</title>
 </head>
 <body>
-	<div id="header">
+	<div id="header"">
 		<tiles:insertAttribute name="header"/><!-- // header -->
 	</div>
 	 	
