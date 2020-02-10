@@ -6,84 +6,59 @@
 <head>
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
 <meta charset="UTF-8">
-<style type="text/css">
 
-h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
-.container {width: 700px; margin: 10px auto;}
-ul.goodsTabs {
-   margin: 0;
-   padding: 0;
-   float: left;
-   list-style: none;
-   height: 32px;
-   border-bottom: 1px solid #999;
-   border-left: 1px solid #999;
-   width: 100%;
-}
-ul.goodsTabs li {
+   <style>
+   @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
    
-   float: left;
-   margin: 0;
-   padding: 0;
-   height: 31px;
-   line-height: 31px;    
-   border: 1px solid #999;
-   border-left: none;
-   margin-bottom: -1px;
-   background: #F0F0F0;
-   overflow: hidden;
-   position: relative;
-}
-ul.goodsTabs li a {
-   text-decoration: none;
-   color: #000;
-   display: block;
-   font-size: 1.2em;
-   padding: 0 20px;
-   border: 1px solid #fff;
-   outline: none;
-}
-ul.goodsTabs li a:hover {
-   background: #ccc;
-}   
-html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
-   background: #fff;
-   border-bottom: 1px solid #fff;
-}
- #content
-{
-   background-color: #ffffff;
-   padding: 20px 10px;
-   overflow: auto;
-}
-#main-container
-{
-   min-height: 400px;
-   margin: 0 0 0 125px;
-   padding: 20px;
-   background-color: #fff;
-   border: 1px solid #888;
-}
-</style>
-</head>
-<body>
-  <div id="content">
-   <div id="main-container">
-         <table border="0" class="deleteAccount" align="center">
-         <br/><br/><br/><br/><br/>
-        <h2 align="center">본인 확인</h2>
-            <tbody align="center">
-               *비밀번호 <input type="password" id="MEM_PW" name="MEM_PW">
-               <p/><p/><p/><p/>
-				<button onclick="fn_pwCheck();" type="button">완료
-				<button onclick="back();" type="button" align="center">취소하기
-				<span id="pwc"></span>
-            </tbody>
-         </table>
-   </div>
-  </div>
-</body>
+   html {
+      height: 100%;
+   }
+   
+   body {
+        background:linear-gradient(to bottom right, #f0e199, #f0e199);
+   }
+   body,table,input,select,textarea,button,h1,h2,h3,h4,h5,h6,a{font-family:'맑은 고딕',Malgun Gothic,sans-serif;font-size:12px;color:#666;font-weight:400;}
+   
+    .card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   }
+   
+   .form-signin .form-control {
+        position: relative;
+        height: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 16px;
+   }
 
+   
+   </style>
+</head>
+<body onload="begin()" cellpadding="0" cellspacing="0" marginleft="0" margintop="0" width="100%" height="100%" align="center">
+      <div class="card align-middle" style="width:20rem; border-radius:20px; background-color:#fff; margin-top:50px;">
+         <div>
+            <div class="card-title" style="margin-top:30px;">
+               <h2 class="card-title text-center" style="color:#113366;">비밀번호 확인</h2>
+            </div>
+            <div class="card-body">
+               *비밀번호 <input type="password" id="MEM_PW" name="MEM_PW" class="form-control" placeholder="Password">
+            </div>
+         
+            <div class="card-body">
+            	<input type="button" class="btn btn-lg btn-primary btn-block" value="확인" onclick="fn_pwCheck();" style="background-color:#26a69a;">
+            	<input type="button" class="btn btn-lg btn-primary btn-block" value="취소" onclick="back();" style="background-color:#26a69a;">
+				<span id="pwc"></span>
+				<br>
+            </div>
+         </div>
+      </div>
+</body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript">
 

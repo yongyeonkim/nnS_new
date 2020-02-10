@@ -185,7 +185,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 	<div align="right">
 	<c:if test="${session_MEM_INFO.MEM_ID != NULL }">
-		<a href=	"#this" class="btn" id="write">글쓰기</a>
+		<a href="#this"  class="btn" id="write"><img src="./../resources/images/commu_wbtn.png"></a>
 	</c:if>
 	</div>
 	</div>

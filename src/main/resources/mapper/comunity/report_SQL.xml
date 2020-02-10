@@ -4,8 +4,10 @@
 <mapper namespace="report">
     <!-- 신고목록 -->
     <select id="selectReportList" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-							SELECT  R.REPORT_NUM,
+		<include refid="common.pagingPre"/>
+		
+				SELECT  ROW_NUMBER() OVER (ORDER BY R.REPORT_NUM DESC) RNUM,
+			    R.REPORT_NUM,
 		        R.REPORT_TITLE,
 		        M.MEM_ID,
 		        R.REPORT_DATE,
@@ -20,31 +22,12 @@
 		         ) M
 		WHERE   R.REPORT_DEL_GB = 'N'
 		AND     R.REPORT_WRITER = M.MEM_NUM(+)
-		ORDER BY R.REPORT_NUM
-		]]>
+		<if test ="MEM_ID !=null">
+	    AND     M.MEM_ID = #{MEM_ID}
+	    </if>
+		<include refid="common.pagingPost"/>
 	</select>
-	<!-- 내 신고 내역보기 -->
-	<select id="selectMyReportList" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-							SELECT  R.REPORT_NUM,
-		        R.REPORT_TITLE,
-		        M.MEM_ID,
-		        R.REPORT_DATE,
-		        R.REPORT_COUNT,
-		        R.REPORT_TYPE,
-		        TO_CHAR(R.REPORT_DATE,'hh24:mi:ss') AS REPORT_TIME,
-		        R.REPORT_STATUS
-		FROM    REPORT R, 
-		        (
-		         SELECT MEM_NUM, MEM_ID
-		         FROM   MEMBER
-		         ) M
-		WHERE   R.REPORT_DEL_GB = 'N'
-		AND     R.REPORT_WRITER = M.MEM_NUM(+)
-		AND     M.MEM_ID = #{MEM_ID}
-		ORDER BY R.REPORT_NUM
-		]]>
-	</select>
+
 	<!-- 글쓰기 -->
 	<insert id="insertReportBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
 	 <selectKey keyProperty="REPORT_NUM" resultType="string" order="BEFORE">

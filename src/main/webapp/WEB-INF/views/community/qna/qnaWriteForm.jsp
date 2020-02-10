@@ -6,6 +6,13 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
 <meta charset="UTF-8">
 <style type="text/css">
+/* UI Object */   
+.tbl_type,.tbl_type th,.tbl_type td{border:0}
+.tbl_type{width:100%;border-bottom:1px solid #bbbbbb;font-family:Tahoma;font-size:11px;text-align:center}
+.tbl_type caption{display:none}
+.tbl_type th{padding:7px 0 4px;border-bottom:1px solid #949494;border-top:1px solid #949494;background-color:#e1e6e5;color:#666;}
+.tbl_type tr{padding:7px 0 4px;border-bottom:1px solid #949494;border-top:1px solid #949494;background-color:#e1e6e5;color:#666;}
+.tbl_type td{padding:6px 0 4px;border-top:1px dashed #cecece;color:#595959}
 
 h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 .container {width: 700px; margin: 10px auto;}
@@ -83,15 +90,15 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 	padding: 5px;
 }
  #content
-{
+{	 
    background-color: #ffffff;
-   padding: 20px 10px;
+   padding: 20px 10px;  
    overflow: auto;
 }
 #vertical_tab-container
 {
    float: left;
-   margin: 50px 0 0 0;
+   margin: 70px 0 0 0;
    width: 126px;
 }
 #vertical_tab-container ul
@@ -101,70 +108,72 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 }
 #vertical_tab-container ul li
 {
-   border-top: 1px solid #666;
-   border-right: 1px solid #666;
-   border-bottom: 1px solid #666;
-   border-left: 8px solid #666;
-   background-color: #ddd;
+   border-top: 1px solid #fff;
+   border-right: 1px solid #fff;
+   border-bottom: 1px solid #595959;
+   border-left: 4px solid #595959;   
+   background-color: #fff;  
    margin: 8px 0;
-}
+}  
 #vertical_tab-container ul li a,
 #vertical_tab-container ul li a:visited
 {
    text-decoration: none;
    color: #666;
    display: block;
-   padding: 15px 5px;
+ 	padding: 3px 3px;
 }
 #vertical_tab-container ul li:hover
 {
-   border-left: 8px solid #333;
+   border-left: 4px solid #ffd04a;
 }
 #vertical_tab-container ul li a:hover
 {
-   color: #000;
+   color: #333;
 }
 #vertical_tab-container ul li.selected
 {
    border-right: none;
    background-color: #fff;
-   border-left: 8px solid #006699;
+   border-left: 4px solid #ffd04a;
 }
 #main-container
 {
    min-height: 400px;
    margin: 0 0 0 125px;
    padding: 20px;
-   background-color: #fff;
-   border: 1px solid #888;
+   border-top: 1px solid #fff;  
+   border-right: 1px solid #fff;     
+   border-left: 1px solid #fff; 
+   border-bottom: 1px solid #fff;    
 }
 </style>
 <body>
 <div id="content">
    <div id="vertical_tab-container">
       <ul>
-         <li><a href="noticeList">공지사항</a></li>
-         <li><a href="boardList">자유게시판</a></li>
-         <li><a href="reportList">신고게시판</a></li>
-         <li class="selected"><a href="qnaList">Q&A게시판</a></li>
+         <li><a href="noticeList"><img src="./../resources/images/tab_notice.png" width="100" height="30"></a></li>
+         <li><a href="boardList"><img src="./../resources/images/tab_board.png" width="100" height="30"></a></li>
+         <li><a href="reportList"><img src="./../resources/images/tab_report.png" width="100" height="30"></a></li>
+         <li class="selected"><a href="qnaList"><img src="./../resources/images/tab_qna.png" width="100" height="30"></a></li>
       </ul>
    </div>
    <div id="main-container">
 
 	<form id="frm" name="frm" enctype="multipart/form-data">
-		<table class="board_view">
+		<table class="tbl_type">
 			<colgroup>
-				<col width="15%">
-				<col width="*"/>
+	            <col width="10%">
+	            <col width="*"/>
+	            <col width="15%">
+	            <col width="20%">
 			</colgroup>
 			<tbody>
 				<tr>
-					<th scope="row">제목</th>
-					<td><input type="text" id="QNA_TITLE" name="QNA_TITLE" class="wdp_90" size="80"></input></td>
-				</tr>
-				<tr>
+	         		<th>제목</th>
+	         		<td style="background-color:#fff;"><input type="text" id="QNA_TITLE" name="QNA_TITLE" style="width:95%"/></td>
 					<th scope="row">유형</th>
-					<td><select name="QNA_TYPE" id="QNA_TYPE">
+					<td style="background-color:#fff;"><select name="QNA_TYPE" id="QNA_TYPE">
 					<option value="상품 관련 문의">상품 관련 문의</option>
 					
 					<option value="회원 관리 문의">회원 관리 문의</option>
@@ -175,21 +184,13 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 					</select></td>
 				</tr>
 				<tr>
-					<td colspan="2" class="view_text">
+					<td colspan="4" class="view_text"  style="background-color:#fff;">
 						<textarea rows="20" cols="100" title="내용" id="QNA_CONTENT" name="QNA_CONTENT"></textarea>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<div id="fileDiv">
-			<p>
-				<input type="file" name="file_0" id="file"  accept="image/gif,image/jpeg,image/png">
-				<a href="#this" class="btn" id="delete" name="delete">삭제</a>
-			</p>
-		</div>
-		
 		<br/><br/>
-		<a href="#this" class="btn" id="addFile">파일 추가</a>
 		<a href="#this" class="btn" id="write">작성하기</a>
 		<a href="#this" class="btn" id="list">목록으로</a>
 	</form>

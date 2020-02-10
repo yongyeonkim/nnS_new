@@ -12,8 +12,6 @@
 			<li><a href="${contextPath}/nnS/loginForm" class="log">로그인</a></li> 
 			<li><a href="${contextPath}/nnS/joinForm">회원가입</a> </li>
 			<li><a href="${contextPath}/nnS/findId">ID/PW찾기</a> </li>
-			<li><a href="${contextPath}/nnS/myPage">마이페이지</a></li>
-			<li><a href="${contextPath}/nnS/loginForm">내상점</a></li> 
 			</c:if>
 			<c:if test="${session_MEM_ID != null }">
 			<li>${session_MEM_ID}&nbsp;님</li>	

@@ -451,8 +451,8 @@ function zipcode() {//우편번호 검색창
       
       <div class="row">
         <div class="input-field col s12">
-        	<button id="join" class="btn waves-effect waves-light col s12" style="width:60%;">회원가입</button>
-         	<button onclick="back();" type="button" class="btn waves-effect waves-light col s12" style="width:35%; margin:0 0 0 20px">취소</button>
+        	<button id="join" class="btn waves-effect waves-light col s12" style="width:60%; background-color:#26a69a; border-color:#26a69a;">회원가입</button>
+         	<button onclick="back();" type="button" class="btn waves-effect waves-light col s12" style="width:35%; margin:0 0 0 20px; background-color:#26a69a; border-color:#26a69a;">취소</button>
           
           
         </div>

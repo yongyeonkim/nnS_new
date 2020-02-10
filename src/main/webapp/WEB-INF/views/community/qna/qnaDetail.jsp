@@ -5,6 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <style type="text/css">
+/* UI Object */   
+.tbl_type,.tbl_type th,.tbl_type td{border:0}
+.tbl_type{width:100%;border-bottom:1px solid #bbbbbb;font-family:Tahoma;font-size:11px;text-align:center}
+.tbl_type caption{display:none}
+.tbl_type th{padding:7px 0 4px;border-bottom:1px solid #949494;border-top:1px solid #949494;background-color:#e1e6e5;color:#666;}
+.tbl_type td{padding:6px 0 4px;border-top:1px dashed #cecece;color:#595959}
 
 h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 .container {width: 700px; margin: 10px auto;}
@@ -82,15 +88,15 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 	padding: 5px;
 }
  #content
-{
+{	 
    background-color: #ffffff;
-   padding: 20px 10px;
+   padding: 20px 10px;  
    overflow: auto;
 }
 #vertical_tab-container
 {
    float: left;
-   margin: 50px 0 0 0;
+   margin: 70px 0 0 0;
    width: 126px;
 }
 #vertical_tab-container ul
@@ -100,42 +106,44 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 }
 #vertical_tab-container ul li
 {
-   border-top: 1px solid #666;
-   border-right: 1px solid #666;
-   border-bottom: 1px solid #666;
-   border-left: 8px solid #666;
-   background-color: #ddd;
+   border-top: 1px solid #fff;
+   border-right: 1px solid #fff;
+   border-bottom: 1px solid #595959;
+   border-left: 4px solid #595959;   
+   background-color: #fff;  
    margin: 8px 0;
-}
+}  
 #vertical_tab-container ul li a,
 #vertical_tab-container ul li a:visited
 {
    text-decoration: none;
    color: #666;
    display: block;
-   padding: 15px 5px;
+ 	padding: 3px 3px;
 }
 #vertical_tab-container ul li:hover
 {
-   border-left: 8px solid #333;
+   border-left: 4px solid #ffd04a;
 }
 #vertical_tab-container ul li a:hover
 {
-   color: #000;
+   color: #333;
 }
 #vertical_tab-container ul li.selected
 {
    border-right: none;
    background-color: #fff;
-   border-left: 8px solid #006699;
+   border-left: 4px solid #ffd04a;
 }
 #main-container
 {
    min-height: 400px;
    margin: 0 0 0 125px;
    padding: 20px;
-   background-color: #fff;
-   border: 1px solid #888;
+   border-top: 1px solid #fff;  
+   border-right: 1px solid #fff;     
+   border-left: 1px solid #fff; 
+   border-bottom: 1px solid #fff;    
 }
 /* 답변글 보기에 쓰는거 */
 .answer p{cursor:pointer;}
@@ -147,45 +155,45 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
   
       <ul>
       
-         <li><a href="noticeList">공지사항</a></li>
-         <li><a href="boardList">자유게시판</a></li>
-         <li><a href="reportList">신고게시판</a></li>
-         <li class="selected"><a href="qnaList">Q&A게시판</a></li>
+         <li><a href="noticeList"><img src="./../resources/images/tab_notice.png" width="100" height="30"></a></li>
+         <li><a href="boardList"><img src="./../resources/images/tab_board.png" width="100" height="30"></a></li>
+         <li><a href="reportList"><img src="./../resources/images/tab_report.png" width="100" height="30"></a></li>
+         <li class="selected"><a href="qnaList"><img src="./../resources/images/tab_qna.png" width="100" height="30"></a></li>
         </ul>
 
    </div>
    <div id="main-container">
-
+	<img src="./../resources/images/board_writeForm.png" width="100" height="30">
     <form id="frm" name="frm">
-	<table class="board_view" align="center">
+	<table class="tbl_type" align="center">
 		<colgroup>
 			<col width="15%"/>
 			<col width="35%"/>
 			<col width="15%"/>
-			<col width="35%"/>
+			<col width="*"/>
 		</colgroup>
 		
 		<tbody>
 			<tr>
-				<th scope="row">글 번호</th>
+				<th scope="row"><img src="./../resources/images/commu_num.png" height="25"></th>
 				<td>${map.QNA_NUM }
-				<th scope="row">조회수</th>
+				<th scope="row"><img src="./../resources/images/commu_hit.png" height="25"></th>
 				<td>${map.QNA_COUNT }</td>
 			</tr>
 			<tr>
-				<th scope="row">작성자</th>
+				<th scope="row"><img src="./../resources/images/commu_writer.png" height="25"></th>
 				<td>${map.MEM_ID }</td>
 				<th scope="row">문의유형</th>
 				<td>${map.QNA_TYPE }</td>
-				<th scope="row">작성시간</th>
+			</tr>
+			<tr>
+				<th scope="row"><img src="./../resources/images/commu_title.png" height="25"></th>
+				<td>${map.QNA_TITLE }</td>
+				<th scope="row"><img src="./../resources/images/commu_date.png" height="25"></th>
 				<td>${map.QNA_TIME }</td>
 			</tr>
 			<tr>
-				<th scope="row">제목</th>
-				<td colspan="3">${map.QNA_TITLE }</td>
-			</tr>
-			<tr>
-				<td colspan="4"><pre>${map.QNA_CONTENT }</pre></td>
+				<td colspan="4" height="600px" style="vertical-align:top;"><pre style="overflow:hidden;  white-space: pre-wrap">${map.QNA_CONTENT }</pre></td>
 			</tr>
 			<tr>
 				<th scope="row">첨부파일</th>

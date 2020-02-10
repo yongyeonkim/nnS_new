@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface ReportService {
 	
-List<Map<String, Object>> selectMyReportList(Map<String, Object> map) throws Exception;
-	
 	List<Map<String, Object>> selectReportList(Map<String, Object> map) throws Exception;
 	
 	Map<String, Object> selectReportDetail(Map<String, Object> map) throws Exception;

@@ -22,12 +22,7 @@ Logger log = Logger.getLogger(this.getClass());
 	
 	@Resource(name="fileUtils")
 	private FileUtils fileUtils;
-	
-	@Override
-	public List<Map<String, Object>> selectMyReportList(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		return reportDAO.selectMyReportList(map);
-	}
+
 	@Override
 	public List<Map<String, Object>> selectReportList(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub

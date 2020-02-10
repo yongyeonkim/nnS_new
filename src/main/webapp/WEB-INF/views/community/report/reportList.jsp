@@ -6,7 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <style type="text/css">
-
+/* UI Object */   
+.tbl_type,.tbl_type th,.tbl_type td{border:0}
+.tbl_type{width:100%;border-bottom:1px solid #bbbbbb;font-family:Tahoma;font-size:11px;text-align:center}
+.tbl_type caption{display:none}
+.tbl_type th{padding:7px 0 4px;border-bottom:1px solid #949494;border-top:1px solid #949494;background-color:#e1e6e5;color:#666;}
+.tbl_type td{padding:6px 0 4px;border-top:1px dashed #cecece;color:#595959}
+/* //UI Object */
 h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 .container {width: 700px; margin: 10px auto;}
 ul.goodsTabs {
@@ -83,15 +89,15 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 	padding: 5px;
 }
  #content
-{
+{	 
    background-color: #ffffff;
-   padding: 20px 10px;
+   padding: 20px 10px;  
    overflow: auto;
 }
 #vertical_tab-container
 {
    float: left;
-   margin: 50px 0 0 0;
+   margin: 70px 0 0 0;
    width: 126px;
 }
 #vertical_tab-container ul
@@ -101,90 +107,80 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 }
 #vertical_tab-container ul li
 {
-   border-top: 1px solid #666;
-   border-right: 1px solid #666;
-   border-bottom: 1px solid #666;
-   border-left: 8px solid #666;
-   background-color: #f0e199;
+   border-top: 1px solid #fff;
+   border-right: 1px solid #fff;
+   border-bottom: 1px solid #595959;
+   border-left: 4px solid #595959;   
+   background-color: #fff;  
    margin: 8px 0;
-}
+}  
 #vertical_tab-container ul li a,
 #vertical_tab-container ul li a:visited
 {
    text-decoration: none;
    color: #666;
    display: block;
-   padding: 15px 5px;
+ 	padding: 3px 3px;
 }
 #vertical_tab-container ul li:hover
 {
-   border-left: 8px solid #333;
+   border-left: 4px solid #ffd04a;
 }
 #vertical_tab-container ul li a:hover
 {
-   color: #000;
+   color: #333;
 }
 #vertical_tab-container ul li.selected
 {
    border-right: none;
    background-color: #fff;
-   border-left: 8px solid #006699;
+   border-left: 4px solid #ffd04a;
 }
 #main-container
 {
    min-height: 400px;
    margin: 0 0 0 125px;
    padding: 20px;
-   background-color: #fff;
-   border: 1px solid #888;
+   border-top: 1px solid #fff;  
+   border-right: 1px solid #fff;     
+   border-left: 1px solid #fff; 
+   border-bottom: 1px solid #fff;    
 }
 </style>
 </head>
 <body>
 <div id="content">
-   <div id="vertical_tab-container">
-      <c:choose>
-       <c:when test="${url eq 'community'}">
-      <ul>
-     	 <li><a href="noticeList"><img src="./../resources/images/tab_notice.png" width="100" height="30"></a></li>
+	<div id="vertical_tab-container">
+	<ul>
+		<li><a href="noticeList"><img src="./../resources/images/tab_notice.png" width="100" height="30"></a></li>
          <li><a href="boardList"><img src="./../resources/images/tab_board.png" width="100" height="30"></a></li>
          <li class="selected"><a href="reportList"><img src="./../resources/images/tab_report.png" width="100" height="30"></a></li>
          <li><a href="qnaList"><img src="./../resources/images/tab_qna.png" width="100" height="30"></a></li>
-        </ul>
-       </c:when>
-       <c:when test="${url eq 'myPage' }">
-         <ul>
-         <li><a href="accountModifyForm">회원정보변경</a></li>
-         <li><a href="pwModifyForm">비밀번호 변경</a></li>
-         <li><a href="deleteAccount">회원 탈퇴</a></li>
-         <li  class="selected"><a href="reportList">신고내역</a></li>
-         <li><a href="qnaList">Q&A</a></li>
-         </ul>
-      </c:when>
-     </c:choose>
-   </div>
-   <div id="main-container">
-   
-	<h2>신고 게시판</h2>
-	<table class="board_list">
+	</ul>
+	</div> 
+	<div id="main-container">
+		<img src="./../resources/images/commu_rtitle.png" width="200" height="70"> 
+	<table border="1" align="center" class="tbl_type">
 		<colgroup>
 			<col width="10%" />
 			<col width="*" />
 			<col width="15%" />
-			<col width="20%" />
-		</colgroup>
+			<col width="25%" />  
+			<col width="10%" />
+		</colgroup>  
+		<caption><h2>신고게시판</h2></caption>
 		<thead>
 			<tr>
-				<th scope="col">글번호</th>
-				<th scope="col">제목</th>
-				<th scope="col">작성자</th>
-				<th scope="col">작성일</th>
-				<th scope="col">처리상태</th>
-				<th scope="col">조회수</th>
+				<th scope="col"><img src="./../resources/images/commu_num.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_title.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_writer.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_date.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_status.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_hit.png" height="25"></th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:choose>
+			<%--<c:choose>
 				<c:when test="${fn:length(list) > 0}">
 					<c:forEach items="${list }" var="row">
 						<tr>
@@ -204,7 +200,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 						<td colspan="4">조회된 결과가 없습니다.</td>
 					</tr>
 				</c:otherwise>
-			</c:choose>
+			</c:choose>--%>
 		</tbody>
 	</table>
 	
@@ -219,7 +215,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 	<%@ include file="/WEB-INF/include/include-body.jspf" %>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			/* fn_selectBoardList(1); */
+			fn_selectBoardList(1); 
 			$("#write").on("click", function(e) { //글쓰기 버튼
 				e.preventDefault();
 				fn_openBoardWrite();
@@ -244,10 +240,12 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 			comSubmit.addParam("REPORT_NUM", obj.parent().find("#REPORT_NUM").val());
 			comSubmit.submit();
 		}
-		/* function fn_selectBoardList(pageNo) {
+		 function fn_selectBoardList(pageNo) {
 			var comAjax = new ComAjax();
-			comAjax.setUrl("<c:url value='/community/qnaList' />");
+			
+			comAjax.setUrl("<c:url value='/community/reportListPaging' />");
 			comAjax.setCallback("fn_selectBoardListCallback");
+			
 			comAjax.addParam("PAGE_INDEX", pageNo);
 			comAjax.addParam("PAGE_ROW", 15);
 			comAjax.ajax();
@@ -276,27 +274,29 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 				$.each(
 								data.list,
 								function(key, value) {
-									str += "<tr>"
+									str     += "<tr style=\"text-align: center\">"
 											+ "<td>"
-											+ value.IDX
+											+ value.RNUM
 											+ "</td>"
 											+ "<td class='title'>"
 											+ "<a href='#this' name='title'>"
-											+ value.TITLE
+											+ value.REPORT_TITLE
 											+ "</a>"
-											+ "<input type='hidden' id='IDX' value=" + value.IDX + ">"
-											+ "</td>" + "<td>" + value.HIT_CNT
-											+ "</td>" + "<td>" + value.CREA_DTM
+											+ "<input type='hidden' id='REPORT_NUM' value=" + value.REPORT_NUM + ">"
+											+"</td>" + "<td>" + value.MEM_ID
+											+ "</td>" + "<td>" + new Date(value.REPORT_DATE).toLocaleString()
+											+ "</td>" + "<td>" + value.REPORT_STATUS
+											+ "</td>" + "<td>" + value.REPORT_COUNT
 											+ "</td>" + "</tr>";
 								});
 				body.append(str);
 
-				$("a[name='title']").on("click", function(e) { //제목
+				/*$("a[name='title']").on("click", function(e) { //제목
 					e.preventDefault();
 					fn_openBoardDetail($(this));
-				});
+				});*/
 			}
-		} */
+		} 
 	</script>
 </body>
 </html>

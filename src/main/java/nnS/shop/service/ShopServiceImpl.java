@@ -47,8 +47,10 @@ public class ShopServiceImpl implements ShopService {
 		shopDAO.updateHitCnt(map);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> tempMap = shopDAO.selectGoodsDetail(map);
+		Map<String, Object> memberMap = shopDAO.selectMemberInfo(tempMap);
 		
 		resultMap.put("map", tempMap);
+		resultMap.put("memberMap", memberMap);
 		System.out.println("@@@@@@@@@@@@@@@@@"+tempMap);
 		
 		if(map.containsKey("LIKE_MEM_ID")) {

@@ -98,13 +98,13 @@ public class ShopController{
 		return mv;
 	}
 	
-	@RequestMapping(value="/shop/newGoodsList")
+	@RequestMapping(value="/shop/viewGoodsList")
 	public ModelAndView shopNewGoodsList(@RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("goodsList");
 		request.setAttribute("searchType", searchType);
 		request.setAttribute("keyword", keyword);
-		request.setAttribute("sortType", "new");
-		mv.addObject("sortType", "new");
+		request.setAttribute("sortType", "view");
+		mv.addObject("sortType", "view");
 		String filePath_temp = request.getContextPath() + "/file/";
 		mv.addObject("path", filePath_temp);
 		request.setAttribute("path", filePath_temp);
@@ -172,6 +172,7 @@ public class ShopController{
 		
 		mv.addObject("map", map.get("map"));
 		mv.addObject("goodsLikeMap", map.get("goodsLikeMap"));
+		mv.addObject("memberMap", map.get("memberMap"));
 		mv.addObject("list", map.get("list"));
 		/* mv.addObject("list",map.get("list")); */
 		

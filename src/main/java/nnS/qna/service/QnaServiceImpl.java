@@ -25,11 +25,6 @@ public class QnaServiceImpl implements QnaService{
 	private FileUtils fileUtils;
 	
 	@Override
-	public List<Map<String, Object>> selectMyQnaList(Map<String, Object> map) throws Exception {//내 글보기
-		// TODO Auto-generated method stub
-		return qnaDAO.selectMyQnaList(map);
-	}
-	@Override
 	public List<Map<String, Object>> selectQnaList(Map<String, Object> map) throws Exception {//게시글 전체보기
 		// TODO Auto-generated method stub
 		return qnaDAO.selectQnaList(map);

@@ -20,14 +20,23 @@
       <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
    </definition>
    
+   <!-- Main Page3 -->
+   <definition name="default3" template="/WEB-INF/views/layout/layout2.jsp">
+      <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/layout/container.jsp" />
+      <put-attribute name="body2" value="/WEB-INF/views/layout/container.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+   </definition>
+   
    <!-- admin -->
 <!--    <definition name="admin" template="/WEB-INF/views/layout/admin/layout.jsp">
       <put-attribute name="body" value="/WEB-INF/views/layout/admin/container.jsp" />
    </definition> -->
    
    <!-- main -->
-   <definition name="main" extends="default">
-      <put-attribute name="body" value="/WEB-INF/views/member/main/main.jsp" />
+   <definition name="main" extends="default3">
+   	  <put-attribute name="body" value="/WEB-INF/views/member/main/main.jsp" />
+      <put-attribute name="body2" value="/WEB-INF/views/shop/goods/goodsList2.jsp" />
    </definition>
    
    <!-- Member -->
@@ -81,7 +90,7 @@
    </definition>
    
    <definition name="myreportList" extends="default2">
-      <put-attribute name="body" value="/WEB-INF/views/community/report/reportList.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/member/myPage/myReportList.jsp" />
    </definition>
    
    <definition name="myreportDetail" extends="default2">
@@ -89,7 +98,7 @@
    </definition>
    
    <definition name="myqnaList" extends="default2">
-      <put-attribute name="body" value="/WEB-INF/views/community/qna/qnaList.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/member/myPage/myQnaList.jsp" />
    </definition>
    
    <definition name="myqnaDetail" extends="default2">

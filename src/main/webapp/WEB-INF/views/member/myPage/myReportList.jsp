@@ -1,11 +1,18 @@
-<%@page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/include/include-header.jspf" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<%@ include file="/WEB-INF/include/include-header.jspf" %>
-	<meta charset="UTF-8">
-	<style type="text/css">
-
+<meta charset="UTF-8">
+<style type="text/css">
+/* UI Object */   
+.tbl_type,.tbl_type th,.tbl_type td{border:0}
+.tbl_type{width:100%;border-bottom:1px solid #bbbbbb;font-family:Tahoma;font-size:11px;text-align:center}
+.tbl_type caption{display:none}
+.tbl_type th{padding:7px 0 4px;border-bottom:1px solid #949494;border-top:1px solid #949494;background-color:#e1e6e5;color:#666;}
+.tbl_type td{padding:6px 0 4px;border-top:1px dashed #cecece;color:#595959}
+/* //UI Object */
 h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 .container {width: 700px; margin: 10px auto;}
 ul.goodsTabs {
@@ -82,15 +89,15 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 	padding: 5px;
 }
  #content
-{
+{	 
    background-color: #ffffff;
-   padding: 20px 10px;
+   padding: 20px 10px;  
    overflow: auto;
 }
 #vertical_tab-container
 {
    float: left;
-   margin: 50px 0 0 0;
+   margin: 70px 0 0 0;
    width: 126px;
 }
 #vertical_tab-container ul
@@ -100,122 +107,175 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 }
 #vertical_tab-container ul li
 {
-   border-top: 1px solid #666;
-   border-right: 1px solid #666;
-   border-bottom: 1px solid #666;
-   border-left: 8px solid #666;
-   background-color: #ddd;
+   border-top: 1px solid #fff;
+   border-right: 1px solid #fff;
+   border-bottom: 1px solid #595959;
+   border-left: 4px solid #595959;   
+   background-color: #fff;  
    margin: 8px 0;
-}
+}  
 #vertical_tab-container ul li a,
 #vertical_tab-container ul li a:visited
 {
    text-decoration: none;
    color: #666;
    display: block;
-   padding: 15px 5px;
+ 	padding: 3px 3px;
 }
 #vertical_tab-container ul li:hover
 {
-   border-left: 8px solid #333;
+   border-left: 4px solid #ffd04a;
 }
 #vertical_tab-container ul li a:hover
 {
-   color: #000;
+   color: #333;
 }
 #vertical_tab-container ul li.selected
 {
    border-right: none;
    background-color: #fff;
-   border-left: 8px solid #006699;
+   border-left: 4px solid #ffd04a;
 }
 #main-container
 {
    min-height: 400px;
    margin: 0 0 0 125px;
    padding: 20px;
-   background-color: #fff;
-   border: 1px solid #888;
+   border-top: 1px solid #fff;  
+   border-right: 1px solid #fff;     
+   border-left: 1px solid #fff; 
+   border-bottom: 1px solid #fff;    
 }
+   @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
+   
+   html {
+      height: 100%;
+   }
+   
+   body {
+        background:linear-gradient(to bottom right, #f0e199, #f0e199);
+   }
+   body,table,input,select,textarea,button,h1,h2,h3,h4,h5,h6,a{font-family:'맑은 고딕',Malgun Gothic,sans-serif;font-size:12px;color:#666;font-weight:400;}
+   
+    .card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   }
+   
+   .form-signin .form-control {
+        position: relative;
+        height: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 16px;
+   }
 </style>
 </head>
 <body>
 <div id="content">
-	<div id="vertical_tab-container">
-	<ul>
-		<li><a href="accountModify">회원정보 변경</a></li>
-         <li><a href="pwModify">비밀번호 변경</a></li>
-         <li><a href="deleteAccount">회원탈퇴</a></li>
-         <li class="selected"><a href="reportList">신고내역</a></li>
-         <li><a href="qnaList">Q&A</a></li>
-	</ul>
-	</div>
-	<div id="main-container">
-	<table border="1" align="center" class="report_list">
+   <div id="vertical_tab-container">
+   
+         <ul>
+	         <li><a href="accountDetail"><img src="./../resources/images/mypage_tab1.png" width="100" height="30"></a></li>
+	         <li><a href="pwModifyForm"><img src="./../resources/images/mypage_tab2.png" width="100" height="30"></a></li>
+	         <li><a href="deleteAccount"><img src="./../resources/images/mypage_tab3.png" width="100" height="30"></a></li>
+	         <li class="selected"><a href="reportList"><img src="./../resources/images/mypage_tab4.png" width="100" height="30"></a></li>
+	         <li><a href="qnaList"><img src="./../resources/images/mypage_tab5.png" width="100" height="30"></a></li>
+         </ul>
+   
+   </div>
+   <div id="main-container">
+		<img src="./../resources/images/commu_rtitle.png" width="200" height="70"> 
+	<table border="1" align="center" class="tbl_type">
 		<colgroup>
 			<col width="10%" />
 			<col width="*" />
 			<col width="15%" />
-			<col width="20%" />
-		</colgroup>
-		<caption><h2>내신고내역</h2></caption>
+			<col width="25%" />  
+			<col width="10%" />
+		</colgroup>  
+		<caption><h2>신고게시판</h2></caption>
 		<thead>
 			<tr>
-				<th scope="col">신고건수</th>
-				<th scope="col">제목</th>
-				<th scope="col">신고일자</th>
-				<th scope="col">상태</th>
+				<th scope="col"><img src="./../resources/images/commu_num.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_title.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_writer.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_date.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_status.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_hit.png" height="25"></th>
 			</tr>
 		</thead>
 		<tbody>
-			<%-- <c:choose>
+			<%--<c:choose>
 				<c:when test="${fn:length(list) > 0}">
 					<c:forEach items="${list }" var="row">
 						<tr>
-							<td>${row.NUM }</td>
-							<td class="title"><a href="#this" name="title">${row.TITLE }</a>
-								<input type="hidden" id="NUM" value="${row.NUM }"></td>
-							<td>${row.TITLE }</td>
-							<td>${row.DATE }</td>
-							<td>${row.STATUS }</td>
+							<td>${row.REPORT_NUM }</td>
+							<td class="title"><a href="#this" name="title">${row.REPORT_TITLE }&nbsp;&nbsp;&nbsp;&nbsp;[${row.REPORT_TYPE }]</a>
+								<input type="hidden" id="REPORT_NUM" value="${row.REPORT_NUM }"></td>
+						    <td>${row.MEM_ID }</td>
+							<td>${row.REPORT_DATE }</td>
+							<td>${row.REPORT_STATUS }</td>
+							<td>${row.REPORT_COUNT }</td>
+							
 						</tr>
 					</c:forEach>
 				</c:when>
-				<c:otherwise> --%>
-	
+				<c:otherwise>
 					<tr>
-						<td colspan="5">조회된 결과가 없습니다.</td>
+						<td colspan="4">조회된 결과가 없습니다.</td>
 					</tr>
- 			<!-- 	/c:otherwise /c:choose -->
+				</c:otherwise>
+			</c:choose>--%>
 		</tbody>
 	</table>
-	</div>
-	</div>
+	
 	<div id="PAGE_NAVI"></div>
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 
 	<br />
- 
+	<a href="#this" class="btn" id="write">글쓰기</a>
+	</div>
+	</div>
 
+	<%@ include file="/WEB-INF/include/include-body.jspf" %>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			fn_selectBoardList(1);
+			fn_selectBoardList(1); 
+			$("#write").on("click", function(e) { //글쓰기 버튼
+				e.preventDefault();
+				fn_openBoardWrite();
+			});
+
+
 			$("a[name='title']").on("click", function(e) { //제목 
 				e.preventDefault();
 				fn_openBoardDetail($(this));
 			});
 		});
 
-		function fn_openBoardDetail(obj) {
+		function fn_openBoardWrite() {
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/nnS/myPage/boardDetail' />");
-			comSubmit.addParam("NUM", obj.parent().find("#NUM").val());
+			comSubmit.setUrl("<c:url value='/community/reportWriteForm' />");
 			comSubmit.submit();
 		}
-		function fn_selectBoardList(pageNo) {
+	
+		function fn_openBoardDetail(obj) {
+			var comSubmit = new ComSubmit();
+			comSubmit.setUrl("<c:url value='/community/reportDetail' />");
+			comSubmit.addParam("REPORT_NUM", obj.parent().find("#REPORT_NUM").val());
+			comSubmit.submit();
+		}
+		 function fn_selectBoardList(pageNo) {
 			var comAjax = new ComAjax();
-			comAjax.setUrl("<c:url value='/nnS/myPage/selectBoardList' />");
+			var id="${session_MEM_ID}"
+			comAjax.setUrl("<c:url value='/myPage/reportListPaging' />");
 			comAjax.setCallback("fn_selectBoardListCallback");
+			comAjax.addParam("MEM_ID", id);
 			comAjax.addParam("PAGE_INDEX", pageNo);
 			comAjax.addParam("PAGE_ROW", 15);
 			comAjax.ajax();
@@ -244,27 +304,29 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 				$.each(
 								data.list,
 								function(key, value) {
-									str += "<tr>"
+									str     += "<tr style=\"text-align: center\">"
 											+ "<td>"
-											+ value.NUM
+											+ value.RNUM
 											+ "</td>"
 											+ "<td class='title'>"
 											+ "<a href='#this' name='title'>"
-											+ value.TITLE
+											+ value.REPORT_TITLE
 											+ "</a>"
-											+ "<input type='hidden' id='NUM' value=" + value.NUM + ">"
-											+ "</td>" + "<td>" + value.COUNT
-											+ "</td>" + "<td>" + value.DATE
+											+ "<input type='hidden' id='REPORT_NUM' value=" + value.REPORT_NUM + ">"
+											+"</td>" + "<td>" + value.MEM_ID
+											+ "</td>" + "<td>" + new Date(value.REPORT_DATE).toLocaleString()
+											+ "</td>" + "<td>" + value.REPORT_STATUS
+											+ "</td>" + "<td>" + value.REPORT_COUNT
 											+ "</td>" + "</tr>";
 								});
 				body.append(str);
 
-				$("a[name='title']").on("click", function(e) { //제목
+				/*$("a[name='title']").on("click", function(e) { //제목
 					e.preventDefault();
 					fn_openBoardDetail($(this));
-				});
+				});*/
 			}
-		}
+		} 
 	</script>
 </body>
 </html>

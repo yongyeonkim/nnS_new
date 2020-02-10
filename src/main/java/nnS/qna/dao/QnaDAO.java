@@ -11,12 +11,8 @@ import org.springframework.stereotype.Repository;
 public class QnaDAO extends AbstractDAO{
 	
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> selectMyQnaList(Map<String, Object> map) throws Exception{
-		return (List<Map<String, Object>>)selectList("qna.selectMyQnaList", map);
-	}
-	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> selectQnaList(Map<String, Object> map) throws Exception{
-		return (List<Map<String, Object>>)selectList("qna.selectQnaList", map);
+		return (List<Map<String, Object>>)selectPagingList("qna.selectQnaList", map);
 	}
 
 	public void insertQnaBoard(Map<String, Object> map) throws Exception{//

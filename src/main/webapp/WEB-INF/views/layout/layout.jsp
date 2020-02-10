@@ -16,16 +16,17 @@
 <title>nnS#</title>
 </head>
 <body>
-	<div id="header"">
+<div id="wrapper">
+	<div id="header">
 		<tiles:insertAttribute name="header"/><!-- // header -->
 	</div>
 	 	
 	<!-- container --> 
-	<div id="container" style="min-height:500px;">
+	<div id="container">
 		<tiles:insertAttribute name="body"/><!-- // container -->
 	</div>
 	<!-- footer --> 
-	<tiles:insertAttribute name="footer"/><!-- // footer -->
-
+		<tiles:insertAttribute name="footer"/><!-- // footer -->
+</div>
 </body>
 </html>

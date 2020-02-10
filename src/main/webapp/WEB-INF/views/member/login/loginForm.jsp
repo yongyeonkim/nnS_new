@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <html>
 <head>
-<title>로그인</title>
+<%@ include file="/WEB-INF/include/include-header.jspf" %>
 
    <style>
    @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");

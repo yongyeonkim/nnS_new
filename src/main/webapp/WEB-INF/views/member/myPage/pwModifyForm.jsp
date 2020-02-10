@@ -11,88 +11,88 @@
 h1 {font-size: 3em; margin: 20px 0; color: #FFF;}
 .container {width: 700px; margin: 10px auto;}
 ul.goodsTabs {
-   margin: 0;
-   padding: 0;
-   float: left;
-   list-style: none;
-   height: 32px;
-   border-bottom: 1px solid #999;
-   border-left: 1px solid #999;
-   width: 100%;
+	margin: 0;
+	padding: 0;
+	float: left;
+	list-style: none;
+	height: 32px;
+	border-bottom: 1px solid #999;
+	border-left: 1px solid #999;
+	width: 100%;
 }
 ul.goodsTabs li {
-   
-   float: left;
-   margin: 0;
-   padding: 0;
-   height: 31px;
-   line-height: 31px;
-   border: 1px solid #999;
-   border-left: none;
-   margin-bottom: -1px;
-   background: #F0F0F0;
-   overflow: hidden;
-   position: relative;
+	
+	float: left;
+	margin: 0;
+	padding: 0;
+	height: 31px;
+	line-height: 31px;
+	border: 1px solid #999;
+	border-left: none;
+	margin-bottom: -1px;
+	background: #F0F0F0;
+	overflow: hidden;
+	position: relative;
 }
 ul.goodsTabs li a {
-   text-decoration: none;
-   color: #000;
-   display: block;
-   font-size: 1.2em;
-   padding: 0 20px;
-   border: 1px solid #fff;
-   outline: none;
+	text-decoration: none;
+	color: #000;
+	display: block;
+	font-size: 1.2em;
+	padding: 0 20px;
+	border: 1px solid #fff;
+	outline: none;
 }
 ul.goodsTabs li a:hover {
-   background: #ccc;
-}   
+	background: #ccc;
+}	
 html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
-   background: #fff;
-   border-bottom: 1px solid #fff;
+	background: #fff;
+	border-bottom: 1px solid #fff;
 }
 .goodsTab_container {
-   border: 1px solid #999;
-   border-top: none;
-   clear: both;
-   float: left; 
-   width: 100%;
-   background: #fff;
-   -moz-border-radius-bottomright: 5px;
-   -khtml-border-radius-bottomright: 5px;
-   -webkit-border-bottom-right-radius: 5px;
-   -moz-border-radius-bottomleft: 5px;
-   -khtml-border-radius-bottomleft: 5px;
-   -webkit-border-bottom-left-radius: 5px;
+	border: 1px solid #999;
+	border-top: none;
+	clear: both;
+	float: left; 
+	width: 100%;
+	background: #fff;
+	-moz-border-radius-bottomright: 5px;
+	-khtml-border-radius-bottomright: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-khtml-border-radius-bottomleft: 5px;
+	-webkit-border-bottom-left-radius: 5px;
 }
 .goodsTab_content {
-   padding: 20px;
-   font-size: 1.2em;
+	padding: 20px;
+	font-size: 1.2em;
 }
 .goodsTab_content h2 {
-   font-weight: normal;
-   padding-bottom: 10px;
-   border-bottom: 1px dashed #ddd;
-   font-size: 1.8em;
+	font-weight: normal;
+	padding-bottom: 10px;
+	border-bottom: 1px dashed #ddd;
+	font-size: 1.8em;
 }
 .goodsTab_content h3 a{
-   color: #254588;
+	color: #254588;
 }
 .goodsTab_content img {
-   float: left;
-   margin: 0 20px 20px 0;
-   border: 1px solid #ddd;
-   padding: 5px;
+	float: left;
+	margin: 0 20px 20px 0;
+	border: 1px solid #ddd;
+	padding: 5px;
 }
  #content
-{
+{	 
    background-color: #ffffff;
-   padding: 20px 10px;
+   padding: 20px 10px;  
    overflow: auto;
 }
 #vertical_tab-container
 {
    float: left;
-   margin: 50px 0 0 0;
+   margin: 70px 0 0 0;
    width: 126px;
 }
 #vertical_tab-container ul
@@ -102,45 +102,76 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 }
 #vertical_tab-container ul li
 {
-   border-top: 1px solid #666;
-   border-right: 1px solid #666;
-   border-bottom: 1px solid #666;
-   border-left: 8px solid #666;
-   background-color: #ddd;
+   border-top: 1px solid #fff;
+   border-right: 1px solid #fff;
+   border-bottom: 1px solid #595959;
+   border-left: 4px solid #595959;   
+   background-color: #fff;  
    margin: 8px 0;
-}
+}  
 #vertical_tab-container ul li a,
 #vertical_tab-container ul li a:visited
 {
    text-decoration: none;
    color: #666;
    display: block;
-   padding: 15px 5px;
+ 	padding: 3px 3px;
 }
 #vertical_tab-container ul li:hover
 {
-   border-left: 8px solid #333;
+   border-left: 4px solid #ffd04a;
 }
 #vertical_tab-container ul li a:hover
 {
-   color: #000;
+   color: #333;
 }
 #vertical_tab-container ul li.selected
 {
    border-right: none;
    background-color: #fff;
-   border-left: 8px solid #006699;
+   border-left: 4px solid #ffd04a;
 }
 #main-container
 {
    min-height: 400px;
    margin: 0 0 0 125px;
    padding: 20px;
-   background-color: #fff;
-   border: 1px solid #888;
+   border-top: 1px solid #fff;  
+   border-right: 1px solid #fff;     
+   border-left: 1px solid #fff; 
+   border-bottom: 1px solid #fff;    
 }
+   @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
+   
+   html {
+      height: 100%;
+   }
+   
+   body {
+        background:linear-gradient(to bottom right, #f0e199, #f0e199);
+   }
+   body,table,input,select,textarea,button,h1,h2,h3,h4,h5,h6,a{font-family:'맑은 고딕',Malgun Gothic,sans-serif;font-size:12px;color:#666;font-weight:400;}
+   
+    .card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   }
+   
+   .form-signin .form-control {
+        position: relative;
+        height: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 16px;
+   }
 </style>
 </head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
 $(document).ready(function() { //비밀번호 일치 확인
@@ -197,55 +228,38 @@ $("#pwchangeform").on("submit",function(e){
 
 
 </script>
-<body>
-  <div id="content">
-   <div id="vertical_tab-container">
-      <ul>
-         <li><a href="accountDetail">회원정보 변경</a></li>
-         <li class="selected"><a href="pwModifyForm">비밀번호 변경</a></li>
-         <li><a href="deleteAccount">회원탈퇴</a></li>
-         <li><a href="reportList">신고내역</a></li>
-         <li><a href="qnaList">Q&A</a></li>
-      </ul>
-   </div>
-   <div id="main-container">
-   <form id="pwchangeform" method="post">
-         <table border="0" class="pwModify">
-         <br/><br/><br/>
-        <h2>비밀번호 변경</h2>
-            <tbody>
-            <tr>
-            	<td>
-               * 기존 비밀번호 &nbsp;&nbsp;&nbsp;   
-               <input type="password" id="MEM_PW" name="MEM_PW">
-               </td>
-               </tr>
-               <tr>
-               <td>
-               * 새 비밀번호 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                <input type="password" id="MEM_TEMP_PW" name="MEM_TEMP_PW">
-               </td>
-               </tr>
-
-               <tr>
-               <td>
-               * 새 비밀번호 확인 <input type="password" id="MEM_TEMP_PW2" name="MEM_TEMP_PW2">
-               </td>
-               </tr>
-               <tr><td><span id="pw"></span><tr><td>
-               
-            <br/><br/>
-            <tr>
-            <td align="center">
-            <br/>
-            <input type="button" value="변경 완료" id="pwchange"/>
-            <input type="button" value="취소하기" onclick="document.location.href='/nnS/main'"/>
-            </td>
-            </tr>
-            </tbody>
-         </table>
-         </form>
-   </div>
-  </div>
+<body onload="begin()" cellpadding="0" cellspacing="0" marginleft="0" margintop="0" width="100%" height="100%" align="center">
+      <div class="card align-middle" style="border-radius:20px; background-color:#fff; margin-top:50px;">
+      <div id="content">
+         <div id="vertical_tab-container">
+	         <ul>
+	         <li><a href="accountDetail"><img src="./../resources/images/mypage_tab1.png" width="100" height="30"></a></li>
+	         <li class="selected"><a href="pwModifyForm"><img src="./../resources/images/mypage_tab2.png" width="100" height="30"></a></li>
+	         <li><a href="deleteAccount"><img src="./../resources/images/mypage_tab3.png" width="100" height="30"></a></li>
+	         <li><a href="reportList"><img src="./../resources/images/mypage_tab4.png" width="100" height="30"></a></li>
+	         <li><a href="qnaList"><img src="./../resources/images/mypage_tab5.png" width="100" height="30"></a></li>
+	      </ul>
+	   </div>
+	   <div id="main-container">
+            <div class="card-title" style="margin-top:30px;">
+               <h2 class="card-title text-center" style="color:#113366;">비밀번호 변경</h2>
+            </div>
+            <form id="pwchangeform" method="post">
+            <div class="card-body">
+               기존 비밀번호 <input class="form-control" type="password" id="MEM_PW" name="MEM_PW"><br>
+               새 비밀번호 <input class="form-control" type="password" id="MEM_TEMP_PW" name="MEM_TEMP_PW"><br>
+			   새 비밀번호 확인 <input class="form-control" type="password" id="MEM_TEMP_PW2" name="MEM_TEMP_PW2"><br>
+			   <span id="pw"></span>
+            </div>
+         
+            <div class="card-body">
+            	<input type="button" class="btn btn-lg btn-primary btn-block" value="수정하기" id="pwchange" style="background-color:#26a69a;">
+            	<input type="button" class="btn btn-lg btn-primary btn-block" value="취소하기" onclick="document.location.href='/nnS/main'" style="background-color:#26a69a;">
+				<br>
+            </div>
+            </form>
+         </div>
+         </div>
+      </div>
 </body>
 </html>

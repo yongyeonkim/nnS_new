@@ -11,12 +11,8 @@ import nnS.common.dao.AbstractDAO;
 public class ReportDAO extends AbstractDAO {
 	
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> selectMyReportList(Map<String, Object> map) throws Exception{
-		return (List<Map<String, Object>>)selectList("report.selectMyReportList", map);
-	}
-	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> selectReportList(Map<String, Object> map) throws Exception{
-		return (List<Map<String, Object>>)selectList("report.selectReportList", map);
+		return (List<Map<String, Object>>)selectPagingList("report.selectReportList", map);
 	}
 	public void insertReportBoard(Map<String, Object> map)throws Exception {//insertnotice
 		// TODO Auto-generated method stub

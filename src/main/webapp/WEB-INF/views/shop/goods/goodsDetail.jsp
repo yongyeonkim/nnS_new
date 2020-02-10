@@ -63,6 +63,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 	border-bottom: 1px solid #fff;
 }
 .goodsTab_container {
+	min-height:500px;
 	border: 1px solid #999;
 	border-top: none;
 	clear: both;
@@ -147,7 +148,7 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 }
 #main-container
 {
-   min-height: 400px;
+   min-height: 800px;
    margin: 0 0 0 125px;
    padding: 20px;
    background-color: #fff;
@@ -159,105 +160,109 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 
 <div id="content">
 	<div id="vertical_tab-container">
+	<!--
 		<ul>
 			 <li <c:if test="${sortType eq 'all'}">class="selected"</c:if>><a href=<c:url value="/shop/allGoodsList"/>>전체상품</a></li>
 	         <li <c:if test="${sortType eq 'like'}">class="selected"</c:if>><a href=<c:url value="/shop/likeGoodsList"/>>인기상품</a></li>
 	         <li <c:if test="${sortType eq 'new'}">class="selected"</c:if>><a href=<c:url value="/shop/newGoodsList"/>>신규상품</a></li>
 	         <li <c:if test="${sortType eq ''}">class="selected"</c:if>><a href=<c:url value="/shop"/>>카테고리</a></li>
 		</ul>
+		 -->
 	</div>
 	<div id="main-container">
-		<table border="1" align="center">
-		<tbody>
-			<tr>
-				<td>
-					<table border="1" align="center">
-						<colgroup>
-							<col width="35%"/>
-							<col width="15%"/>
-							<col width="15%"/>
-							<col width="35%"/>
-						</colgroup>
-						<caption>상품 상세</caption>
-						<tbody>
-							<tr colspan="2">
-								<td rowspan="2">
-									<img alt="" width="100%" height="300px" src="${path}${map.GOODS_THUMBNAIL}"/>
-								</td>
-								<td colspan="2">
-									브랜드 : ${map.GOODS_BRAND}<br />
-									모델명 : ${map.GOODS_TITLE} <br />	<!-- 테이블에 없음 --> 
-									성별 : ${map.GOODS_NUM} <br /><!-- 테이블에 없음 --> 
-									좋아요 : ${GOODS_LIKE_COUNT} <br /><!-- 테이블에 없음 -->
-									중고상태 : ${map.GOODS_STATUS}
-									<input type="hidden" id="IDX" name="IDX" value="${map.GOODS_NUM}">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									판매가 : ${map.GOODS_PRICE}<br /> 
-									할인가 : ${GOODS}<br /><!-- 테이블에 없음 --> 
-									배송비: ${GOODS} <br /><!-- 테이블에 없음 --> 
-									======================= <br /><!-- 테이블에 없음 --> 
-									합계 : ${GOODS}
-								</td>
-								<td>
-									SIZE : ${GOODS_BRAND} <br /> 
-									COLOR : ${GOODS_MODEL} <br /><!-- 테이블에 없음 --> 
-									AMOUNT : ${GOODS_GEN} <br /><!-- 테이블에 없음 -->
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<p align="center">
-						<input type="button" id="buy" name="buy" value="바로구매" /> 
-						<a href='javascript: report_func();'><img src=<c:url value="/resources/images/report_btn.png"/> id='report_img' style="width:30px; height:30px"></a>
+		<table border="1" align="center" style="min-height:100%">
+			<colgroup>
+				<col width="45%"/>
+				<col width="15%"/>
+				<col width="15%"/>
+				<col width="15%"/>
+			</colgroup>
+			<caption>상품 상세</caption>
+			<tbody>
+				<tr colspan="2">
+					<td rowspan="2">
 						<c:choose>
-							<c:when test="${goodsLikeMap.GOODS_LIKE_YN eq 0}">
-						    	<a href='javascript: like_func();'><img src=<c:url value="/resources/images/unlike_btn.png"/> id='unlike_img' style="width:30px; height:30px"></a>
-						  	</c:when>
-						  	<c:otherwise>
-						    	<a href='javascript: unlike_func();'><img src=<c:url value="/resources/images/like_btn.png"/> id='like_img' style="width:30px; height:30px"></a>
-						  	</c:otherwise>
-						</c:choose>						
-						
-					</p>
-					<div class="container">
-					    <ul class="goodsTabs">
-					        <li><a href="#goodsTab1">상품정보</a></li>
-					        <li><a href="#goodsTab2">상품문의</a></li>
-					        <li><a href="#goodsTab3">판매자정보</a></li>
-					    </ul>
-					    <div class="goodsTab_container">
-					        <div id="goodsTab1" class="goodsTab_content">
-					            <h2>상품정보</h2>
-								  <ul class="bxslider"> 
-								  	<c:forEach var="row" items="${list}" varStatus="var"> 
-								  		<li><img alt="" style="width:100%; height:150px;" src="${path}${row.GOODS_IMAGE_STD}"/></li>
-									</c:forEach>
-								  </ul>
-								  
-					            <p>${map.GOODS_CONTENT}</p>
-					        </div>
-					        <div id="goodsTab2" class="goodsTab_content">
-					             <h2>상품문의</h2>
-					            <p>상품에 대한 문의가 있음</p>
-					        </div>
-					        <div id="goodsTab3" class="goodsTab_content">
-					             <h2>판매자정보</h2>
-					            <p>판매자에 대한 정보가 있음</p>
-					        </div>
-					    </div>
-					</div>
+							<c:when test="${map.GOODS_THUMBNAIL eq null}">
+								<img alt="" style="width:95%; height:300px; padding:10px 10px 10px 10px;" src=<c:url value="/resources/images/no_image.png"/>>
+							</c:when>
+							<c:otherwise>
+								<img alt="" style="width:95%; height:300px; padding:10px 10px 10px 10px;" src="${path}${map.GOODS_THUMBNAIL}">	
+							</c:otherwise>
+						</c:choose>
+					</td>
+					<td colspan="3" style="padding:0 0 0 20px; font-size:15px;">
+						<br>
+						브랜드 : ${map.GOODS_BRAND}<br />
+						모델명 : ${map.GOODS_TITLE} <br />	<!-- 테이블에 없음 --> 
+						중고상태 : ${map.GOODS_STATUS}<br/>
+						<input type="hidden" id="IDX" name="IDX" value="${map.GOODS_NUM}">
+						판매가 : ${map.GOODS_PRICE}<br /> 
+						배송비: ${map.GOODS_DCOST} <br /><!-- 테이블에 없음 --> 
+						합계 : <c:out value="${map.GOODS_PRICE+map.GOODS_DCOST}"/><br/>
+						<br>
+					</td>
+				</tr>
+				<tr align="center">
+				<td>
+					<input type="button" id="buy" name="buy" value="바로구매" />
 				</td>
-			</tr>
-		</tbody>
-	</table>
-	<a href="#this" class="btn" id="list">목록으로</a>
-	<c:if test="${session_MEM_ID eq map.MEM_ID }">
-		<a href="#this" class="btn" id="update">수정하기</a>
-		<a href="#this" class="btn" id="delete">삭제하기</a>
-	</c:if>
+				<td> 
+					<a href='javascript: report_func();'><img src=<c:url value="/resources/images/report_btn.png"/> id='report_img' style="width:30px; height:30px"></a>
+					신고하기
+				</td>
+				<td>	
+					<c:choose>
+						<c:when test="${goodsLikeMap.GOODS_LIKE_YN eq 0}">
+					    	<a href='javascript: like_func();'><img src=<c:url value="/resources/images/unlike_btn.png"/> id='unlike_img' style="width:30px; height:30px"></a>
+					  	</c:when>
+					  	<c:otherwise>
+					    	<a href='javascript: unlike_func();'><img src=<c:url value="/resources/images/like_btn.png"/> id='like_img' style="width:30px; height:30px"></a>
+					  	</c:otherwise>
+					</c:choose>
+					찜하기
+				</td>	
+				</tr>
+			</tbody>
+		</table>
+		<div class="container">
+		    <ul class="goodsTabs">
+		        <li><a href="#goodsTab1">상품정보</a></li>
+		        <li><a href="#goodsTab2">상품문의</a></li>
+		        <li><a href="#goodsTab3">판매자정보</a></li>
+		    </ul>
+		    <div class="goodsTab_container">
+		        <div id="goodsTab1" class="goodsTab_content">
+		            <h2>상품정보</h2>
+					  <ul class="bxslider"> 
+					  	<c:forEach var="row" items="${list}" varStatus="var"> 
+					  		<li><img alt="" style="width:100%; height:150px;" src="${path}${row.GOODS_IMAGE_STD}"/></li>
+						</c:forEach>
+					  </ul>
+					  
+		            <p>${map.GOODS_CONTENT}</p>
+		        </div>
+		        <div id="goodsTab2" class="goodsTab_content">
+		             <h2>상품문의</h2>
+		            <p>상품에 대한 문의가 있음</p>
+		        </div>
+		        <div id="goodsTab3" class="goodsTab_content">
+		             <h2>판매자정보</h2>
+		             <br>
+						판매자 ID : ${memberMap.MEM_ID}<br />
+						판매자 이름 : ${memberMap.MEM_NAME} <br /> 
+						판매자 성별 : ${memberMap.MEM_GEN}<br/>
+						판매자 이메일 : ${memberMap.MEM_EMAIL}<br /> 
+						판매자 연락처 : ${memberMap.MEM_PHONE}<br />
+						<br>
+		        </div>
+		    </div>
+		    <br>
+		<a href="#this" class="btn" id="list">목록으로</a>
+		<c:if test="${session_MEM_ID eq map.MEM_ID }">
+			<a href="#this" class="btn" id="update">수정하기</a>
+			<a href="#this" class="btn" id="delete">삭제하기</a>
+		</c:if>
+		</div>
    </div>
    
 </div>

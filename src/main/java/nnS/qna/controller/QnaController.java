@@ -21,46 +21,51 @@ public class QnaController {
 	
 	@Resource(name="qnaService")
 	private QnaServiceImpl qnaService;
-
-	@RequestMapping(value = "/myPage/qnaList")
-	public ModelAndView myQnaList(CommandMap commandMap,HttpServletRequest request) throws Exception {
-		ModelAndView mv = new ModelAndView("qnaList");
-		
-		HttpSession session = request.getSession();
-		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
-		String url = "";
-		List<Map<String,Object>> list = qnaService.selectMyQnaList(commandMap.getMap());
-		url = "myPage";//myPage용 탭메뉴보이기
-		mv.addObject("url",url);
-		mv.addObject("list", list);
-		return mv;
-		}
 	
-	@RequestMapping(value = "/community/qnaList")
-	public ModelAndView qnaList(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("qnaList");
+	@RequestMapping(value = {"/community/qnaListPaging","/myPage/qnaListPaging"})
+	public ModelAndView qnaListPaging(CommandMap commandMap,HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("jsonView");
 		
-		String url = "";
+		if(request.getServletPath().equals("/myPage/qnaListPaging")){
+			HttpSession session = request.getSession();
+			commandMap.put("session_MEM_ID", session.getAttribute("session_MEM_ID"));
+			}
 		List<Map<String,Object>> list = qnaService.selectQnaList(commandMap.getMap());
-		url = "community";//community용 탭메뉴보이기
-		mv.addObject("url",url);
 		mv.addObject("list", list);
+		
+		if(list.size() > 0){
+    		mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));
+    	}
+    	else{
+    		mv.addObject("TOTAL", 0);
+    	}
 		
 		return mv;
 	}
 
+	
+	@RequestMapping(value =  "/myPage/qnaList")
+	public ModelAndView qnaList() throws Exception {
+		ModelAndView mv = new ModelAndView("myqnaList");
+		return mv;
+		}
+	@RequestMapping(value =  "/community/qnaList")
+	public ModelAndView qnaMyList() throws Exception {
+		ModelAndView mv = new ModelAndView("qnaList");
+		return mv;
+		}
+		
 	
 	  @RequestMapping(value = "/community/qnaDetail") 
 	  public ModelAndView qnaDetail(CommandMap commandMap, HttpServletRequest request) throws Exception { 
 		  ModelAndView mv = new ModelAndView("qnaDetail");
 		  
 		  HttpSession session = request.getSession();
-		  commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
+		  commandMap.put("session_MEM_ID", session.getAttribute("session_MEM_ID"));
 		  
 		  Map<String,Object> map = qnaService.selectQnaDetail(commandMap.getMap());
 		  List<Map<String,Object>>list=qnaService.selectQnaAnswer(commandMap.getMap());
 		  
-		  mv.addObject("session_MEM_ID",map.get("MEM_ID"));
 		  mv.addObject("asList",list);//qnaAnswer
 		  mv.addObject("map", map.get("map"));//qna글
 		  mv.addObject("list",map.get("list"));//파일

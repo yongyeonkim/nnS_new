@@ -79,20 +79,18 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 .goodsTab_content img {
 	float: left;
 	margin: 0 20px 20px 0;
-	border: 1px solid #ddd;
 	padding: 5px;
 }
  #content
-{
+{	 
    background-color: #ffffff;
-   padding: 20px 10px;
-   width: 1024px;
+   padding: 20px 10px;  
    overflow: auto;
 }
 #vertical_tab-container
 {
    float: left;
-   margin: 50px 0 0 0;
+   margin: 70px 0 0 0;
    width: 126px;
 }
 #vertical_tab-container ul
@@ -102,42 +100,44 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 }
 #vertical_tab-container ul li
 {
-   border-top: 1px solid #666;
-   border-right: 1px solid #666;
-   border-bottom: 1px solid #666;
-   border-left: 8px solid #666;
-   background-color: #ddd;
+   border-top: 1px solid #fff;
+   border-right: 1px solid #fff;
+   border-bottom: 1px solid #595959;
+   border-left: 4px solid #595959;   
+   background-color: #fff;  
    margin: 8px 0;
-}
+}  
 #vertical_tab-container ul li a,
 #vertical_tab-container ul li a:visited
 {
    text-decoration: none;
    color: #666;
    display: block;
-   padding: 15px 5px;
+ 	padding: 3px 3px;
 }
 #vertical_tab-container ul li:hover
 {
-   border-left: 8px solid #333;
+   border-left: 4px solid #ffd04a;
 }
 #vertical_tab-container ul li a:hover
 {
-   color: #000;
+   color: #333;
 }
 #vertical_tab-container ul li.selected
 {
    border-right: none;
    background-color: #fff;
-   border-left: 8px solid #006699;
+   border-left: 4px solid #ffd04a;
 }
 #main-container
 {
    min-height: 400px;
    margin: 0 0 0 125px;
    padding: 20px;
-   background-color: #fff;
-   border: 1px solid #888;
+   border-top: 1px solid #fff;  
+   border-right: 1px solid #fff;     
+   border-left: 1px solid #fff; 
+   border-bottom: 1px solid #fff;    
 }
 </style>
 </head>
@@ -146,10 +146,9 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
   <div id="content">
    <div id="vertical_tab-container">
       <ul>
-         <li class="selected"><a href="/nnS/myshop">주문내역 조회</a></li>
-         <li><a href="/nnS/myshop/saleList">판매내역 조회</a></li>
-         <li><a href="/nnS/myshop/goodsLikeList">좋아요</a></li>
-         <li><a href="/recentGoodsList">최근 본 상품</a></li>
+         <li class="selected"><a href="/nnS/myshop"><img src="/nnS/resources/images/myshop_tab1.png" width="100" height="30"></a></li>
+         <li><a href="/nnS/myshop/saleList"><img src="/nnS/resources/images/myshop_tab2.png" width="100" height="30"></a></li>
+         <li><a href="/nnS/myshop/goodsLikeList"><img src="/nnS/resources/images/myshop_tab3.png" width="100" height="30"></a></li>
       </ul>
    </div>
    <div id="main-container">
@@ -216,19 +215,19 @@ html ul.goodsTabs li.active, html ul.goodsTabs li.active a:hover  {
 					      	      <table  style="filter: alpha(opacity=60);" ffffff="" align="center">
 					      	      	<tr>
 					      	      		<td width="200px" align="center">
-					      	      			상품 정보
+					      	      			<img src=<c:url value="/resources/images/myorder_list1.png"/>>
 					      	      		</td>
 					      	      		<td width="100px" align="center">
-					      	      			주문 일자
+					      	      			<img src=<c:url value="/resources/images/myorder_list2.png"/>>
 					      	      		</td>
 					      	      		<td width="200px" align="center">
-					      	      			송장번호
+					      	      			<img src=<c:url value="/resources/images/myorder_list3.png"/>>
 					      	      		</td>
 					      	      		<td width="100px" align="center">
-					      	      			주문금액
+					      	      			<img src=<c:url value="/resources/images/myorder_list4.png"/>>
 					      	      		</td>
 					      	      		<td width="100px" align="center">
-					      	      			주문 상태
+					      	      			<img src=<c:url value="/resources/images/myorder_list5.png"/>>
 					      	      		</td>
 					      	      	</tr>
 			<c:choose>

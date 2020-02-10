@@ -41,30 +41,36 @@ public class ReportController {
 		
 		return mv;		
 	}
+
+	@RequestMapping(value = {"/myPage/reportListPaging","/community/reportListPaging"})
+	public ModelAndView reportListPaging(CommandMap commandMap,HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("jsonView");
+		if(request.getServletPath().equals("/myPage/reportListPaging")) {
+			HttpSession session = request.getSession();
+			commandMap.put("session_MEM_ID", session.getAttribute("session_MEM_ID"));
+		}
+		List<Map<String,Object>> list = reportService.selectReportList(commandMap.getMap());
+		mv.addObject("list", list);
+		
+		if(list.size() > 0){
+    		mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));
+    	}
+    	else{
+    		mv.addObject("TOTAL", 0);
+    	}
+		return mv;
+	}
+	
+	@RequestMapping(value ="/community/reportList")
+	public ModelAndView reportList() throws Exception {
+		ModelAndView mv = new ModelAndView("reportList");
+		return mv;
+	}
 	
 	@RequestMapping(value = "/myPage/reportList")
-	public ModelAndView myQnaList(CommandMap commandMap, HttpServletRequest request) throws Exception {
-		ModelAndView mv = new ModelAndView("reportList");
+	public ModelAndView reportMyList(HttpServletRequest request,CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("myreportList");
 		
-		String url = "";
-		HttpSession session = request.getSession();
-		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
-		List<Map<String,Object>> list = reportService.selectMyReportList(commandMap.getMap());
-		url = "myPage";
-		mv.addObject("url",url);
-		mv.addObject("list", list);
-		return mv;
-		}
-	
-	@RequestMapping(value = "/community/reportList")
-	public ModelAndView qnaList(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("reportList");
-		
-		String url = "";
-		List<Map<String,Object>> list = reportService.selectReportList(commandMap.getMap());
-		url = "community";
-		mv.addObject("url",url);
-		mv.addObject("list", list);
 		return mv;
 	}
 

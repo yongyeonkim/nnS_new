@@ -2,45 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="qna">
-    <!-- 내 질문내역 -->
-    <select id="selectMyQnaList" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-					SELECT  A.*, 
-		        DECODE(B.QNA_NUM, A.QNA_NUM, 'Y', 'N') AS QNA_YORN
-		FROM    (
-		        SELECT  Q.QNA_NUM,
-		                Q.QNA_TITLE,
-		                M.MEM_ID,
-		                Q.QNA_DATE,
-		                TO_CHAR(Q.QNA_DATE,'hh24:mi:ss') AS QNA_TIME,
-		                Q.QNA_TYPE,
-		                Q.QNA_PARENT,
-		                Q.QNA_COUNT
-		        FROM    QNA Q,
-		                (
-		                 SELECT MEM_NUM, MEM_ID
-		                 FROM   MEMBER
-		                ) M
-		        WHERE   Q.QNA_WRITER = M.MEM_NUM(+)
-		        AND     Q.QNA_PARENT IS NULL
-		        AND     Q.QNA_DEL_GB = 'N'
-		        AND     M.MEM_ID = #{MEM_ID}
-		        ORDER BY Q.QNA_NUM
-		        ) A
-		LEFT OUTER JOIN
-		        (
-		        SELECT  DISTINCT  A.QNA_NUM
-		        FROM    QNA A, QNA B
-		        WHERE   A.QNA_NUM = B.QNA_PARENT
-		        ) B
-		ON  A.QNA_NUM = B.QNA_NUM
-		]]>
-	</select>
 	<!-- 글 목록 -->
 	<select id="selectQnaList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/>
 		
-		<![CDATA[
-					SELECT  A.*, 
+		SELECT  ROW_NUMBER() OVER (ORDER BY A.QNA_NUM DESC) RNUM, A.*, 
 		        DECODE(B.QNA_NUM, A.QNA_NUM, 'Y', 'N') AS QNA_YORN
 		FROM    (
 		        SELECT  Q.QNA_NUM,
@@ -54,12 +20,14 @@
 		        FROM    QNA Q,
 		                (
 		                 SELECT MEM_NUM, MEM_ID
-		                 FROM   MEMBER
+		                 FROM   MEMBER 
 		                ) M
 		        WHERE   Q.QNA_WRITER = M.MEM_NUM(+)
 		        AND     Q.QNA_PARENT IS NULL
 		        AND     Q.QNA_DEL_GB = 'N'
-		         ORDER BY Q.QNA_NUM
+		        <if test="id != null and !id.equals('')"> AND M.MEM_ID = #{id}</if>
+		       
+    
 		        ) A
 		LEFT OUTER JOIN
 		        (
@@ -68,8 +36,8 @@
 		        WHERE   A.QNA_NUM = B.QNA_PARENT
 		        ) B
 		ON  A.QNA_NUM = B.QNA_NUM
-		]]>
 		
+		<include refid="common.pagingPost"/>
 	</select>
 	
 	<!-- 글쓰기 -->
