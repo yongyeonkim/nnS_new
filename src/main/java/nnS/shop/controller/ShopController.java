@@ -137,6 +137,7 @@ public class ShopController{
 		mv.addObject("map", map.get("map"));
 		mv.addObject("list", map.get("list"));
 		mv.addObject("request_type", "modify");
+		mv.addObject("IDX", commandMap.getMap().get("IDX"));
 		/* mv.addObject("list",map.get("list")); */
 		
 		return mv;

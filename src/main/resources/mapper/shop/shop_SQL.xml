@@ -200,7 +200,8 @@
 			        GOODS_DCOST = #{GOODS_DCOST},
 			        GOODS_BRAND = #{GOODS_BRAND},
 			        GOODS_DATE = SYSDATE,
-			        GOODS_STATUS = #{GOODS_STATUS}
+			        GOODS_STATUS = #{GOODS_STATUS},
+			        GOODS_THUMBNAIL = #{GOODS_THUMBNAIL}
 			WHERE   GOODS_NUM = #{GOODS_NUM}
 			AND     GOODS_DEL_GB = 'N'
 			AND     GOODS_TSTATUS = 'N'
