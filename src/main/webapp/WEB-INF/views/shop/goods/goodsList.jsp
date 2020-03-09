@@ -192,7 +192,7 @@ h1 {
 		</tbody>
 		</table>
 		<div align="center">
-		<form action="/nnS/shop" method="post">
+		<form action="/nnS/shop/allGoodsList" method="post">
 			<fieldset>
 				
 				<select name="searchType" id="searchType">

@@ -187,9 +187,9 @@ h1 {
 		<tbody>
 		</tbody>
 		</table>
-		<form action="/nnS/shop" method="post">
+		<div align="center">
+		<form action="/nnS/shop/allGoodsList" method="post">
 			<fieldset>
-				<legend>검색</legend>
 				<select name="searchType" id="searchType">
 					<option value="nothing">-----</option>
 					<option value="title" <c:out value="${searchType eq 'title'?'selected':''}"/>>상품명</option>
@@ -202,6 +202,7 @@ h1 {
 				<input type="hidden" id="sortType" value="${sortType}" />
 			</fieldset>
 		</form>
+		</div>
 		<div id="PAGE_NAVI" align="center"></div>
 		<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
    

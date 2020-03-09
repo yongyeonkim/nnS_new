@@ -21,12 +21,12 @@
 	<img src="./../resources/images/commu_ntitle.png" width="200" height="70"> 
 	<table border="1" align="center" class="tbl_type">
 		<colgroup>
-			<col width="10%" />
+			<col width="8%" />
 			<col width="*" />
 			<col width="15%" />
-			<col width="25%" />  
-			<col width="10%" />
-		</colgroup>
+			<col width="15%" />  
+			<col width="8%" />
+		</colgroup>  
 		<caption><h2>공지사항</h2></caption>
 		<thead>
 			<tr>
@@ -111,13 +111,18 @@
 				
 				$.each(data.list,
 				function(key, value) {
+					var title = value.NOTICE_TITLE;
+					if(title.length > 20){
+						title = title.substring(0, 19) + "...";
+					}
+					
 					str += "<tr style=\"text-align: center\">"
 							+ "<td>"
 							+ value.NOTICE_NUM
 							+ "</td>"
 							+ "<td class='title'>"
 							+ "<a href='#this' name='title'>"
-							+ value.NOTICE_TITLE
+							+ title
 							+ "</a>"
 							+ "<input type='hidden' id='NOTICE_NUM' value=" + value.NOTICE_NUM + ">"
 							+ "</td>" + "<td>" + '관리자'

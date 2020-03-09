@@ -78,7 +78,7 @@ a {color:#666;}
    <h1><a href="/nnS/main" title="nnS#"><img class="main_image" src="<c:url value="/resources/images/SkinImg/mainlogo.png"/>" alt="nnS#"/></a></h1>   
    <div class="search_main">
       <div class="search_inner">
-         <form action="/nnS/shop" method="post">
+         <form action="/nnS/shop/allGoodsList" method="post">
             <fieldset>
                
                <select name="searchType">
