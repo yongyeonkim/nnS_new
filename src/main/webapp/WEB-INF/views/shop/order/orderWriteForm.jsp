@@ -56,16 +56,16 @@
 				</tr>
 				<tr>
 					<td>
-						<input type="text" id="MEM_NAME" name="MEM_NAME" value="${orderM.MEM_NAME}">
+						<input type="text" id="MEM_NAME" name="MEM_NAME" size="10" value="${orderM.MEM_NAME}">
 					</td>
 					<td>
-						<input type="text" id="MEM_PHONE" name="MEM_PHONE" value="${orderM.MEM_PHONE}">
+						<input type="text" id="MEM_PHONE" name="MEM_PHONE" size="15" value="${orderM.MEM_PHONE}">
 					</td>
 					<td colspan="5"> 
-						우편번호 <input type="text" id="MEM_ZIP" name="MEM_ZIP" value="${orderM.MEM_ZIP}">
-						<input type="button" id="searchAddr" name="searchAddr" value="검색"><br/>
+						<input type="text" id="MEM_ZIP" name="MEM_ZIP" size="10" value="${orderM.MEM_ZIP}">
 						<input type="text" id="ADD1" name="ADD1" size="50" value="${orderM.MEM_ADD1}">
-						<input type="text" id="ADD2" name="ADD2" size="50" value="${orderM.MEM_ADD2}">
+						<input type="text" id="ADD2" name="ADD2" size="20" value="${orderM.MEM_ADD2}">
+						<input type="button" id="searchAddr" name="searchAddr" value="우편번호 검색">
 					</td>
 				</tr>
 				<tr>
@@ -75,7 +75,7 @@
 				</tr>
 				<tr>
 					<td colspan="7">
-						<textarea cols="180" rows="10" id="DMEMO" name="DMEMO"></textarea>
+						<textarea rows="10" id="DMEMO" name="DMEMO" style="width:100%;"></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -94,7 +94,7 @@
 						결제수단
 					</th>
 					<td colspan="3" align="left">
-						카카오페이 <input type="radio" id="ORDER_PAY" name="ORDER_PAY" value="kakaopay" checked="checked">
+						&nbsp;&nbsp;&nbsp;카카오페이 <input type="radio" id="ORDER_PAY" name="ORDER_PAY" value="kakaopay" checked="checked">
 					</td>
 					<th>
 						결제확인
@@ -120,8 +120,8 @@
 					</th>
 				</tr>
 				<tr>
-						<td>
-							<textarea cols="180" rows="20" name="termsContent" readonly style="font-size:13px;">
+						<td colspan="7">
+							<textarea rows="20" name="termsContent" readonly style="font-size:13px; width:100%;">
 나눠써 구매회원 약관 동의
 1. 회원의 주소 또는 e-mail주소에 도달함으로써 회사의 통지는 유효하고, 회원 정보의 변경/미변경에 대한 책임은 회원에게 있음. (제8조)
 2. 약관이 정하는 부정거래 행위를 한 회원에 대하여 제재 조치 가능 예: 직거래, 경매 부정행위, 시스템 부정행위, 결제 부정행위, 재판매 목적의 거래행위 등. (제36조)

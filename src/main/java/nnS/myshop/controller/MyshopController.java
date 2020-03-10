@@ -132,22 +132,23 @@ public class MyshopController {
 	}
 	
 	@RequestMapping(value="/myshop/goodsLikeList")
-	public ModelAndView myshopGoodsLikeList(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	public ModelAndView myshopGoodsLikeList(CommandMap commandMap, HttpServletRequest request, @RequestParam(value = "tstatus", defaultValue="") String tstatus) throws Exception{
 		ModelAndView mv = new ModelAndView("goodsLikeList");
 		String filePath_temp = request.getContextPath() + "/file/";
 		mv.addObject("path", filePath_temp);
 		request.setAttribute("path", filePath_temp);
+		request.setAttribute("tstatus", tstatus);
 		
 		return mv;
 	}
 	
 	@RequestMapping(value="/myshop/selectGoodsList")
-	public ModelAndView selectGoodsList(CommandMap commandMap, HttpServletRequest request) throws Exception {
+	public ModelAndView selectGoodsList(CommandMap commandMap, HttpServletRequest request, @RequestParam(value = "tstatus", defaultValue="") String tstatus) throws Exception {
 		ModelAndView mv = new ModelAndView("jsonView");
 		HttpSession session = request.getSession();
 		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
 		
-		List<Map<String,Object>> list = myshopService.selectLikeList(commandMap.getMap());
+		List<Map<String,Object>> list = myshopService.selectLikeList(commandMap.getMap(), tstatus);
     	mv.addObject("list", list);
         if(list.size() > 0){
             mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));

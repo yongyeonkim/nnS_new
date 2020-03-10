@@ -51,8 +51,9 @@ public class MyshopServiceImpl implements MyshopService{
 	}
 	
 	@Override
-	public List<Map<String, Object>> selectLikeList(Map<String, Object> map) throws Exception {
+	public List<Map<String, Object>> selectLikeList(Map<String, Object> map, String tstatus) throws Exception {
 		// TODO Auto-generated method stub
+		map.put("tstatus", tstatus);
 		return myshopDAO.selectLikeList(map);
 	}
 	

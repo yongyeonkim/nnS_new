@@ -43,10 +43,26 @@
 	      	<td>
 	      		<select name="GOODS_CATEGORY" id="GOODS_CATEGORY">
 					<option value="" selected disabled hidden>==선택하세요==</option>
-				    <option value="1">의류</option>
-				    <option value="2">전자기기</option>
-				    <option value="3">악세서리</option>
-				    <option value="4">기타</option>
+				    <option value=1>식품</option>
+					<option value=2>주방</option>
+					<option value=3>생활</option>
+					<option value=4>인테리어</option>
+					<option value=5>가전디지털</option>
+					<option value=6>스포츠레저</option>
+					<option value=7>자동차</option>
+					<option value=8>도서</option>
+					<option value=9>음반</option>
+					<option value=10>DVD</option>
+					<option value=11>완구</option>
+					<option value=12>문구</option>
+					<option value=13>헬스건강</option>
+					<option value=14>여행</option>
+					<option value=15>아트공예</option>
+					<option value=16>뷰티</option>
+					<option value=17>가방</option>
+					<option value=18>패션</option>
+					<option value=19>신발</option>
+					<option value=20>기타</option>
 				</select>
 	      	</td>
 	      	<td>

@@ -86,6 +86,7 @@ a {color:#666;}
                  <option value="title">상품명</option>
                  <option value="content">내용</option>
                  <option value="brand">브랜드</option>
+                 <option value="hash">해시태그</option>
                 </select>
                <input type="text" class="txt" placeholder="Search" name="keyword"/>&nbsp;
                <input type="submit" value="검색" class="search_btn" onClick="onSearch()"/>

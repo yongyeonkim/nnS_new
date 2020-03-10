@@ -13,8 +13,8 @@ ul.goodsTabs {
 	float: left;
 	list-style: none;
 	height: 32px;
-	border-bottom: 1px solid #999;
-	border-left: 1px solid #999;
+	border-bottom: 1px dashed #cecece;
+	border-left: 1px dashed #cecece;
 	width: 100%;
 }
 ul.goodsTabs li {
@@ -24,10 +24,10 @@ ul.goodsTabs li {
 	padding: 0;
 	height: 31px;
 	line-height: 31px;
-	border: 1px solid #999;
+	border: 1px dashed #cecece;
 	border-left: none;
 	margin-bottom: -1px;
-	background: #F0F0F0;
+	background: #ccc;
 	overflow: hidden;
 	position: relative;
 }
@@ -41,21 +41,21 @@ ul.goodsTabs li a {
 	outline: none;
 }
 ul.goodsTabs li a:hover {
-	background: #ccc;
+	background: #fff;
 }	
 html ul.goodsTabs li.selected, html ul.goodsTabs li.active a:hover  {
-	background: #fff;
+	background: #fbfbfb;
 	border-bottom: 1px solid #fff;
 }
 .goodsTab_container {
-	border: 1px solid #999;
+	border: 1px dashed #cecece;
 	border-top: none;
 	/*
 	clear: both;
 	*/
 	float: left; 
 	width: 100%;
-	background: #fff;
+	background: #fbfbfb;
 	-moz-border-radius-bottomright: 5px;
 	-khtml-border-radius-bottomright: 5px;
 	-webkit-border-bottom-right-radius: 5px;

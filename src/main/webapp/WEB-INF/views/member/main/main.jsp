@@ -5,14 +5,14 @@
 <head>
 	<%@ include file="/WEB-INF/include/include-header.jspf" %>
   	<script>
-  		$(document).ready(function(){ 
-  			$('.bxslider').bxSlider({ 
-  				auto: true, 
-  				speed: 500, 
-  				pause: 4000, 
-  				mode:'fade', 
-  				autoControls: true, 
-  				pager:true, 
+	  	$(document).ready(function(){ 
+				$('.bxslider').bxSlider({ 
+					auto: true, 
+					speed: 500, 
+					pause: 4000, 
+					mode:'horizontal', 
+					sliderMargin: 2,
+					pager:true, 
 			}); 
 		});
 	</script>

@@ -53,12 +53,12 @@ public class ShopController{
 	}
 	
 	@RequestMapping(value="/shop/selectGoodsList")
-	public ModelAndView selectGoodsList(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception {
+	public ModelAndView selectGoodsList(CommandMap commandMap,@RequestParam(value = "tstatus", defaultValue="") String tstatus, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("jsonView");
 		
 		System.out.println("검색어: " + keyword);
 		System.out.println("검색타입: " + searchType);
-    	List<Map<String,Object>> list = shopService.selectGoodsList(commandMap.getMap(), keyword, searchType, sortType);
+    	List<Map<String,Object>> list = shopService.selectGoodsList(commandMap.getMap(), keyword, searchType, sortType, tstatus);
     	mv.addObject("list", list);
         if(list.size() > 0){
             mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));
@@ -71,10 +71,11 @@ public class ShopController{
 	}
 	
 	@RequestMapping(value="/shop/allGoodsList")
-	public ModelAndView shopAllGoodsList(@RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception{
+	public ModelAndView shopAllGoodsList(@RequestParam(value = "tstatus", defaultValue="") String tstatus, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("goodsList");
 		request.setAttribute("searchType", searchType);
 		request.setAttribute("keyword", keyword);
+		request.setAttribute("tstatus", tstatus);
 		request.setAttribute("sortType", "all");
 		mv.addObject("sortType", "all");
 		String filePath_temp = request.getContextPath() + "/file/";
