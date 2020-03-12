@@ -11,13 +11,12 @@
 
 <meta charset="UTF-8">
 <style type="text/css">
-#main-container
+#main-container2
 {
    min-height: 200px;
    margin: auto;
    padding: 20px;
    background-color: #fff;
-   border: 1px solid #888;
 }
 
 </style>
@@ -26,7 +25,7 @@
 <%@ include file="/WEB-INF/include/include-body.jspf" %>
 
 <div id="content">
-	<div id="main-container">
+	<div id="main-container2">
 	<center><img src="./../resources/images/form_tgoods.png"></center>
 		<form  method="post" id="frm" name="frm" enctype="multipart/form-data" onsubmit="return formCheck();">
 		<table class="tbl_type">
@@ -37,9 +36,9 @@
             <col width="*%">
          </colgroup>
 		<tr>
-			<td>
+			<th>
 	      		<img src="./../resources/images/form_category.png">
-	      	</td>
+	      	</th>
 	      	<td>
 	      		<select name="GOODS_CATEGORY" id="GOODS_CATEGORY">
 					<option value="" selected disabled hidden>==선택하세요==</option>
@@ -65,24 +64,24 @@
 					<option value=20>기타</option>
 				</select>
 	      	</td>
-	      	<td>
+	      	<th>
 				<img src="./../resources/images/form_hash.png"><br/>
-			</td>
+			</th>
 			<td>
 				<input type="text" id="GOODS_HASH" name="GOODS_HASH" value=<c:if test="${request_type eq 'modify'}">"${map.GOODS_HASH}"</c:if>>
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<th>
 				<img src="./../resources/images/form_title.png"><br/>
-			</td>
+			</th>
 			<td>
 				<input type="text" id="GOODS_TITLE" name="GOODS_TITLE" value=<c:if test="${request_type eq 'modify'}">"${map.GOODS_TITLE}"</c:if>>
 				<input type="hidden" id="MEM_ID" name="MEM_ID" value="${session_MEM_ID}">
 			</td>
-	      	<td>
+	      	<th>
 	      		<img src="./../resources/images/form_pstatus.png">
-	      	</td>
+	      	</th>
 	      	<td>
 	      		<select name="GOODS_STATUS" id="GOODS_STATUS">
 					<option value="" selected disabled hidden>==선택하세요==</option>
@@ -94,38 +93,33 @@
 	      	</td>
 		</tr>
 		<tr>
-			<td>
+			<th>
 				<img src="./../resources/images/form_price.png"><br/>
-			</td>
+			</th>
 			<td>
 				<input type="text" id="GOODS_PRICE" name="GOODS_PRICE" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" value=<c:if test="${request_type eq 'modify'}">"${map.GOODS_PRICE}"</c:if>>
 			</td>
-			<td>
+			<th>
 				<img src="./../resources/images/form_dprice.png"><br/>
-			</td>
+			</th>
 			<td>
 				<input type="text" id="GOODS_DCOST" name="GOODS_DCOST" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" value=<c:if test="${request_type eq 'modify'}">"${map.GOODS_DCOST}"</c:if>>
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<th>
 				<img src="./../resources/images/form_brand.png"><br/>
-			</td>
+			</th>
 			<td>
 				<input type="text" id="GOODS_BRAND" name="GOODS_BRAND" value=<c:if test="${request_type eq 'modify'}">"${map.GOODS_BRAND}"</c:if>>
 			</td>
-			<td>
+			<th>
 				<img src="./../resources/images/form_area.png"><br/>
-			</td>
+			</th>
 			<td>
 				<input type="text" id="GOODS_REGION" name="GOODS_REGION" value=<c:if test="${request_type eq 'modify'}">"${map.GOODS_REGION}"</c:if>>
 			</td>
 		</tr>
-		<tr>
-			<td colspan="4">
-               <img src="./../resources/images/form_pinfo.png"> <br/>
-            </td>
-        </tr>
         <tr>
         	<td colspan="4">
                <textarea name="GOODS_CONTENT" id="GOODS_CONTENT" rows="30" cols="100"><c:if test="${request_type eq 'modify'}">${map.GOODS_CONTENT}</c:if></textarea>

@@ -14,10 +14,10 @@
   				sliderMargin: 2,
   				pager:false,
   				controls:false
-			}); 
+			});
 		});
 	</script>
-  	
+
 <meta charset="UTF-8">
 <link href="<c:url value="/resources/css/board.css"/>" rel="stylesheet">
 <link href="<c:url value="/resources/css/btn.css"/>" rel="stylesheet">
@@ -91,14 +91,13 @@ table {
 /*css 초기화*/
 
 </style>
-
 </head>
 <body>
 
 <div id="content">
 	<div id="vertical_tab-container">
 	</div>
-	<div id="main-container">
+	<div id="main-container2">
 		<table class="tbl_type">
 			<colgroup>
 				<col width="45%"/>

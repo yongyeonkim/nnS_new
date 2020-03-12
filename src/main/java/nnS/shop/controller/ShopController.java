@@ -122,9 +122,17 @@ public class ShopController{
 
 	@RequestMapping(value="/shop/goodsWrite", method = RequestMethod.POST)
 	public ModelAndView goodsWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("goodsWriteResult");
+		ModelAndView mv = new ModelAndView("redirect:/shop/goodsWrite_redirect");
 
 		shopService.insertGoods(commandMap.getMap(), request);
+		mv.addObject("IDX", commandMap.getMap().get("IDX"));
+		
+		return mv;
+	}
+	@RequestMapping(value="/shop/goodsWrite_redirect")
+	public ModelAndView goodsWrite_redirect(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("goodsWriteResult");
+
 		mv.addObject("IDX", commandMap.getMap().get("IDX"));
 		
 		return mv;

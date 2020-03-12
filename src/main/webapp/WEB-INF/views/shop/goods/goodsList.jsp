@@ -86,7 +86,6 @@ table {
 		<div align="center">
 		<form action="/nnS/shop/allGoodsList" method="post">
 			<fieldset>
-				
 				<select name="searchType" id="searchType">
 					<option value="nothing">-----</option>
 					<option value="title" <c:out value="${searchType eq 'title'?'selected':''}"/>>상품명</option>
@@ -103,13 +102,10 @@ table {
 		</div>
 		<div id="PAGE_NAVI" align="center"></div>
 		<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
-   
-	<div align="right">
-	<c:if test="${session_MEM_ID ne null }">
-		<a href="#this" class="btn" id="write"><button class="bttn-bordered bttn-xs bttn-primary">글쓰기</button></a>
-	</c:if>
-	</div>
 
+   <c:if test="${session_MEM_ID ne null }">
+		<a href="#this"  class="btn" id="write"><button class="bttn-bordered bttn-xs bttn-primary"><img src="../resources/images/commu_wbtn.png"></button></a>
+	</c:if>
    </div>
 </div>
     
