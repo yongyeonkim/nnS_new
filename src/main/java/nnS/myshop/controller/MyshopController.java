@@ -132,8 +132,13 @@ public class MyshopController {
 	}
 	
 	@RequestMapping(value="/myshop/goodsLikeList")
-	public ModelAndView myshopGoodsLikeList(CommandMap commandMap, HttpServletRequest request, @RequestParam(value = "tstatus", defaultValue="") String tstatus) throws Exception{
+	public ModelAndView myshopGoodsLikeList(CommandMap commandMap, @RequestParam(value = "tstatus", defaultValue="") String tstatus, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("goodsLikeList");
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("tstatus", tstatus);
+		request.setAttribute("sortType", "all");
+		mv.addObject("sortType", "all");
 		String filePath_temp = request.getContextPath() + "/file/";
 		mv.addObject("path", filePath_temp);
 		request.setAttribute("path", filePath_temp);
@@ -143,12 +148,12 @@ public class MyshopController {
 	}
 	
 	@RequestMapping(value="/myshop/selectGoodsList")
-	public ModelAndView selectGoodsList(CommandMap commandMap, HttpServletRequest request, @RequestParam(value = "tstatus", defaultValue="") String tstatus) throws Exception {
+	public ModelAndView selectGoodsList(CommandMap commandMap, @RequestParam(value = "tstatus", defaultValue="") String tstatus, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("jsonView");
 		HttpSession session = request.getSession();
 		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
 		
-		List<Map<String,Object>> list = myshopService.selectLikeList(commandMap.getMap(), tstatus);
+		List<Map<String,Object>> list = myshopService.selectLikeList(commandMap.getMap(), keyword, searchType, sortType, tstatus);
     	mv.addObject("list", list);
         if(list.size() > 0){
             mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));

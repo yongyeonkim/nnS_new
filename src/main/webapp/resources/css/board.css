@@ -64,7 +64,7 @@ html ul.goodsTabs li.selected, html ul.goodsTabs li.active a:hover  {
 	-webkit-border-bottom-left-radius: 5px;
 }
 .goodsTab_content {
-	padding: 20px;
+	padding: 30px;
 	font-size: 1.2em;
 }
 .goodsTab_content h2 {
@@ -77,7 +77,7 @@ html ul.goodsTabs li.selected, html ul.goodsTabs li.active a:hover  {
 	color: #254588;
 }
 .goodsTab_content img {
-	float: left;
+	/*float: left;*/
 	margin: 0 20px 20px 0;
 	border: 1px solid #ddd;
 	padding: 5px;

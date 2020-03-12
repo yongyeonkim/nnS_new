@@ -77,6 +77,17 @@ table {
 	box-shadow:none; 
 	margin-bottom:0px;
 }
+.contentClass{
+	background-color:white;
+	border-radius:10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 1px dashed #cecece;
+    padding:15px;
+	
+}
+.contentClass p{
+	background-color:white;
+}
 /*css 초기화*/
 
 </style>
@@ -166,20 +177,32 @@ table {
 				</tr>
 				<tr align="center">
 					<td>
-						<a class="buttonImg" href='#this' id="buy"><img src=<c:url value="/resources/images/goods_buy.png"/> id='baro_img' alt="구매하기" style="width:30px; height:30px"></a>
+						<a class="buttonImg" href='#this' id="buy">
+							<img src=<c:url value="/resources/images/goods_buy.png"/> id='baro_img' alt="구매하기" style="width:30px; height:30px">
+							<b>바로구매</b>
+						</a>
 					</td>
 					<td>
 						<c:choose>
 							<c:when test="${goodsLikeMap.GOODS_LIKE_YN eq 0}">
-						    	<a class="buttonImg" href='javascript: like_func();'><img src=<c:url value="/resources/images/like_black.png"/> alt="찜하기" id='unlike_img' style="width:30px; height:30px"></a>
+						    	<a class="buttonImg" href='javascript: like_func();'>
+						    		<img src=<c:url value="/resources/images/like_black.png"/> alt="찜하기" id='unlike_img' style="width:30px; height:30px">
+						    		<b>찜해두기</b>
+						    	</a>
 						  	</c:when>
 						  	<c:otherwise>
-						    	<a class="buttonImg" href='javascript: unlike_func();'><img src=<c:url value="/resources/images/like_red.png"/> alt="찜취소하기" id='like_img' style="width:30px; height:30px"></a>
+						    	<a class="buttonImg" href='javascript: unlike_func();'>
+						    		<img src=<c:url value="/resources/images/like_red.png"/> alt="찜취소하기" id='like_img' style="width:30px; height:30px">
+						    		<b>찜취소하기</b>
+						    	</a>
 						  	</c:otherwise>
 						</c:choose>
 					</td>	
 					<td> 
-						<a class="buttonImg" href='javascript: report_func();'><img src=<c:url value="/resources/images/siren.png"/> alt="신고하기" id='report_img' style="width:30px; height:30px"></a>
+						<a class="buttonImg" href='javascript: report_func();'>
+							<img src=<c:url value="/resources/images/siren.png"/> alt="신고하기" id='report_img' style="width:30px; height:30px">
+							<b>신고하기</b>	
+						</a>
 					</td>
 				</tr>
 			</tbody>
@@ -192,10 +215,11 @@ table {
 		    </ul>
 		    <div class="goodsTab_container">
 		        <div id="goodsTab1" class="goodsTab_content">
-		            <p>${map.GOODS_CONTENT}</p>
+		            <div class="contentClass">
+		            	${map.GOODS_CONTENT}
+		            </div>
 		        </div>
 		        <div id="goodsTab2" class="goodsTab_content">
-		             
 						<div align='center'>
 	                        <!-- 뭐든 넣어도됨(작성자 등등) -->
 			      		</div>
@@ -212,22 +236,43 @@ table {
 			      			</c:if>
 	      				</form>
 	      				<br>
-					<table id="goodsTab2_ct" class="tbl_type" style="width:100%; height: 100px;">
-						<tbody>
-						</tbody>
-			       </table>
-	       			<div id="PAGE_NAVI" align="center"></div>
-					<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
+						<table id="goodsTab2_ct" class="tbl_type" style="width:100%; height: 100px;">
+							<tbody>
+							</tbody>
+				       </table>
+		       			<div id="PAGE_NAVI" align="center"></div>
+						<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 			   </div>
 		        <div id="goodsTab3" class="goodsTab_content">
-		             
-		             <br>
-						판매자 ID : ${memberMap.MEM_ID}<br />
-						판매자 이름 : ${memberMap.MEM_NAME} <br /> 
-						판매자 성별 : ${memberMap.MEM_GEN}<br/>
-						판매자 이메일 : ${memberMap.MEM_EMAIL}<br /> 
-						판매자 연락처 : ${memberMap.MEM_PHONE}<br />
-						<br>
+		             <table class="tbl_type" style="width:90%; margin:auto; padding:10px 10px 10px 10px;">
+		             	<colgroup>
+		             		<col width="30%">
+		             		<col width="*">
+		             	</colgroup>
+		             	<tr>
+		             		<th colspan="2">판매자 정보</th>
+		             	</tr>
+		             	<tr>
+		             		<th>ID</th>
+		             		<td>${memberMap.MEM_ID}</td>
+		             	</tr>
+		             	<tr>
+		             		<th>이름</th>
+		             		<td>${memberMap.MEM_NAME}</td>
+		             	</tr>
+		             	<tr>
+		             		<th>성별</th>
+		             		<td>${memberMap.MEM_GEN}</td>
+		             	</tr>
+		             	<tr>
+		             		<th>이메일</th>
+		             		<td>${memberMap.MEM_EMAIL}</td>
+		             	</tr>
+		             	<tr>
+		             		<th>연락처</th>
+		             		<td>${memberMap.MEM_PHONE}</td>
+		             	</tr>
+		             </table>
 		        </div>
 		    </div>
 		    <br>
@@ -376,8 +421,6 @@ table {
 			$(activegoodsTab).fadeIn(); //Fade in the active content
 			return false;
 		});
-		
-
 		
 		function fn_detailComment(num){
 			var comSubmit = new ComSubmit();

@@ -182,6 +182,9 @@ public class ShopController{
 	
 	@RequestMapping(value="/shop/goodsDetail/goodsLike", method = RequestMethod.POST)
 	public ModelAndView goodsLike(CommandMap commandMap) throws Exception{
+		System.out.println("####1" + commandMap.getMap().get("LIKE_GOODS_NUM"));
+		System.out.println("####2" + commandMap.getMap().get("LIKE_MEM_ID"));
+		
 		ModelAndView mv = new ModelAndView("redirect:/shop/goodsDetail");
 		mv.addObject("GOODS_NUM", commandMap.getMap().get("LIKE_GOODS_NUM"));
 		mv.addObject("LIKE_MEM_ID", commandMap.getMap().get("LIKE_MEM_ID"));

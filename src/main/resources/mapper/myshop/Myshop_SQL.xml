@@ -241,6 +241,7 @@
 			AND     G.GOODS_TSTATUS IN ('N', 'ING')
 			
  ]]>
+ <include refid="search"></include>
  <include refid="tstatus"></include>
 </select>
 
@@ -252,6 +253,14 @@
       </if>
    </sql>
    
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 'title'.toString()">AND G.GOODS_TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'content'.toString()">AND G.GOODS_CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'brand'.toString()">AND G.GOODS_BRAND LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'hash'.toString()">AND G.GOODS_HASH LIKE '%' || #{keyword} || '%'</if>
+		</if>
+	</sql>
 <!-- 최근 본 상품 조회 -->
 <select id="selectRecentGoodsList" parameterType="hashMap" resultType="hashmap">
 <![CDATA[

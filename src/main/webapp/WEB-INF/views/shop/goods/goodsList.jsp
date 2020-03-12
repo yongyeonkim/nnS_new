@@ -133,7 +133,21 @@ table {
 			});
 			
 		});
-		
+
+		function fn_hashSearch(keyword){
+			var comAjax = new ComAjax();
+			comAjax.setUrl("<c:url value='/shop/selectGoodsList' />");
+			comAjax.setCallback("fn_selectGoodsListCallback");
+			comAjax.addParam("PAGE_INDEX", 1);
+			comAjax.addParam("PAGE_ROW", 15);
+			comAjax.addParam("keyword", keyword);
+			comAjax.addParam("searchType", "hash");
+			comAjax.addParam("sortType", $('#sortType').val());
+			comAjax.addParam("path", $('#path').val());
+			comAjax.addParam("tstatus", $('#tstatus').val());
+			comAjax.ajax();
+			return true;
+		}
 		function fn_goodsWrite() {
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/shop/goodsWriteForm' />");
@@ -167,7 +181,8 @@ table {
 			var body = $("table>tbody");
 			body.empty();
 			if (total == 0) {
-				var str = "<tr>" + "<td colspan='4'>조회된 결과가 없습니다.</td>"
+				var str = "<tr>" 
+						+ "<td colspan='4'>조회된 결과가 없습니다.</td>"
 						+ "</tr>";
 				body.append(str);
 			} else {
@@ -186,6 +201,31 @@ table {
 								function(key, value) {
 									var imgpath = "";
 									var tstatus = "";
+									var hashStr = "";
+									var hashAdd = "";
+									
+									if(value.GOODS_HASH != null){
+										hashStr = value.GOODS_HASH.split("#");
+									}
+									for(var i=0; i < hashStr.length; i++){
+										//alert(hashStr[i]);
+										if(hashStr[i] == ""){
+											continue;
+										}
+										if(hashStr[i].substring(0,1) == "#"){
+											hashAdd += "<a href='#' onClick='fn_hashSearch(\"" + hashStr[i] + "\")'>"
+												+  "<b class='card-body-hashtag'>"
+												+  hashStr[i]
+												+  "</b>"
+												+  "</a>";
+										}else{
+											hashAdd += "<a href='#' onClick='fn_hashSearch(\"#" + hashStr[i] + "\")'>"
+												+  "<b class='card-body-hashtag'>"
+												+  "#" + hashStr[i]
+												+  "</b>"
+												+  "</a>";
+										}
+									}
 									
 									if(value.GOODS_THUMBNAIL == null){
 										imgpath = 	"<div class='card-header'>"
@@ -215,9 +255,10 @@ table {
 										+	      "</div>"
 										+	      "<div class='card-body'>"
 										+	         "<div class='card-body-header'>"
-										+	            "<p class='card-body-hashtag'>"
-										+				value.GOODS_HASH
-										+				"</p>"
+										//+	            "<p class='card-body-hashtag'>"
+										//+				value.GOODS_HASH
+										+				hashAdd
+										//+				"</p>"
 										+	            "<h1>"
 										+				value.GOODS_TITLE
 										+				"</h1>"

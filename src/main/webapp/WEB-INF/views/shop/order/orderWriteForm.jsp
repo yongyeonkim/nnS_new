@@ -150,6 +150,7 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
+	payCheck();
 	
 	$("#pay_btn").on("click", function(e) { // 결제하기 버튼
 		e.preventDefault();
@@ -241,9 +242,27 @@ $(document).ready(function() {
 				  + document.getElementById("MEM_ID").value;
 				  
 		openWin = window.open(url+param, "childForm", "width=570, height=550, resizable = no, scrollbars = no");
-		
-		
 	}
+	
+	function payCheck() {
+	       $.ajax({
+	           url: '/shop/order/payCheck',
+	           type: 'GET',
+	           data: {},
+	           dataType: 'json',
+	           success: function(data) {
+	               console.log('success'),
+	               callback(data);
+	           },
+	           timeout: 1000,
+	           complete: setTimeout(function() { payCheck(); }, 1000)
+	           });
+	   };
+	   function callback(data){
+		      if(document.getElementById("check").value == "true"){
+		    	  $('#submitPay').trigger('click');
+			  }
+		   }
 </script>
 
 

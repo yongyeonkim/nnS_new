@@ -28,7 +28,7 @@
 }
 .card:hover .card-header  {
    opacity: 0.2;
-   height: 100px;
+   height: 280px;
 }
 .card-header-is_closed{
     background-color: #EF5A31 ;
@@ -89,6 +89,10 @@ h1 {
 }
 .card-body-hashtag {
     color: #2478FF;
+    font-style: italic;
+}
+.card-body-hashtag:hover {
+    color: #bcd8ff;
     font-style: italic;
 }
 .card-body-footer {

@@ -107,6 +107,25 @@ table {
 		<tbody>
 		</tbody>
 		</table>
+		
+		<div align="center">
+		<form action="/nnS/myshop/goodsLikeList" method="post">
+			<fieldset>
+				
+				<select name="searchType" id="searchType">
+					<option value="nothing">-----</option>
+					<option value="title" <c:out value="${searchType eq 'title'?'selected':''}"/>>상품명</option>
+					<option value="content" <c:out value="${searchType eq 'content'?'selected':''}"/>>내용</option>
+					<option value="brand" <c:out value="${searchType eq 'brand'?'selected':''}"/>>브랜드</option>
+					<option value="hash" <c:out value="${searchType eq 'hash'?'selected':''}"/>>해시태그</option>
+				</select>
+				<input type="text" class="txt" placeholder="Search" name="keyword" id="keyword" value="${keyword}"/>&nbsp;
+				<input type="submit" value="검색" class="search_btn" onClick="onSearch()"/>
+				<input type="hidden" id="path" value="${path}" />
+				<input type="hidden" id="sortType" value="${sortType}" />
+			</fieldset>
+		</form>
+		</div>
 		<div id="PAGE_NAVI" align="center"></div>
 		<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 		<input type="hidden" id="path" value="${path}" />
@@ -129,6 +148,21 @@ table {
 			});
 			
 		});
+
+		function fn_hashSearch(keyword){
+			var comAjax = new ComAjax();
+			comAjax.setUrl("<c:url value='/myshop/selectGoodsList' />");
+			comAjax.setCallback("fn_selectGoodsListCallback");
+			comAjax.addParam("PAGE_INDEX", 1);
+			comAjax.addParam("PAGE_ROW", 15);
+			comAjax.addParam("keyword", keyword);
+			comAjax.addParam("searchType", "hash");
+			comAjax.addParam("sortType", $('#sortType').val());
+			comAjax.addParam("path", $('#path').val());
+			comAjax.addParam("tstatus", $('#tstatus').val());
+			comAjax.ajax();
+			return true;
+		}
 	
 		function fn_goodsDetail(obj) {
 			var comSubmit = new ComSubmit();
@@ -176,6 +210,31 @@ table {
 								function(key, value) {
 									var imgpath = "";
 									var tstatus = "";
+									var hashStr = "";
+									var hashAdd = "";
+									
+									if(value.GOODS_HASH != null){
+										hashStr = value.GOODS_HASH.split("#");
+									}
+									for(var i=0; i < hashStr.length; i++){
+										//alert(hashStr[i]);
+										if(hashStr[i] == ""){
+											continue;
+										}
+										if(hashStr[i].substring(0,1) == "#"){
+											hashAdd += "<a href='#' onClick='fn_hashSearch(\"" + hashStr[i] + "\")'>"
+												+  "<b class='card-body-hashtag'>"
+												+  hashStr[i]
+												+  "</b>"
+												+  "</a>";
+										}else{
+											hashAdd += "<a href='#' onClick='fn_hashSearch(\"#" + hashStr[i] + "\")'>"
+												+  "<b class='card-body-hashtag'>"
+												+  "#" + hashStr[i]
+												+  "</b>"
+												+  "</a>";
+										}
+									}
 									
 									if(value.GOODS_THUMBNAIL == null){
 										imgpath = 	"<div class='card-header'>"
@@ -206,7 +265,8 @@ table {
 										+	      "<div class='card-body'>"
 										+	         "<div class='card-body-header'>"
 										+	            "<p class='card-body-hashtag'>"
-										+				value.GOODS_HASH
+										//+				value.GOODS_HASH
+										+				hashAdd
 										+				"</p>"
 										+	            "<h1>"
 										+				value.GOODS_TITLE
@@ -216,9 +276,9 @@ table {
 										+	                "판매자: " + value.MEM_ID
 										+	            "</p>"
 										+	         "</div>"
-										+	         "<p class='card-body-description'>"
+										//+	         "<p class='card-body-description'>"
 										//+	            value.GOODS_CONTENT
-										+	         "</p>"
+										//+	         "</p>"
 										+	         "<div class='card-body-footer'>"
 										+	            "<hr style='margin-bottom: 8px; opacity: 0.5; border-color: #EF5A31'>"
 										+	            "<i class='icon icon-view_count'></i>조회수 "

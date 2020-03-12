@@ -74,5 +74,12 @@ public class OrderController {
 
 		return mv;
 	}
+	
+	//자동으로 결제 완료 되도록 하는 ajax를 위한 메소드
+	@RequestMapping(value="/shop/order/payCheck", method=RequestMethod.GET)
+	public ModelAndView payCheck(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+		return mv;
+	}
 
 }
