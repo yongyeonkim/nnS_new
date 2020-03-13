@@ -241,7 +241,7 @@
 <!-- 내 찜목록 조회 -->
 <select id="selectLikeList" parameterType="hashMap" resultType="hashmap">
 <![CDATA[
-SELECT  
+			SELECT  
 					ROW_NUMBER() OVER (ORDER BY G.GOODS_NUM DESC) RNUM,
 					G.GOODS_NUM,
 			        G.GOODS_TITLE,
@@ -264,20 +264,38 @@ SELECT
 			         FROM    MEMBER
 			        ) M,
 			        (
-			        SELECT   GOODS_LIKE_PARENT, 
+			        SELECT   GOODS_LIKE_PARENT,
 			                 COUNT(*) AS TOTAL_COUNT
 			        FROM     GOODS_LIKE 
+                    WHERE    GOODS_LIKE_USER = (SELECT MEM_NUM FROM MEMBER WHERE MEM_ID = #{MEM_ID})
 			        GROUP BY GOODS_LIKE_PARENT
 			        ) GL
 			WHERE   G.GOODS_SELLER = M.MEM_NUM(+)
-			AND     G.GOODS_NUM = GL.GOODS_LIKE_PARENT(+)
+			AND     G.GOODS_NUM = GL.GOODS_LIKE_PARENT
 			AND     G.GOODS_DEL_GB = 'N'
 			AND     G.GOODS_TSTATUS IN ('N', 'ING')
-			AND     M.MEM_ID = #{MEM_ID}
 			
  ]]>
+ <include refid="search"></include>
+ <include refid="tstatus"></include>
 </select>
 
+	<sql id="tstatus">
+      <if test="tstatus != null">
+         <if test="tstatus == '1'.toString()">AND G.GOODS_TSTATUS = 'N'</if>
+         <if test="tstatus == '2'.toString()">AND G.GOODS_TSTATUS = 'ING'</if>
+         <if test="tstatus == '3'.toString()">AND G.GOODS_TSTATUS = 'Y'</if>
+      </if>
+   </sql>
+   
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 'title'.toString()">AND G.GOODS_TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'content'.toString()">AND G.GOODS_CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'brand'.toString()">AND G.GOODS_BRAND LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'hash'.toString()">AND G.GOODS_HASH LIKE '%' || #{keyword} || '%'</if>
+		</if>
+	</sql>
 <!-- 최근 본 상품 조회 -->
 <select id="selectRecentGoodsList" parameterType="hashMap" resultType="hashmap">
 <![CDATA[

@@ -12,7 +12,7 @@ public interface MyshopService {
 	public List<Map<String, Object>> selectMyOrderList2(Map<String, Object> map) throws Exception;
 	public List<Map<String, Object>> selectMyOrderList3(Map<String, Object> map) throws Exception;
 	
-	public List<Map<String, Object>> selectLikeList(Map<String, Object> map) throws Exception;
+	public List<Map<String, Object>> selectLikeList(Map<String, Object> map, String keyword, String searchType, String sortType, String tstatus) throws Exception;
 	
 	public List<Map<String, Object>> selectRecentGoodsList(Map<String, Object> map) throws Exception;
 	

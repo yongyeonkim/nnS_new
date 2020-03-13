@@ -28,7 +28,8 @@ a {color:#666;}
 	           }});
 	   }
 	   function updateCallback(data){
-	      window.location.reload();
+		   poll();
+	      //window.location.reload();
 	   }
 	 
 	   function poll() {
@@ -78,7 +79,7 @@ a {color:#666;}
    <h1><a href="/nnS/main" title="nnS#"><img class="main_image" src="<c:url value="/resources/images/SkinImg/mainlogo.png"/>" alt="nnS#"/></a></h1>   
    <div class="search_main">
       <div class="search_inner">
-         <form action="/nnS/shop" method="post">
+         <form action="/nnS/shop/allGoodsList" method="post">
             <fieldset>
                
                <select name="searchType">
@@ -86,6 +87,7 @@ a {color:#666;}
                  <option value="title">상품명</option>
                  <option value="content">내용</option>
                  <option value="brand">브랜드</option>
+                 <option value="hash">해시태그</option>
                 </select>
                <input type="text" class="txt" placeholder="Search" name="keyword"/>&nbsp;
                <input type="submit" value="검색" class="search_btn" onClick="onSearch()"/>

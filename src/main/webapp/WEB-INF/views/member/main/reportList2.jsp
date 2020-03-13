@@ -10,24 +10,16 @@
 </head>
 <body>
 <div id="content">
-	<div id="vertical_tab-container">
-	<ul>
-		<li><a href="noticeList"><img src="./../resources/images/tab_notice.png" width="100" height="30"></a></li>
-         <li><a href="boardList"><img src="./../resources/images/tab_board.png" width="100" height="30"></a></li>
-         <li class="selected"><a href="reportList"><img src="./../resources/images/tab_report.png" width="100" height="30"></a></li>
-         <li><a href="qnaList"><img src="./../resources/images/tab_qna.png" width="100" height="30"></a></li>
-	</ul>
-	</div> 
-	<div id="main-container">
-		<img src="./../resources/images/commu_rtitle.png" width="200" height="70"> 
+	<div id="main-container2">
+		<img src="./resources/images/commu_rtitle.png" width="200" height="70"> 
 	<table border="1" align="center" class="tbl_type">
 		<colgroup>
 			<col width="8%" />
 			<col width="*" />
-			<col width="13%" />
-			<col width="20%" />  
-			<col width="8%" />
-			<col width="8%" />
+			<col width="15%" />
+			<col width="15%" />
+			<col width="15%" />
+			<col width="15%" />  
 			<col width="8%" />
 		</colgroup>  
 		<caption><h2>신고게시판</h2></caption>
@@ -43,73 +35,56 @@
 	    </form>
 		<thead>
 			<tr>
-				<th scope="col"><img src="./../resources/images/commu_num.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_title.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_writer.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_rid.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_status.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_date.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_hit.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_num.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_title.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_writer.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_rid.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_status.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_date.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_hit.png" height="25"></th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="reportTbody">
 		</tbody>
 	</table>
 	
 	<div id="PAGE_NAVI" align="center"></div>
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 
-	<br />
-	<div align="right">
-	<c:if test="${session_MEM_INFO.MEM_ID != NULL }">
-		<a href="#this"  class="btn" id="write"><button class="bttn-bordered bttn-xs bttn-primary"><img src="./../resources/images/commu_wbtn.png"></button></a>
-	</c:if>
-	</div>
 	</div>
 	</div>
 
 	<%@ include file="/WEB-INF/include/include-body.jspf" %>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			fn_selectBoardList(1); 
-			$("#write").on("click", function(e) { //글쓰기 버튼
-				e.preventDefault();
-				fn_openBoardWrite();
-			});
+			fn_selectBoardList_report(1); 
 
-
-			$("a[name='title']").on("click", function(e) { //제목 
+			$("a[name='title_report']").on("click", function(e) { //제목 
 				e.preventDefault();
-				fn_openBoardDetail($(this));
+				fn_openBoardDetail_report($(this));
 			});
 		});
-
-		function fn_openBoardWrite() {
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/community/reportWriteForm' />");
-			comSubmit.submit();
-		}
 	
-		function fn_openBoardDetail(obj) {
+		function fn_openBoardDetail_report(obj) {
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/community/reportDetail' />");
 			comSubmit.addParam("REPORT_NUM", obj.parent().find("#REPORT_NUM").val());
 			comSubmit.submit();
 		}
-		 function fn_selectBoardList(pageNo) {
+		 function fn_selectBoardList_report(pageNo) {
 			var comAjax = new ComAjax();
 			
 			comAjax.setUrl("<c:url value='/community/reportListPaging' />");
-			comAjax.setCallback("fn_selectBoardListCallback");
+			comAjax.setCallback("fn_selectBoardListCallback_report");
 			comAjax.addParam("PAGE_INDEX", pageNo);
 			comAjax.addParam("PAGE_ROW", 15);
 			comAjax.addParam("search", $('#search').val());
 			comAjax.ajax();
 		}
 
-		function fn_selectBoardListCallback(data) {
+		function fn_selectBoardListCallback_report(data) {
 			var total = data.TOTAL;
-			var body = $("table>tbody");
+			var body = $("#reportTbody");
 			body.empty();
 			if (total == 0) {
 				var str = "<tr>" + "<td colspan='7'>조회된 결과가 없습니다.</td>"
@@ -121,7 +96,7 @@
 					pageIndex : "PAGE_INDEX",
 					totalCount : total,
 					recordCount : 15,
-					eventName : "fn_selectBoardList"
+					eventName : "fn_selectBoardList_report"
 					
 				};
 				gfn_renderPaging(params);
@@ -146,7 +121,7 @@
 											+ value.REPORT_NUM
 											+ "</td>"
 											+ "<td class='title'>"
-											+ "<a href='#this' name='title'>"
+											+ "<a href='#this' name='title_report'>"
 											+ title
 											+ "</a>"
 											+ "<input type='hidden' id='REPORT_NUM' value=" + value.REPORT_NUM + ">"

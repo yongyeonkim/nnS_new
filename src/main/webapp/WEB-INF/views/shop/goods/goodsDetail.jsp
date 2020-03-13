@@ -11,13 +11,14 @@
   				auto: true, 
   				speed: 500, 
   				pause: 4000, 
-  				mode:'fade', 
-  				autoControls: true, 
-  				pager:true, 
-			}); 
+  				mode:'horizontal', 
+  				sliderMargin: 2,
+  				pager:false,
+  				controls:false
+			});
 		});
 	</script>
-  	
+
 <style type="text/css">
 /* 레이어 팝업 */
 
@@ -75,26 +76,88 @@
     100% {transform: scale(0); }
 }
 </style>
-  	
+
 <meta charset="UTF-8">
 <link href="<c:url value="/resources/css/board.css"/>" rel="stylesheet">
 <link href="<c:url value="/resources/css/btn.css"/>" rel="stylesheet">
+
+<style>
+html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
+   p, blockquote, pre, a, abbr, acronym, address, big, quotes, code, del,
+   dfn, em, img, ins, kbd, q, s, samp, small, strike, sub, sup, tt, var, u,
+   i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table,
+   caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
+   details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
+   output, ruby, section, summary, time, mark, audio, video {
+   margin: 0;
+   padding: 0;
+   border: 0;
+   
+   do: inherit;
+   
+}
+article, aside, details, figcaption, figure, footer, header, hgroup,
+   menu, nav, section {
+   display: block;
+}
+blockquote, q {
+   quotes: none;
+}
+blockquote : before, blockquote : after, q : before, q : after {
+   content: '';
+   content: none;
+}
+table {
+   border-collapse: collapse;
+   border-spacing: 0;
+}
+.buttonImg {
+    width:80%;
+    background-color: #b1b1b1;
+    border: none;
+    color:#fff;
+    padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    cursor: pointer;
+    border-radius:10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.buttonImg:hover {
+    background-color: gray;
+}
+
+.tbl_type .bx-wrapper {
+	border:0;
+	background:#fbfbfb;
+	box-shadow:none; 
+	margin-bottom:0px;
+}
+.contentClass{
+	background-color:white;
+	border-radius:10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 1px dashed #cecece;
+    padding:15px;
+	
+}
+.contentClass p{
+	background-color:white;
+}
+/*css 초기화*/
+
+</style>
 </head>
 <body>
 
 <div id="content">
 	<div id="vertical_tab-container">
-	<!--
-		<ul>
-			 <li <c:if test="${sortType eq 'all'}">class="selected"</c:if>><a href=<c:url value="/shop/allGoodsList"/>>전체상품</a></li>
-	         <li <c:if test="${sortType eq 'like'}">class="selected"</c:if>><a href=<c:url value="/shop/likeGoodsList"/>>인기상품</a></li>
-	         <li <c:if test="${sortType eq 'new'}">class="selected"</c:if>><a href=<c:url value="/shop/newGoodsList"/>>신규상품</a></li>
-	         <li <c:if test="${sortType eq ''}">class="selected"</c:if>><a href=<c:url value="/shop"/>>카테고리</a></li>
-		</ul>
-		 -->
 	</div>
-	<div id="main-container">
-		<table border="1" align="center" style="min-height:100%">
+	<div id="main-container2">
+		<table class="tbl_type">
 			<colgroup>
 				<col width="45%"/>
 				<col width="15%"/>
@@ -103,48 +166,102 @@
 			</colgroup>
 			<caption>상품 상세</caption>
 			<tbody>
-				<tr colspan="2">
-					<td rowspan="2">
+				<tr>
+					<td rowspan="7">
 						<c:choose>
 							<c:when test="${map.GOODS_THUMBNAIL eq null}">
 								<img alt="" style="width:95%; height:300px; padding:10px 10px 10px 10px;" src=<c:url value="/resources/images/no_image.png"/>>
 							</c:when>
 							<c:otherwise>
-								<img alt="" style="width:95%; height:300px; padding:10px 10px 10px 10px;" src="${path}${map.GOODS_THUMBNAIL}">	
+								<ul class="bxslider"> 
+								  	<c:forEach var="row" items="${list}" varStatus="var"> 
+								  		<li><img alt="" style="width:95%; height:400px; margin:auto;" src="${path}${row.GOODS_IMAGE_STD}"/></li>
+									</c:forEach>
+							  	</ul> 
+								<!--
+								<img alt="" style="width:95%; height:300px; padding:10px 10px 10px 10px;" src="${path}${map.GOODS_THUMBNAIL}">
+								 -->	
 							</c:otherwise>
 						</c:choose>
 					</td>
-					<td colspan="3" style="padding:0 0 0 20px; font-size:15px;">
-						<br>
-						<img src="/nnS/resources/images/goods_brand.png"> : ${map.GOODS_BRAND}<br />
-						<img src="/nnS/resources/images/goods_model.png"> : ${map.GOODS_TITLE} <br />	<!-- 테이블에 없음 --> 
-						<img src="/nnS/resources/images/goods_pstatus.png"> : ${map.GOODS_STATUS}<br/>
+					<th>
+						<img src="/nnS/resources/images/goods_brand.png">
+					</th>
+					<td colspan="2" style="font-size:15px;">
+						${map.GOODS_BRAND}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<img src="/nnS/resources/images/goods_model.png">
+					</th>
+					<td colspan="2" style="font-size:15px;">
+						${map.GOODS_TITLE}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<img src="/nnS/resources/images/goods_pstatus.png">
+					</th>
+					<td colspan="2" style="font-size:15px;">
+						${map.GOODS_STATUS}등급
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<img src="/nnS/resources/images/goods_price.png">
+					</th>
+					<td colspan="2" style="font-size:15px;">
+						${map.GOODS_PRICE}원
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<img src="/nnS/resources/images/goods_dprice.png">
+					</th>
+					<td colspan="2" style="font-size:15px;">
+						${map.GOODS_DCOST}원
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<img src="/nnS/resources/images/goods_total.png">
+					</th>
+					<td colspan="2" style="font-size:15px;">
+						<c:out value="${map.GOODS_PRICE+map.GOODS_DCOST}"/>원
 						<input type="hidden" id="IDX" name="IDX" value="${map.GOODS_NUM}">
 						<input type="hidden" id="GOODS_NUM" name="GOODS_NUM" value="${map.GOODS_NUM}">
-						<img src="/nnS/resources/images/goods_price.png"> : ${map.GOODS_PRICE}<br /> 
-						<img src="/nnS/resources/images/goods_dprice.png">: ${map.GOODS_DCOST} <br /><!-- 테이블에 없음 --> 
-						<img src="/nnS/resources/images/goods_total.png"> : <c:out value="${map.GOODS_PRICE+map.GOODS_DCOST}"/><br/>
-						<br>
 					</td>
 				</tr>
 				<tr align="center">
-				<td>
-					<a href='#this' id="buy"><img src=<c:url value="/resources/images/baro.png"/> id='baro_img' style="width:60px; height:30px"></a>
-				</td>
-				<td> 
-					<a href='javascript: report_func();'><img src=<c:url value="/resources/images/siren2.png"/> id='report_img' style="width:60px; height:30px"></a>
-				</td>
-				<td>	
-					<c:choose>
-						<c:when test="${goodsLikeMap.GOODS_LIKE_YN eq 0}">
-					    	<a href='javascript: like_func();'><img src=<c:url value="/resources/images/like_black.png"/> id='unlike_img' style="width:30px; height:30px"></a>
-					  	</c:when>
-					  	<c:otherwise>
-					    	<a href='javascript: unlike_func();'><img src=<c:url value="/resources/images/like_red.png"/> id='like_img' style="width:30px; height:30px"></a>
-					  	</c:otherwise>
-					</c:choose>
-				
-				</td>	
+					<td>
+						<a class="buttonImg" href='#this' id="buy">
+							<img src=<c:url value="/resources/images/goods_buy.png"/> id='baro_img' alt="구매하기" style="width:30px; height:30px">
+							<b>바로구매</b>
+						</a>
+					</td>
+					<td>
+						<c:choose>
+							<c:when test="${goodsLikeMap.GOODS_LIKE_YN eq 0}">
+						    	<a class="buttonImg" href='javascript: like_func();'>
+						    		<img src=<c:url value="/resources/images/like_black.png"/> alt="찜하기" id='unlike_img' style="width:30px; height:30px">
+						    		<b>찜해두기</b>
+						    	</a>
+						  	</c:when>
+						  	<c:otherwise>
+						    	<a class="buttonImg" href='javascript: unlike_func();'>
+						    		<img src=<c:url value="/resources/images/like_red.png"/> alt="찜취소하기" id='like_img' style="width:30px; height:30px">
+						    		<b>찜취소하기</b>
+						    	</a>
+						  	</c:otherwise>
+						</c:choose>
+					</td>	
+					<td> 
+						<a class="buttonImg" href='javascript: report_func();'>
+							<img src=<c:url value="/resources/images/siren.png"/> alt="신고하기" id='report_img' style="width:30px; height:30px">
+							<b>신고하기</b>	
+						</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -156,17 +273,11 @@
 		    </ul>
 		    <div class="goodsTab_container">
 		        <div id="goodsTab1" class="goodsTab_content">
-		       
-					  <ul class="bxslider"> 
-					  	<c:forEach var="row" items="${list}" varStatus="var"> 
-					  		<li><img alt="" style="width:auto; height:450px;" src="${path}${row.GOODS_IMAGE_STD}"/></li>
-						</c:forEach>
-					  </ul>
-					  
-		            <p>${map.GOODS_CONTENT}</p>
+		            <div class="contentClass">
+		            	${map.GOODS_CONTENT}
+		            </div>
 		        </div>
 		        <div id="goodsTab2" class="goodsTab_content">
-		             
 						<div align='center'>
 	                        <!-- 뭐든 넣어도됨(작성자 등등) -->
 			      		</div>
@@ -183,22 +294,43 @@
 			      			</c:if>
 	      				</form>
 	      				<br>
-					<table id="goodsTab2_ct" class="tbl_type" style="width:100%; height: 100px;">
-						<tbody>
-						</tbody>
-			       </table>
-	       			<div id="PAGE_NAVI" align="center"></div>
-					<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
+						<table id="goodsTab2_ct" class="tbl_type" style="width:100%; height: 100px;">
+							<tbody>
+							</tbody>
+				       </table>
+		       			<div id="PAGE_NAVI" align="center"></div>
+						<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 			   </div>
 		        <div id="goodsTab3" class="goodsTab_content">
-		             
-		             <br>
-						판매자 ID : ${memberMap.MEM_ID}<br />
-						판매자 이름 : ${memberMap.MEM_NAME} <br /> 
-						판매자 성별 : ${memberMap.MEM_GEN}<br/>
-						판매자 이메일 : ${memberMap.MEM_EMAIL}<br /> 
-						판매자 연락처 : ${memberMap.MEM_PHONE}<br />
-						<br>
+		             <table class="tbl_type" style="width:90%; margin:auto; padding:10px 10px 10px 10px;">
+		             	<colgroup>
+		             		<col width="30%">
+		             		<col width="*">
+		             	</colgroup>
+		             	<tr>
+		             		<th colspan="2">판매자 정보</th>
+		             	</tr>
+		             	<tr>
+		             		<th>ID</th>
+		             		<td>${memberMap.MEM_ID}</td>
+		             	</tr>
+		             	<tr>
+		             		<th>이름</th>
+		             		<td>${memberMap.MEM_NAME}</td>
+		             	</tr>
+		             	<tr>
+		             		<th>성별</th>
+		             		<td>${memberMap.MEM_GEN}</td>
+		             	</tr>
+		             	<tr>
+		             		<th>이메일</th>
+		             		<td>${memberMap.MEM_EMAIL}</td>
+		             	</tr>
+		             	<tr>
+		             		<th>연락처</th>
+		             		<td>${memberMap.MEM_PHONE}</td>
+		             	</tr>
+		             </table>
 		        </div>
 		    </div>
 		    <br>
@@ -363,8 +495,7 @@
 			return false;
 		});
 		
-
-		
+	
 		function fn_detailComment(num,name,goods){
 			$("#modal").removeAttr("class").addClass("three");
 			var body2 = $("#commentDetail_a");
@@ -435,7 +566,8 @@
 			});
 			
 			
-/*기존거 	var comSubmit = new ComSubmit();
+/*기존거 function fn_detailComment(num){
+			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/shop/goodsDetail/commentDetail'/>");
 			comSubmit.addParam("COMMENTS_NUM", num);
 			comSubmit.addParam("G_MEM_ID", $("#G_MEM_ID").val());

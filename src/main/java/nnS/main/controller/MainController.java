@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,12 +25,16 @@ public class MainController {
    InformServiceImpl informService;
 
    @RequestMapping(value="/main")
-   public ModelAndView main(CommandMap commandMap, HttpServletRequest request) throws Exception{
+   public ModelAndView main(CommandMap commandMap, HttpServletRequest request, @RequestParam(value = "tstatus", defaultValue="") String tstatus, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType) throws Exception{
    	ModelAndView mv = new ModelAndView("main");
-   	
+   		
 		String filePath_temp = request.getContextPath() + "/file/";
 		mv.addObject("path", filePath_temp);
 		request.setAttribute("path", filePath_temp);
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("tstatus", tstatus);
+		request.setAttribute("sortType", "all");
       return mv;
     }
    
