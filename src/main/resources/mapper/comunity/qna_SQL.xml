@@ -34,6 +34,7 @@
 		        SELECT  DISTINCT  A.QNA_NUM
 		        FROM    QNA A, QNA B
 		        WHERE   A.QNA_NUM = B.QNA_PARENT
+		                AND   B.QNA_DEL_GB = 'N'
 		        ) B
 		ON  A.QNA_NUM = B.QNA_NUM
 		

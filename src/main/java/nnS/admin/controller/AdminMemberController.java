@@ -28,10 +28,10 @@ public class AdminMemberController {
 	@Resource(name="adminMemberService")
 	private AdminMemberService adminMemberService;
 	
-	@RequestMapping(value = "/admin/memberList")
-	public ModelAndView memberList(CommandMap commandMap) throws Exception {
+	@RequestMapping(value = "/admin/memberListPaging")
+	public ModelAndView memberListPaging(CommandMap commandMap) throws Exception {
 		List<Map<String,Object>> list = adminMemberService.memberList(commandMap.getMap());
-		ModelAndView mv = new ModelAndView("admemberList");
+		ModelAndView mv = new ModelAndView("jsonView");
 		mv.addObject("list",list);	
 		if(list.size() > 0){
     		mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));
@@ -40,6 +40,11 @@ public class AdminMemberController {
     	else{
     		mv.addObject("TOTAL", 0);
     	}
+		return mv;	
+	}
+	@RequestMapping(value = "/admin/memberList")
+	public ModelAndView memberList(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("admemberList");
 		return mv;	
 	}
 	
@@ -67,10 +72,10 @@ public class AdminMemberController {
   	}
 	
 	
-	@RequestMapping(value = "/admin/reportProList")
-	public ModelAndView reportList(@RequestParam(value = "search", defaultValue="") String search, HttpServletRequest request,CommandMap commandMap) throws Exception {
+	@RequestMapping(value = "/admin/reportProListPaging")
+	public ModelAndView reportListPaging(@RequestParam(value = "search", defaultValue="") String search, HttpServletRequest request,CommandMap commandMap) throws Exception {
 		List<Map<String,Object>> list = adminMemberService.reportList(commandMap.getMap());
-		ModelAndView mv = new ModelAndView("reportPro");
+		ModelAndView mv = new ModelAndView("jsonView");
 		request.setAttribute("search", search);
 		mv.addObject("list",list);
 		if(list.size() > 0){
@@ -79,6 +84,12 @@ public class AdminMemberController {
     	else{
     		mv.addObject("TOTAL", 0);
     	}
+		request.setAttribute("search", search);
+		return mv;	
+	}
+	@RequestMapping(value = "/admin/reportProList")
+	public ModelAndView reportList(@RequestParam(value = "search", defaultValue="") String search, HttpServletRequest request,CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("reportPro");
 		request.setAttribute("search", search);
 		return mv;	
 	}

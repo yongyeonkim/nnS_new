@@ -15,7 +15,8 @@
 	        M.MEM_ID,
 	        N.BOARD_DATE,
 	        TO_CHAR(N.BOARD_DATE,'hh24:mi:ss') AS BOARD_TIME,
-	        N.BOARD_COUNT
+	        N.BOARD_COUNT,
+	        N.BOARD_CONTENT
 	FROM    BOARD N,
 	        (
 	        SELECT  MEM_NUM, MEM_ID
@@ -49,6 +50,7 @@
    SELECT  ROW_NUMBER() OVER (ORDER BY N.NOTICE_NUM DESC) RNUM,
          N.NOTICE_NUM,
            N.NOTICE_TITLE,
+           N.NOTICE_CONTENT,
            M.MEM_ID,
            N.NOTICE_DATE,
            TO_CHAR(N.NOTICE_DATE,'hh24:mi:ss') AS NOTICE_TIME,
@@ -81,7 +83,7 @@
 <!-- qna 리스트 -->
 <select id="qnaList" parameterType="hashmap" resultType="hashmap">
 <include refid="common.pagingPre"/>
-	
+	   <include refid="parentpre"/>
 		SELECT  ROW_NUMBER() OVER (ORDER BY A.QNA_NUM DESC) RNUM, A.*, 
 		        DECODE(B.QNA_NUM, A.QNA_NUM, 'Y', 'N') AS QNA_YORN
 		FROM    (
@@ -92,7 +94,8 @@
 		                TO_CHAR(Q.QNA_DATE,'hh24:mi:ss') AS QNA_TIME,
 		                Q.QNA_TYPE,
 		                Q.QNA_PARENT,
-		                Q.QNA_COUNT
+		                Q.QNA_COUNT,
+		                Q.QNA_CONTENT
 		        FROM    QNA Q,
 		                (
 		                 SELECT MEM_NUM, MEM_ID
@@ -101,22 +104,42 @@
 		        WHERE   Q.QNA_WRITER = M.MEM_NUM(+)
 		        AND     Q.QNA_PARENT IS NULL
 		        AND     Q.QNA_DEL_GB = 'N'
-		        <if test="id != null and !id.equals('')"> AND M.MEM_ID = #{id}</if>
-		       
-    
+		         <include refid="qnatype"/>
 		        ) A
 		LEFT OUTER JOIN
 		        (
 		        SELECT  DISTINCT  A.QNA_NUM
 		        FROM    QNA A, QNA B
 		        WHERE   A.QNA_NUM = B.QNA_PARENT
+		                AND   B.QNA_DEL_GB = 'N'
 		        ) B
 		ON  A.QNA_NUM = B.QNA_NUM
-
+        <include refid="parentpost"/>
 		<include refid="common.pagingPost"/>
 	</select>
 	
-	
+<sql id="parentpre">
+      <if test="search != null and !search.equals('')"> 
+      SELECT *
+	 FROM(  
+	 </if>
+</sql>
+
+<sql id="parentpost">
+<if test="search != null">
+         <if test="search == 'no'.toString()">)WHERE QNA_YORN = 'N'</if>
+         <if test="search == 'yes'.toString()">)WHERE QNA_YORN = 'Y'</if>
+      </if>	
+</sql>
+
+<sql id="qnatype">
+<if test="type != null and !type.equals('')">
+         <if test="type == 'goods'.toString()">AND Q.QNA_TYPE ='상품 관련 문의'</if>
+         <if test="type == 'member'.toString()">AND Q.QNA_TYPE ='회원 관리 문의'</if>
+         <if test="type == 'board'.toString()">AND Q.QNA_TYPE ='게시판 사용 관련 문의'</if>
+         <if test="type == 'etc'.toString()">AND Q.QNA_TYPE ='기타 문의'</if>
+      </if>	
+</sql>
 <!-- QnA 삭제 -->
 <update id="qnaDelete" parameterType="hashmap">
 <![CDATA[

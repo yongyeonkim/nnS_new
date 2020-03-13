@@ -284,4 +284,12 @@
       <put-attribute name="body" value="/WEB-INF/views/admin/qnaList.jsp" />
    </definition>
    
+   <definition name="adorderList" extends="default4">
+      <put-attribute name="body" value ="/WEB-INF/views/admin/orderList.jsp"/>
+   </definition>
+   
+   <definition name="adorderModify" extends="default4">
+      <put-attribute name="body" value="/WEB-INF/views/admin/orderModifyForm.jsp" />
+   </definition>
+   
 </tiles-definitions>

@@ -4,7 +4,16 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
 <%@ include file="/WEB-INF/include/include-header.jspf" %> 
 <head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
+$(function(){
+	$("a[name='title']").toggle(function(){
+	$(this).closest("tr").next().show();
+	}, function(){
+	$(this).closest("tr").next().hide();
+    });
+});
+
 function fn_check() { 
     var comSubmit = new ComSubmit("reportModifyForm");
     comSubmit.setUrl("<c:url value='/admin/reportModifyPro'/>");
@@ -30,6 +39,7 @@ function back(){
 .paging a:first-child{margin-left:0;}
 .paging strong{color:#fff;background:#337AB7;border:1px solid #337AB7;}
 .paging .page_arw{font-size:11px;line-height:30px;}
+tr.hiden {display:none}
 </style>
 </head>
 
@@ -89,10 +99,11 @@ function back(){
 										<td style="text-align:center;vertical-align:middle;">${list.REPORT_GOODS_SELLER_ID}</td>
 										<td style="text-align:center;vertical-align:middle;">
 											<select id="REPORT_STATUS" name="REPORT_STATUS" >
-             									<option value="처리대기">처리대기</option>
-            									<option value="신고접수">신고접수</option>
-           										<option value="허위신고">허위신고</option>
-             									<option value="처리완료">처리완료</option>
+                                                <!-- 수정폼에서 처리상태 유지 -->
+             									<option value="처리대기" ${param.REPORT_STATUS eq "처리대기" ? 'selected' :""}/>처리대기</option>
+						                        <option value="신고접수" ${param.REPORT_STATUS eq "신고접수" ? 'selected' :""}/>신고접수</option>
+						                        <option value="허위신고" ${param.REPORT_STATUS eq "허위신고" ? 'selected' :""}/>허위신고</option>
+						                        <option value="처리완료" ${param.REPORT_STATUS eq "처리완료" ? 'selected' :""}/>처리완료</option>
         				  					</select>
         				  					
 										</td>
@@ -100,6 +111,10 @@ function back(){
 											<button type="submit" class="btn btn-success" onclick="fn_check();">수정완료</button>
 										</td>
 									</tr>
+									<tr class='hiden'>
+								       <td style="text-align:center;vertical-align:middle;"> 내용 </td>
+								       <td colspan='8' style='text-align:center;vertical-align:middle;'>${list.REPORT_CONTENT}</td>
+								    </tr>
 								</c:forEach>
 								<!--  등록된 상품이 없을때 -->
 									<c:if test="${fn:length(list) le 0}">

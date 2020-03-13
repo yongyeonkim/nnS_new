@@ -2,6 +2,30 @@
 <!DOCTYPE html>
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
 <html lang="ko">
+<style>
+  table.hide {
+    width: 80%;
+    border-collapse: separate;
+    border-spacing: 1px;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+    margin: 20px 10px;
+}
+table.hide th {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    background: #efefef;
+}
+table.hide td {
+    width: 350px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+}
+</style>
 <head>
 <meta charset="UTF-8">
 <link href="<c:url value="/resources/css/btn.css"/>" rel="stylesheet">
@@ -21,7 +45,7 @@
    </div>
    <div id="main-container">
 		<img src="./../resources/images/form_t3.png" width="100" height="30">
-    <form id="frm" name="frm">
+    
 	<table class="tbl_type" align="center">
 		<colgroup>
 			<col width="15%"/>
@@ -52,7 +76,7 @@
 			<tr>
 				<td colspan="4" height="600px" style="vertical-align:top;"><pre style="overflow:hidden;  white-space: pre-wrap">${map.QNA_CONTENT }</pre></td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<th scope="row">첨부파일</th>
 				<td colspan="3">
 					<c:forEach var="row" items="${list }">
@@ -63,33 +87,40 @@
 						</div>
 					</c:forEach>
 				</td>
-			</tr>
+			</tr> --%>
 		</tbody>
 	</table>
+	    <br/><br/>
 	    <c:choose>
 	    <c:when test="${fn:length(asList)>0 }">
 	    <c:forEach items="${asList }" var="answer">
 		<div class="answer">
-				<p>답변보기</p>
+				<p><img src="./../resources/images/answer_open.png"></p>
 				<table class="hide">
-					<tr>
-					  <th>작성자</th><td>${answer.MEM_ID }(운영자)</td><th>작성 날짜</th><td>${answer.QNA_DATE }</td>
+				    <tr>
+					  <th><img src="./../resources/images/commu_title.png" height="25"></th><td colspan="3">${answer.QNA_TITLE }</td>
 					</tr>
-					<tr><th>제목</th><td>RE: ${answer.QNA_TITLE }</td>
 					<tr>
-					   <th>내용</th><td><pre>${answer.QNA_CONTENT}</pre></td>
+					  <th><img src="./../resources/images/commu_writer.png" height="25"><td>${answer.MEM_ID }(운영자)</td>
+					  <th><img src="./../resources/images/commu_date.png" height="25"></th><td>${answer.QNA_DATE }</td>
+					</tr>
+					<tr>
+					   <td colspan="4"><pre>${answer.QNA_CONTENT}</pre></td>
 					</tr>
 					<tr align="right">
-					  <td><a href="#this" class="btn" id="deleteAnswer" name="deleteAnswer">삭제하기</a>
+					  <c:if test ="${session_MEM_ID =='admin'}">
+					  <td colspan="4"><a href="#this" class="btn" id="deleteAnswer" name="deleteAnswer"><button class="bttn-bordered bttn-xs bttn-primary">답변삭제</button></a>
 					  <input type="hidden" id="QNA_NUM" value="${answer.QNA_NUM }"></td>
+					  </c:if>
 					</tr>
 				</table>
+				<br/>
 		</div>
 		</c:forEach>
 		</c:when>
 		</c:choose>
 			
-		<div class="answer">
+		<!-- <div class="answer"> 관리자 페이지로 옮겨감
 				<p>답변쓰기</p>
 				<table class="hide">
 					<tr>
@@ -105,7 +136,7 @@
 					</tr> 
 				</table>
 				
-		</div>
+		</div> -->
 	<a href="#this" class="btn" id="list"><button class="bttn-bordered bttn-xs bttn-primary">목록으로</button></a>
 	<c:if test="${session_MEM_ID eq map.MEM_ID && session_MEM_ID ne null}">
 		<a href="#this" class="btn" id="update"><button class="bttn-bordered bttn-xs bttn-primary">수정하기</button></a>
@@ -121,10 +152,10 @@
 				e.preventDefault();
 				fn_openBoardList();
 			});
-			$("#write").on("click", function(e){ //답변달기 버튼
+			/* $("#write").on("click", function(e){ //답변달기 버튼
 				e.preventDefault();
 				fn_insertBoard();
-			});
+			}); */
 			
 			$("#update").on("click", function(e){ //수정하기 버튼
 				e.preventDefault();
@@ -155,7 +186,7 @@
 			comSubmit.addParam("QNA_TYPE",type);
 			comSubmit.submit();
 		}
-		function fn_insertBoard(){
+		/* function fn_insertBoard(){
 			var comSubmit = new ComSubmit("frm");
 			var idx="${map.QNA_NUM}"
 			var type="${map.QNA_TYPE}"
@@ -164,7 +195,7 @@
 			comSubmit.addParam("QNA_TYPE",type);//어떤 유형에 대한 답변인지 보기위해 넣는다.
 			comSubmit.submit();
 		}
-	
+	 */
 		function fn_deleteBoard(){
 			var idx = "${map.QNA_NUM}";
 			var comSubmit = new ComSubmit();

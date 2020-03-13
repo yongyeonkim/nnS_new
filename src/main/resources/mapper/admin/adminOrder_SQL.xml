@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="adminOrder">
+	
+	
+<!-- 주문목록 -->
+<select id="orderList" parameterType="hashmap" resultType="hashmap">
+<include refid="common.pagingPre"/>
+<![CDATA[
+
+	SELECT  ROW_NUMBER() OVER (ORDER BY O.ORDERS_NUM DESC) RNUM,
+			O.ORDERS_NUM,
+			O.ORDERS_PRONUM,
+        	G.GOODS_TITLE,
+	        (SELECT MEM_ID FROM MEMBER WHERE MEM_NUM = (SELECT GOODS_SELLER FROM GOODS WHERE GOODS_NUM = ORDERS_PRONUM)) AS GOODS_SELLER_ID,
+	        (SELECT MEM_ID FROM MEMBER WHERE MEM_NUM =  O.ORDERS_USER) AS ORDERS_USER_ID,
+	        (SELECT MEM_NAME FROM MEMBER WHERE MEM_NUM =  O.ORDERS_USER) AS ORDERS_USER_NAME,
+	        O.ORDERS_DZIPCODE,
+	        O.ORDERS_DADD1,
+	        O.ORDERS_DADD2,
+	        O.ORDERS_DMEMO,
+        	O.ORDERS_STATUS,
+        	O.ORDERS_PRICE,
+        	O.ORDERS_DCOST,
+        	O.ORDERS_TCOST,
+        	O.ORDERS_DATE,
+        	TO_CHAR(O.ORDERS_DATE,'hh24:mi:ss') AS ORDERS_TIME,
+        	O.ORDERS_DNUM      
+        
+	FROM    ORDERS O,
+        	GOODS G
+	WHERE   
+  O.ORDERS_PRONUM = G.GOODS_NUM
+]]>
+<include refid="select"/>
+<include refid="common.pagingPost"/>
+</select>
+
+<sql id="select">
+  <if test="search != null">
+         <if test="search == 'pay'.toString()">AND O.ORDERS_STATUS = '주문/결제'</if>
+         <if test="search == 'delivery'.toString()">AND O.ORDERS_STATUS = '배송중'</if>
+         <if test="search == 'complete'.toString()">AND O.ORDERS_STATUS = '거래완료'</if>
+         <if test="search == 'cancel'.toString()">AND O.ORDERS_STATUS = '주문취소'</if>
+      </if>
+</sql>
+<!-- 주문상세보기 -->
+<select id="orderdetail" parameterType="hashmap" resultType="hashmap">
+<![CDATA[
+
+	SELECT  ROW_NUMBER() OVER (ORDER BY O.ORDERS_NUM DESC) RNUM,
+			O.ORDERS_NUM,
+			O.ORDERS_PRONUM,
+        	G.GOODS_TITLE,
+	        (SELECT MEM_ID FROM MEMBER WHERE MEM_NUM = (SELECT GOODS_SELLER FROM GOODS WHERE GOODS_NUM = ORDERS_PRONUM)) AS GOODS_SELLER_ID,
+	        (SELECT MEM_NAME FROM MEMBER WHERE MEM_NUM = (SELECT GOODS_SELLER FROM GOODS WHERE GOODS_NUM = ORDERS_PRONUM)) AS GOODS_SELLER_NAME,
+	        (SELECT MEM_PHONE FROM MEMBER WHERE MEM_NUM = (SELECT GOODS_SELLER FROM GOODS WHERE GOODS_NUM = ORDERS_PRONUM)) AS GOODS_SELLER_PHONE,
+	        (SELECT MEM_ID FROM MEMBER WHERE MEM_NUM =  O.ORDERS_USER) AS ORDERS_USER_ID,
+	        (SELECT MEM_NAME FROM MEMBER WHERE MEM_NUM =  O.ORDERS_USER) AS ORDERS_USER_NAME,
+	        O.ORDERS_PHONE,
+	        O.ORDERS_DZIPCODE,
+	        O.ORDERS_DADD1,
+	        O.ORDERS_DADD2,
+	        O.ORDERS_DMEMO,
+        	O.ORDERS_STATUS,
+        	O.ORDERS_PRICE,
+        	O.ORDERS_DCOST,
+        	O.ORDERS_TCOST,
+        	O.ORDERS_DATE,
+        	TO_CHAR(O.ORDERS_DATE,'hh24:mi:ss') AS ORDERS_TIME,
+        	O.ORDERS_DNUM      
+        
+	FROM    ORDERS O,
+        	GOODS G
+	WHERE   
+  O.ORDERS_PRONUM = G.GOODS_NUM
+  AND O.ORDERS_NUM = #{ORDERS_NUM}
+]]>
+</select>
+<!-- 주문수정 -->
+<select id="updateorder" parameterType="hashmap">
+    UPDATE ORDERS SET
+       ORDERS_DZIPCODE = #{ORDERS_DZIPCODE},
+       ORDERS_DADD1 = #{ORDERS_DADD1},
+       ORDERS_DADD2 = #{ORDERS_DADD2},
+       ORDERS_PHONE = #{ORDERS_PHONE}
+    WHERE ORDERS_NUM = #{ORDERS_NUM}   
+</select>
+<!-- 주문삭제 -->
+
+<!-- 주문취소 버튼 -->
+<update id="orderCancel" parameterType="hashMap">
+<![CDATA[
+	UPDATE  ORDERS
+	SET    	ORDERS_STATUS = '주문취소',
+			ORDERS_DEL_GB = 'Y'
+	WHERE   ORDERS_PRONUM = #{ORDERS_PRONUM}
+ ]]>
+</update>
+<update id="cancelTstatus" parameterType="hashMap">
+<![CDATA[
+			UPDATE	GOODS 
+			SET
+					GOODS_TSTATUS = 'N'
+			WHERE
+					GOODS_NUM = #{ORDERS_PRONUM}
+		]]>
+</update>
+
+
+</mapper>
+	

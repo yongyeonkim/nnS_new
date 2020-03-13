@@ -74,6 +74,7 @@
             SELECT  ROW_NUMBER() OVER (ORDER BY R.REPORT_NUM DESC) RNUM,
              R.REPORT_NUM,
               R.REPORT_TITLE,
+              R.REPORT_CONTENT,
               M.MEM_ID,
               R.REPORT_DATE,
               R.REPORT_COUNT,
@@ -104,11 +105,12 @@
    
    <!-- report list -->
    <select id="reportModifyList" parameterType="hashmap" resultType="hashmap">
-  <include refid="common.pagingPre"/>
+  
       <![CDATA[
             SELECT  ROW_NUMBER() OVER (ORDER BY R.REPORT_NUM DESC) RNUM,
              R.REPORT_NUM,
               R.REPORT_TITLE,
+              R.REPORT_CONTENT,
               M.MEM_ID,
               R.REPORT_DATE,
               R.REPORT_COUNT,
@@ -125,7 +127,7 @@
       AND		MEM_ID = #{MEM_ID}
       AND	   R.REPORT_NUM = #{REPORT_NUM}
       ]]>
-      <include refid="common.pagingPost"/>
+      
    </select>
 
    <!-- report 수정 -->
