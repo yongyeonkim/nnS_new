@@ -4,26 +4,86 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
 <%@ include file="/WEB-INF/include/include-header.jspf" %> 
 <head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 function delchk(){
     return confirm("삭제하시겠습니까?");
 }
 
 $(document).ready(function() {
-	
-	$("a[name='title']").on("click", function(e) { //제목 
-		e.preventDefault();
-		fn_openBoardDetail($(this));
-	});
+	fn_selectBoardList(1);
 
 });
 
-function fn_openBoardDetail(obj) {
-	var comSubmit = new ComSubmit();
-	comSubmit.setUrl("<c:url value='/community/reportDetail' />");
-	comSubmit.addParam("REPORT_NUM", obj.parent().find("#title2").val());
-	comSubmit.submit();
+
+function fn_selectBoardList(pageNo) {
+	var comAjax = new ComAjax();
+	comAjax.setUrl("<c:url value='/admin/reportProListPaging' />");
+	comAjax.setCallback("fn_selectBoardListCallback");
+	comAjax.addParam("PAGE_INDEX", pageNo);
+	comAjax.addParam("PAGE_ROW", 15);
+	comAjax.addParam("search",$('#search').val());
+	comAjax.ajax();
 }
+
+function fn_selectBoardListCallback(data) {
+	var total = data.TOTAL;
+	var body = $("table>tbody");
+	body.empty();
+	if (total == 0) {
+		var str = "<tr align=\"center\">" + "<td colspan='9'>등록된 신고사항이 없습니다</td>"
+				+ "</tr>";
+				
+		body.append(str);
+	} else {
+		var params = {
+			divId : "PAGE_NAVI",
+			pageIndex : "PAGE_INDEX",
+			totalCount : total,
+			recordCount : 15,
+			eventName : "fn_selectBoardList"
+			
+		};
+		gfn_renderPaging(params);
+
+		var str = "";
+		$.each(
+						data.list,
+						function(key, value) {
+								str += 
+										
+										'<tr class="gradeA even" role="row">'
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.REPORT_NUM + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">'
+								+			"<input type='hidden' name='title2' id='title2' value=" + value.REPORT_NUM + ">"
+								+			'<a href="#this" id="title" name="title">'
+								+				value.REPORT_TITLE
+								+		    "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ID + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + new Date(value.REPORT_DATE).toLocaleString() + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.REPORT_TYPE + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.REPORT_GOODS_SELLER_ID + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.REPORT_STATUS + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.REPORT_DEL_GB + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">'
+								+				"<a href='/nnS/admin/reportModify?MEM_ID="+value.MEM_ID+"&REPORT_NUM="+value.REPORT_NUM+"&REPORT_STATUS="+value.REPORT_STATUS+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Cog_font_awesome.svg/32px-Cog_font_awesome.svg.png">' + "</a>"			
+								+			"<a href='/nnS/admin/adReportDelete?REPORT_NUM="+value.REPORT_NUM+"'>"  + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()">' + "</a>" + "</td>"									
+								+		"</tr>"
+								+		"</tr>"
+								+       "<tr class='hiden'>" 
+								+           '<th style="text-align:center;vertical-align:middle;">' + "내용" + "</th>"
+								+           "<td colspan='8' style='text-align:center;vertical-align:middle;'>" +  value.REPORT_CONTENT + "</td>" 
+								+       "</tr>";
+						});
+		body.append(str);
+			$("a[name='title']").toggle(function(){
+				$(this).closest("tr").next().show();
+				}, function(){
+				$(this).closest("tr").next().hide();
+			});
+	}
+}
+
 </script>
 <style type="text/css">
 .paging{text-align:center;height:32px;margin-top:5px;margin-bottom:15px;}
@@ -39,6 +99,7 @@ function fn_openBoardDetail(obj) {
 .paging a:first-child{margin-left:0;}
 .paging strong{color:#fff;background:#337AB7;border:1px solid #337AB7;}
 .paging .page_arw{font-size:11px;line-height:30px;}
+tr.hiden {display:none}
 </style>
 </head>
 
@@ -92,39 +153,14 @@ function fn_openBoardDetail(obj) {
 										<th style="width: 10%; text-align:center;">관리</th>
 									</tr>
 								</thead>
-								<tbody>
-								<c:forEach var="list"  items="${list}" varStatus="stat">
-									<c:url var="viewURL" value="/admin/reportModify" >
-										<c:param name="MEM_ID" value="${list.MEM_ID}" />
-										<c:param name="REPORT_NUM" value="${list.REPORT_NUM}" />
-									</c:url>
-									<tr class="gradeA even" role="row">
-										<td style="text-align:center;vertical-align:middle;">${list.REPORT_NUM}</td>
-										<td style="text-align:center;vertical-align:middle;">
-											<input type="hidden" name="title2" id="title2" value="${list.REPORT_NUM}">
-											<a href="#this" id="title" name="title">
-												${list.REPORT_TITLE}
-										</td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_ID}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.REPORT_DATE}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.REPORT_TYPE}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.REPORT_GOODS_SELLER_ID}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.REPORT_STATUS}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.REPORT_DEL_GB}</td>
-										<td style="text-align:center;vertical-align:middle;">
-											<a href="${viewURL}"><input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Cog_font_awesome.svg/32px-Cog_font_awesome.svg.png"></a>&nbsp;&nbsp;
-										<c:url var="viewURL2" value="/admin/adReportDelete" >
-											<c:param name="REPORT_NUM" value="${list.REPORT_NUM }" />
-										</c:url>
-										 <a href="${viewURL2}"><input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()"></a></td>									
-									</tr>
-								</c:forEach>
-								<!--  등록된 상품이 없을때 -->
-									<c:if test="${fn:length(list) le 0}">
-										<tr><td colspan="9" style="text-align:center;">등록된 신고사항이 없습니다</td></tr>
-									</c:if> 
+								<tbody class="body">
+						
 								</tbody>
 							</table>
+							<br/>
+							<div id="PAGE_NAVI" align="center"></div>
+							<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
+						
 						</div>
 					</div>
 					

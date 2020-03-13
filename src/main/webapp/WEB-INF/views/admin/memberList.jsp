@@ -1,13 +1,78 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!DOCTYPE html>
+<html lang="ko">
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
+<%@ include file="/WEB-INF/include/include-header.jspf" %>
 <head>
 <script type="text/javascript">
 function delchk(){
     return confirm("삭제하시겠습니까?");
+} 
+
+$(document).ready(function() {
+	fn_selectBoardList(1);
+});
+
+function fn_selectBoardList(pageNo) {
+	var comAjax = new ComAjax();
+	comAjax.setUrl("<c:url value='/admin/memberListPaging' />");
+	comAjax.setCallback("fn_selectBoardListCallback");
+	comAjax.addParam("PAGE_INDEX", pageNo);
+	comAjax.addParam("PAGE_ROW", 15);
+	comAjax.ajax();
 }
+
+function fn_selectBoardListCallback(data) {
+	var total = data.TOTAL;
+	var body = $("table>tbody");
+	body.empty();
+	if (total == 0) {
+		var str = "<tr align=\"center\">" + "<td colspan='9'>조회된 회원이 없습니다.</td>"
+				+ "</tr>";
+				
+		body.append(str);
+	} else {
+		var params = {
+			divId : "PAGE_NAVI",
+			pageIndex : "PAGE_INDEX",
+			totalCount : total,
+			recordCount : 15,
+			eventName : "fn_selectBoardList"
+			
+		};
+		gfn_renderPaging(params);
+
+		var str = "";
+		$.each(
+						data.list,
+						function(key, value) {
+								str += 
+										'<tr class="gradeA even" role="row">'
+								+			'<td style="text-align:center;vertical-align:middle;">'+ value.MEM_NUM + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ID + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_PW + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_NAME + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + new Date(value.MEM_BIRTH).toLocaleString() + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_GEN + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_EMAIL + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_PHONE + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ZIP + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ADD1 + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ADD2 + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + new Date(value.MEM_JOINDATE).toLocaleString() + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_LEVEL + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_DEL_GB + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">'
+								+				"<a href='/nnS/admin/memberModify?MEM_ID="+value.MEM_ID+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Cog_font_awesome.svg/32px-Cog_font_awesome.svg.png">'+ "</a>"	
+								+			"<input type='hidden' id='MEM_ID' value=" + value.MEM_ID + ">"	
+								+			 "<a href='/nnS/admin/memberDelete?MEM_ID="+value.MEM_ID+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()">' + "</a>" + "</td>"									
+								+		"</tr>";
+						});
+		body.append(str);
+	}
+}
+
 </script>
 <style type="text/css">
 .paging{text-align:center;height:32px;margin-top:5px;margin-bottom:15px;}
@@ -25,7 +90,7 @@ function delchk(){
 .paging .page_arw{font-size:11px;line-height:30px;}
 </style>
 </head>
-
+<body>
 <div class="row" style="padding-left:15px;width:900px;">    
 	<h1 class="page-header">회원목록</h1>
 </div>
@@ -68,42 +133,14 @@ function delchk(){
 										<th style="width: 5%; text-align:center;">탈퇴여부</th>
 										<th style="width: 3%; text-align:center;">관리</th>
 									</tr>
-								</thead>
-								<tbody>
-								<c:forEach var="list"  items="${list}" varStatus="stat">
-								<c:url var="viewURL" value="/admin/memberModify" >
-									<c:param name="MEM_ID" value="${list.MEM_ID}" />
-								</c:url>									
-									<tr class="gradeA even" role="row">
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_NUM}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_ID}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_PW}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_NAME}</td>
-										<td style="text-align:center;vertical-align:middle;"><fmt:formatDate value="${list.MEM_BIRTH}" pattern="YY.MM.dd" /></td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_GEN}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_EMAIL}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_PHONE}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_ZIP}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_ADD1}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_ADD2}</td>
-										<td style="text-align:center;vertical-align:middle;"><fmt:formatDate value="${list.MEM_JOINDATE}" pattern="YY.MM.dd" /></td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_LEVEL}</td>
-										<td style="text-align:center;vertical-align:middle;">${list.MEM_DEL_GB}</td>
-										<td style="text-align:center;vertical-align:middle;">
-											<a href="${viewURL}"><input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Cog_font_awesome.svg/32px-Cog_font_awesome.svg.png"></a>&nbsp;&nbsp;
-										<c:url var="viewURL2" value="/admin/memberDelete" >
-											<c:param name="MEM_ID" value="${list.MEM_ID }" />
-										</c:url>
-										<input type="hidden" id="MEM_ID" value="${list.MEM_ID }">	
-										 <a href="${viewURL2}"><input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()"></a></td>									
-									</tr>
-								</c:forEach>
-								<!--  등록된 상품이 없을때 -->
-									<c:if test="${fn:length(list) le 0}">
-										<tr><td colspan="9" style="text-align:center;">등록된 회원이 없습니다</td></tr>
-									</c:if> 
+								</thead>				
+								<tbody class="body">
+								
 								</tbody>
 							</table>
+								<br/>
+								<div id="PAGE_NAVI" align="center"></div>
+								<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 						</div>
 					</div>
 					
@@ -114,3 +151,6 @@ function delchk(){
 	</div>
         <!-- /.panel -->   
 </div>
+</body>
+</html>
+

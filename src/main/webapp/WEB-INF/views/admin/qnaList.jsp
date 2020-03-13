@@ -4,6 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
 <head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 
 var openWin;
@@ -36,31 +37,84 @@ function openChild(num)
 function delchk(){
     return confirm("삭제하시겠습니까?");
 }
-$(document).ready(function() {
+$(document).ready(function(){
+	fn_selectBoardList(1);
 	
-	$("a[name='title']").on("click", function(e) { //제목 
-		e.preventDefault();
-		fn_openBoardDetail($(this));
-	});
-	
-	$(".answer>p").click(function(){
-		var submenu = $(this).next("table");
+  });
 
-		// submenu 가 화면상에 보일때는 위로 접고 아니면 아래로 펼치기
-		if( submenu.is(":visible") ){
-			submenu.slideUp();
-		}else{
-			submenu.slideDown();
-		}
-	});
-
-});
 
 function fn_openBoardDetail(obj) {
 	var comSubmit = new ComSubmit();
 	comSubmit.setUrl("<c:url value='/community/qnaDetail' />");
 	comSubmit.addParam("QNA_NUM", obj.parent().find("#title2").val());
 	comSubmit.submit();
+}
+function fn_selectBoardList(pageNo) {
+	var comAjax = new ComAjax();
+	comAjax.setUrl("<c:url value='/admin/qnaListPaging' />");
+	comAjax.setCallback("fn_selectBoardListCallback");
+	comAjax.addParam("PAGE_INDEX", pageNo);
+	comAjax.addParam("PAGE_ROW", 15);
+	comAjax.addParam("search",$('#search').val());
+	comAjax.addParam("type",$('#type').val());
+	comAjax.ajax();
+}
+
+function fn_selectBoardListCallback(data) {
+	var total = data.TOTAL;
+	var body = $("table>tbody");
+	body.empty();
+	if (total == 0) {
+		var str = "<tr align=\"center\">" + "<td colspan='9'>조회된 게시글이 없습니다</td>"
+				+ "</tr>";
+				
+		body.append(str);
+	} else {
+		var params = {
+			divId : "PAGE_NAVI",
+			pageIndex : "PAGE_INDEX",
+			totalCount : total,
+			recordCount : 15,
+			eventName : "fn_selectBoardList"
+			
+		};
+		gfn_renderPaging(params);
+
+		var str = "";
+		$.each(
+						data.qnaList,
+						function(key, value) {
+								str += 
+										'<tr class="gradeA even" role="row">'
+								+			'<td style="text-align:center;vertical-align:middle;">'+ value.QNA_NUM + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' 
+								+           '<input type="hidden" name="title2" id="title2" value=' + value.QNA_NUM + '>'
+								+				'<a href="#this" id="title" name="title">'
+								+				value.QNA_TITLE
+								+			"</a>" + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ID + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + new Date(value.QNA_DATE).toLocaleString() + "</td>"
+								+           '<td style="text-align:center;vertical-align:middle;">' + value.QNA_TYPE + "</td>"
+								+           '<td style="text-align:center;vertical-align:middle;">' + value.QNA_YORN + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">'
+								+           "<input type='button' value='답변달기' onclick='openChild("+ value.QNA_NUM +");'>&nbsp;&nbsp;" 
+								+			"<input type='hidden' id='MEM_ID' value=" + value.MEM_ID + ">"	
+								+			 "<a href='/nnS/admin/adQnaDelete?QNA_NUM="+value.QNA_NUM+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()">' + "</a>" + "</td>"									
+								+		"</tr>"
+								+       "<tr class='hiden'>" 
+								+           '<th style="text-align:center;vertical-align:middle;">' + "내용" + "</th>"
+								+           "<td colspan='8' style='text-align:center;vertical-align:middle;'>" +  value.QNA_CONTENT + "</td>" 
+								+       "</tr>";
+						});
+		body.append(str);
+		
+			$("a[name='title']").toggle(function(){
+			$(this).closest("tr").next().show();
+			}, function(){
+			$(this).closest("tr").next().hide();
+		});
+	 
+	}
 }
 </script>
 <style type="text/css">
@@ -77,7 +131,7 @@ function fn_openBoardDetail(obj) {
 .paging a:first-child{margin-left:0;}
 .paging strong{color:#fff;background:#337AB7;border:1px solid #337AB7;}
 .paging .page_arw{font-size:11px;line-height:30px;}
-
+tr.hiden {display:none}
 </style>
 </head>
 
@@ -95,6 +149,26 @@ function fn_openBoardDetail(obj) {
 					class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 					<div class="row" style="margin-bottom:5px;">
 						<div class="col-sm-6" style="text-align:left;">
+								   <form action="/nnS/admin/qnaList" method="post">
+					                     <a href="/nnS/admin/qnaList"><button type="button" class="btn btn-outline btn-default">전체</button></a>
+					                     <select class="form-control" name="type" id="type">
+					                        <option value ="">-- Type --</option>
+					                        <option value ="goods" <c:out value="${type eq 'goods' ? 'selected' :''}"/>>상품 관련 문의</option>
+					                        <option value ="member" <c:out value="${type eq 'member' ? 'selected' :''}"/>>회원관리 문의</option>
+					                         <option value ="board" <c:out value="${type eq 'board' ? 'selected' :''}"/>>게시판사용 관련</option>
+					                        <option value ="etc" <c:out value="${type eq 'etc' ? 'selected' :''}"/>>기타</option>
+					                     </select>
+					                     
+					                     <select class="form-control" name="search" id="search">
+					                        <option value ="">-- 답변여부 --</option>
+					                        <option value ="no" <c:out value="${search eq 'no' ? 'selected' :''}"/>>답변대기</option>
+					                        <option value ="yes" <c:out value="${search eq 'yes' ? 'selected' :''}"/>>답변완료</option>
+					                     </select>
+					                     
+					                     <input type="submit" value="분류" class="search_btn"/>                  
+		                          </form>
+						  </div>
+						<div class="col-sm-6" style="text-align:left;">
 							<div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">총 게시글 수 : ${TOTAL}</div>
 						</div>
 						
@@ -111,39 +185,18 @@ function fn_openBoardDetail(obj) {
 										<th style="width: 36%; text-align:center;">제목</th>
 										<th style="width: 13%; text-align:center;">작성자</th>										
 										<th style="width: 13%; text-align:center;">작성일</th>
+										<th style="width: 13%; text-align:center;">문의유형</th>
 										<th style="width: 13%; text-align:center;">답변여부</th>
 										<th style="width: 15%; text-align:center;">관리</th>
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach var="qnaList"  items="${qnaList}" varStatus="stat">									
-									<tr class="gradeA even" role="row">
-										<td style="text-align:center;vertical-align:middle;">${qnaList.QNA_NUM}</td>
-										<td style="text-align:center;vertical-align:middle;">
-											<input type="hidden" name="title2" id="title2" value="${qnaList.QNA_NUM}">
-											<a href="#this" id="title" name="title">
-												${qnaList.QNA_TITLE}
-										</td>
-										<td style="text-align:center;vertical-align:middle;">${qnaList.MEM_ID}</td>																											
-										<td style="text-align:center;vertical-align:middle;"><fmt:formatDate value="${qnaList.QNA_DATE}" pattern="YY.MM.dd HH:mm" /></td>
-										<td style="text-align:center;vertical-align:middle;">${qnaList.QNA_YORN}</td>		
-										<td style="text-align:center;vertical-align:middle;">
-										<%-- <input type="button" value="답변달기" onclick='openChild("${qnaList.QNA_TITLE}");'>&nbsp;&nbsp; --%>
-										<input type="button" value="답변달기" onclick='openChild("${qnaList.QNA_NUM}");'>&nbsp;&nbsp;
-										<c:url var="viewURL2" value="/admin/adQnaDelete" >
-											<c:param name="QNA_NUM" value="${qnaList.QNA_NUM}" />						
-										</c:url>
-										<input type="hidden" id="QNA_NUM" value="${qnaList.QNA_NUM}">		
-										 <a href="${viewURL2}"><input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()"></a></td>									
-									</tr>
-
-								</c:forEach>
-								<!--  등록된 상품이 없을때 -->
-									<c:if test="${fn:length(qnaList) le 0}">
-										<tr><td colspan="9" style="text-align:center;">등록된 상품이 없습니다</td></tr>
-									</c:if> 
+								
 								</tbody>
 							</table>
+								<br/>
+										<div id="PAGE_NAVI" align="center"></div>
+										<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 						</div>
 					</div>
 					

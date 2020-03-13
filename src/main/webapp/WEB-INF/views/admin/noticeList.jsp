@@ -4,26 +4,79 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
 <head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 function delchk(){
     return confirm("삭제하시겠습니까?");
 }
 
 $(document).ready(function() {
+	fn_selectBoardList(1);
 	
-	$("a[name='title']").on("click", function(e) { //제목 
-		e.preventDefault();
-		fn_openBoardDetail($(this));
-	});
-
 });
 
-function fn_openBoardDetail(obj) {
-	var comSubmit = new ComSubmit();
-	comSubmit.setUrl("<c:url value='/community/noticeDetail' />");
-	comSubmit.addParam("NOTICE_NUM", obj.parent().find("#title2").val());
-	comSubmit.submit();
+
+function fn_selectBoardList(pageNo) {
+	var comAjax = new ComAjax();
+	comAjax.setUrl("<c:url value='/admin/noticeListPaging' />");
+	comAjax.setCallback("fn_selectBoardListCallback");
+	comAjax.addParam("PAGE_INDEX", pageNo);
+	comAjax.addParam("PAGE_ROW", 15);
+	comAjax.ajax();
 }
+
+function fn_selectBoardListCallback(data) {
+	var total = data.TOTAL;
+	var body = $("table>tbody");
+	body.empty();
+	if (total == 0) {
+		var str = "<tr align=\"center\">" + "<td colspan='9'>조회된 게시글이 없습니다</td>"
+				+ "</tr>";
+				
+		body.append(str);
+	} else {
+		var params = {
+			divId : "PAGE_NAVI",
+			pageIndex : "PAGE_INDEX",
+			totalCount : total,
+			recordCount : 15,
+			eventName : "fn_selectBoardList"
+			
+		};
+		gfn_renderPaging(params);
+
+		var str = "";
+		$.each(
+						data.noticeList,
+						function(key, value) {
+								str += 
+										'<tr class="gradeA even" role="row">'
+								+			'<td style="text-align:center;vertical-align:middle;">'+ value.NOTICE_NUM + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' 
+								+           '<input type="hidden" name="title2" id="title2" value=' + value.NOTICE_NUM + '>'
+								+				'<a href="#this" id="title" name="title">'
+								+				value.NOTICE_TITLE
+								+			"</a>" + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ID + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + new Date(value.NOTICE_DATE).toLocaleString() + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">'
+								+			"<input type='hidden' id='MEM_ID' value=" + value.MEM_ID + ">"	
+								+			 "<a href='/nnS/admin/adNoticeDelete?NOTICE_NUM="+value.NOTICE_NUM+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()">' + "</a>" + "</td>"									
+								+		"</tr>"
+								+       "<tr class='hiden'>" 
+								+           '<th style="text-align:center;vertical-align:middle;">' + "내용" + "</th>"
+								+           "<td colspan='8' style='text-align:center;vertical-align:middle;'>" +  value.NOTICE_CONTENT + "</td>" 
+								+       "</tr>";
+						});
+		body.append(str);
+		$("a[name='title']").toggle(function(){
+			$(this).closest("tr").next().show();
+			}, function(){
+			$(this).closest("tr").next().hide();
+		});
+	}
+}
+
 </script>
 <style type="text/css">
 .paging{text-align:center;height:32px;margin-top:5px;margin-bottom:15px;}
@@ -39,6 +92,7 @@ function fn_openBoardDetail(obj) {
 .paging a:first-child{margin-left:0;}
 .paging strong{color:#fff;background:#337AB7;border:1px solid #337AB7;}
 .paging .page_arw{font-size:11px;line-height:30px;}
+tr.hiden {display:none}
 </style>
 </head>
 
@@ -76,34 +130,12 @@ function fn_openBoardDetail(obj) {
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach var="noticeList"  items="${noticeList}" varStatus="stat">
-								<c:url var="viewURL" value="goodsView.dog" >
-									<c:param name="NOTICE_NUM" value="${noticeList.NOTICE_NUM}" />
-								    <c:param name="currentPage" value="${currentPage}" />
-								</c:url>									
-									<tr class="gradeA even" role="row">
-										<td style="text-align:center;vertical-align:middle;">${noticeList.NOTICE_NUM}</td>
-										<td style="text-align:center;vertical-align:middle;">
-											<input type="hidden" name="title2" id="title2" value="${noticeList.NOTICE_NUM}">
-											<a href="#this" id="title" name="title">
-												${noticeList.NOTICE_TITLE}
-										</td>
-										<td style="text-align:center;vertical-align:middle;">${noticeList.MEM_ID}</td>																											
-										<td style="text-align:center;vertical-align:middle;"><fmt:formatDate value="${noticeList.NOTICE_DATE}" pattern="YY.MM.dd HH:mm" /></td>
-										<td style="text-align:center;vertical-align:middle;">
-										<c:url var="viewURL2" value="/admin/adNoticeDelete" >
-											<c:param name="NOTICE_NUM" value="${noticeList.NOTICE_NUM}" />						
-										</c:url>
-										<input type="hidden" id="NOTICE_NUM" value="${noticeList.NOTICE_NUM}">		
-										 <a href="${viewURL2}"><input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()"></a></td>									
-									</tr>
-								</c:forEach>
-								<!--  등록된 상품이 없을때 -->
-									<c:if test="${fn:length(noticeList) le 0}">
-										<tr><td colspan="9" style="text-align:center;">등록된 상품이 없습니다</td></tr>
-									</c:if> 
+								
 								</tbody>
 							</table>
+								<br/>
+									<div id="PAGE_NAVI" align="center"></div>
+									<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 						</div>
 					</div>
 					<div align="right">

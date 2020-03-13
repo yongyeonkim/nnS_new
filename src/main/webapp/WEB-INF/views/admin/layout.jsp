@@ -86,7 +86,15 @@
                                     <a href="/nnS/admin/goodsList">- 상품목록 </a>
                                 </li>
                             </ul>
-                        </li>                     
+                        </li>
+                        <li class="active">
+                            <a href="#"style="background: #e7e7e7;"><i class="fa fa-bar-chart-o fa-fw"></i>주문관리<span class="fa arrow">▼</span></a>
+                      <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/nnS/admin/orderList">- 주문목록 </a>
+                                </li>
+                            </ul>
+                        </li>                                       
                         <li class="active">
                             <a href="#"style="background: #e7e7e7;"><i class="fa fa-bar-chart-o fa-fw"></i>게시판관리<span class="fa arrow">▼</span></a>
                       <ul class="nav nav-second-level">
