@@ -24,8 +24,24 @@
 		<tiles:insertAttribute name="body"/><!-- // container -->
 	</div> 	
 	<!-- container --> 
-	<div id="container">
-		<tiles:insertAttribute name="body2"/><!-- // container -->
+	<div id="container" style="width:30%; margin:10px 10px 10px 9%; float:left;">
+		<div style="border: 1px dashed; margin-top:30px;">
+			<tiles:insertAttribute name="body2"/><!-- // container -->
+		</div>
+	</div>
+	<div id="container" style="width:50%; margin:10px 9% 10px 10px; float:right;">
+		<div style="border: 1px dashed; margin-top:30px;">
+			<tiles:insertAttribute name="body3"/><!-- // container -->
+		</div>
+		<div style="border: 1px dashed; margin-top:10px;">
+			<tiles:insertAttribute name="body4"/><!-- // container -->
+		</div>
+		<div style="border: 1px dashed; margin-top:10px;">
+			<tiles:insertAttribute name="body5"/><!-- // container -->
+		</div>
+		<div style="border: 1px dashed; margin-top:10px;">
+			<tiles:insertAttribute name="body6"/><!-- // container -->
+		</div>
 	</div>
 	<!-- footer --> 
 		<tiles:insertAttribute name="footer"/><!-- // footer -->

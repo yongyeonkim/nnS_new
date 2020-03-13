@@ -10,17 +10,9 @@
 </head>
 <body>
 <div id="content">
-   <div id="vertical_tab-container">
-      <ul>
-         <li><a href="noticeList"><img src="./../resources/images/tab_notice.png" width="100" height="30"></a></li>
-         <li><a href="boardList"><img src="./../resources/images/tab_board.png" width="100" height="30"></a></li>
-         <li><a href="reportList"><img src="./../resources/images/tab_report.png" width="100" height="30"></a></li>
-         <li class="selected"><a href="qnaList"><img src="./../resources/images/tab_qna.png" width="100" height="30"></a></li>
-        </ul>
-   </div>
-   <div id="main-container">
+   <div id="main-container2">
    
-	<img src="./../resources/images/commu_qtitle.png" width="200" height="70">
+	<img src="./resources/images/commu_qtitle.png" width="200" height="70">
 	<table class="tbl_type">
 		<colgroup>
 			<col width="8%" />
@@ -32,15 +24,15 @@
 		</colgroup>  
 		<thead>
 			<tr>
-				<th scope="col"><img src="./../resources/images/commu_num.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_title.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_writer.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_re.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_date.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_hit.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_num.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_title.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_writer.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_re.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_date.png" height="25"></th>
+				<th scope="col"><img src="./resources/images/commu_hit.png" height="25"></th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="qnaTbody">
 		</tbody>
 	</table>
 	
@@ -48,56 +40,39 @@
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 
 	<br />
-	<div align="right">
-	<c:if test="${session_MEM_INFO.MEM_ID != NULL }">
-		<a href="#this"  class="btn" id="write"><button class="bttn-bordered bttn-xs bttn-primary"><img src="./../resources/images/commu_wbtn.png"></button></a>
-	</c:if>
-	</div>
 	</div>
 	</div>
     <br/>
 	<%@ include file="/WEB-INF/include/include-body.jspf" %>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			 fn_selectBoardList(1);
-			$("#write").on("click", function(e) { //글쓰기 버튼
+			 fn_selectBoardList_qna(1);
+			$("a[name='title_qna']").on("click", function(e) { //제목 
 				e.preventDefault();
-				fn_openBoardWrite();
-			});
-
-
-			$("a[name='title']").on("click", function(e) { //제목 
-				e.preventDefault();
-				fn_openBoardDetail($(this));
+				fn_openBoardDetail_qna($(this));
 			});
 		});
 
-		function fn_openBoardWrite() {
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/community/qnaWriteForm' />");
-			comSubmit.submit();
-		}
-	
-		function fn_openBoardDetail(obj) {
+		function fn_openBoardDetail_qna(obj) {
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/community/qnaDetail' />");
 			comSubmit.addParam("QNA_NUM", obj.parent().find("#QNA_NUM").val());
 			comSubmit.submit();
 		}
-	    function fn_selectBoardList(pageNo) {
+	    function fn_selectBoardList_qna(pageNo) {
 			var comAjax = new ComAjax();
 			
 			comAjax.setUrl("<c:url value='/community/qnaListPaging' />");
-			comAjax.setCallback("fn_selectBoardListCallback");
+			comAjax.setCallback("fn_selectBoardListCallback_qna");
 			
 			comAjax.addParam("PAGE_INDEX", pageNo);
 			comAjax.addParam("PAGE_ROW", 15);
 			comAjax.ajax();
 		}
 
-		function fn_selectBoardListCallback(data) {
+		function fn_selectBoardListCallback_qna(data) {
 			var total = data.TOTAL;
-			var body = $("table>tbody");
+			var body = $("#qnaTbody");
 			body.empty();
 			if (total == 0) {
 				var str = "<tr align=\"center\">" + "<td colspan='6'>조회된 결과가 없습니다.</td>"
@@ -109,7 +84,7 @@
 					pageIndex : "PAGE_INDEX",
 					totalCount : total,
 					recordCount : 15,
-					eventName : "fn_selectBoardList"
+					eventName : "fn_selectBoardList_qna"
 					
 				};
 				gfn_renderPaging(params);
@@ -128,7 +103,7 @@
 											+ value.QNA_NUM
 											+ "</td>"
 											+ "<td class='title'>"
-											+ "<a href='#this' name='title'>"
+											+ "<a href='#this' name='title_qna'>"
 											+ title
 											+ "</a>"
 											+ "<input type='hidden' id='QNA_NUM' value=" + value.QNA_NUM + ">"

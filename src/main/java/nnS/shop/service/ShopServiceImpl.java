@@ -26,15 +26,54 @@ public class ShopServiceImpl implements ShopService {
 	private FileUtils fileUtils;
 	
 	@Override
-	public List<Map<String, Object>> selectGoodsList(Map<String, Object> map, String keyword, String searchType, String sortType) throws Exception {
-		map.put("keyword", keyword);
+	public List<Map<String, Object>> selectGoodsList(Map<String, Object> map, String keyword, String searchType, String sortType, String tstatus) throws Exception {
+		if(searchType.equals("hash") && keyword != null) {
+			map.put("keyword", hashConvert(keyword));
+		}else {
+			map.put("keyword", keyword);
+		}
+		
+		//map.put("keyword", keyword);
 		map.put("searchType", searchType);
 		map.put("sortType", sortType);
+		map.put("tstatus", tstatus);
+		
 		return shopDAO.selectGoodsList(map);
 	}
 	
+	private String hashConvert(String hashStr) {
+		String str = "";
+		String[] arr;
+		String resultStr = "";
+		System.out.println("해시태그1 : " + hashStr);
+		if(hashStr != null && hashStr.length() > 0) {
+			str = hashStr.replace(" ", "#");
+			if(!str.substring(0, 1).equals("#")) {
+				str = "#" + str;
+			}
+			
+			//#이 중복되는 경우 한개로 만들기 위한 작업
+			arr = str.split("#");
+			for(int i = 0; i < arr.length; i++) {
+				if(arr[i] != null && !arr[i].equals("")) {
+					resultStr += "#" + arr[i];
+				}else {
+					continue;
+				}
+			}
+		}else {
+			resultStr = "#";
+		}
+		
+		
+		System.out.println("해시태그2 : " + resultStr);
+		return resultStr;
+	}
 	@Override
 	public void insertGoods(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		//입력 받은 값을 해시태그로 변경하기 위한 과정
+		String hash = hashConvert((String)map.get("GOODS_HASH"));
+		map.put("GOODS_HASH", hash);
 		// 내용에서 이미지 긁어오기 시작
 		String img_templist=""; // 이미지 링크를 ','를 기준으로 냐열해둠, 아직 사용 안함
 		String img_list[] = {}; // ','로 구분된 문자열을 나눠서 배열에 담음
