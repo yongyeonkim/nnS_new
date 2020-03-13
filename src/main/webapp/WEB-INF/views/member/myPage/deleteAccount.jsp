@@ -18,23 +18,29 @@ $(document).ready(function() { //변경 버튼 클릭시
  
  function fn_delete(deleteAccountForm) { //변경 버튼 클릭시(유효성검증, 데이터입력)
 	 var MEM_PW = {MEM_PW : $('#MEM_PW').val()};
-     $.ajax({
-         url:"<c:url value='/myPage/deletePw'/>",
-         type:'get',
-         data: MEM_PW,
-         success:function(data){              
-             if($.trim(data)=="1"){
-            	 var comSubmit = new ComSubmit("deleteAccountForm");
-            	 comSubmit.setUrl("<c:url value='/myPage/deleteAccountCheck'/>");
-            	 comSubmit.submit();  
-             }else{
-                alert("비밀번호가 틀렸습니다.");
-             }
-         },
-         error:function(){
-                 alert("에러입니다");
-         }
-     });
+ 
+ 	var CONFIRM = confirm("정말로 탈퇴하시겠습니까?");
+ 	
+ 	if(CONFIRM==true){
+	     $.ajax({
+	         url:"<c:url value='/myPage/deletePw'/>",
+	         type:'get',
+	         data: MEM_PW,
+	         success:function(data){              
+	             if($.trim(data)=="1"){
+	            	 var comSubmit = new ComSubmit("deleteAccountForm");
+	            	 comSubmit.setUrl("<c:url value='/myPage/deleteAccountCheck'/>");
+	            	 comSubmit.submit();  
+				 	alert("회원 탈퇴가 완료되었습니다.");
+	             }else{
+	                alert("비밀번호가 틀렸습니다.");
+	             }
+	         },
+	         error:function(){
+	                 alert("에러입니다");
+	         }
+	    });
+ 	}
  };
  
  $("#deleteAccountForm").on("submit",function(e){

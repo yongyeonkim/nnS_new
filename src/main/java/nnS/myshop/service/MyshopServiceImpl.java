@@ -116,5 +116,9 @@ public class MyshopServiceImpl implements MyshopService{
 	public void orderCancel(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		myshopDAO.orderCancel(map);
 	}
+	@Override
+	public Map<String, Object> selectReceipt(Map<String, Object> map) throws Exception {
+		return myshopDAO.selectReceipt(map);
+	}
 	
 }

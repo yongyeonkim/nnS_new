@@ -7,9 +7,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.maven.model.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import nnS.common.common.CommandMap;
@@ -106,7 +109,7 @@ public class MyshopController {
 	
 	@RequestMapping(value="/myshop/inputDnum")
 	public ModelAndView inputDnum(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("saleList");
+		ModelAndView mv = new ModelAndView("redirect:/myshop/saleList");
 
 		myshopService.insertDnum(commandMap.getMap(), request);
 		
@@ -174,5 +177,25 @@ public class MyshopController {
 		mv.addObject("list",list);
 		return mv;
 	}
+	
+	@RequestMapping(value="/myshop/receipt", method=RequestMethod.POST, produces="application/text; charset=utf8")
+	public ModelAndView OrderReceipt(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		HttpSession session = request.getSession(false);
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		Map<String, Object> map = myshopService.selectReceipt(commandMap.getMap());
+		
+		System.out.println("map 내용~~~~:"+map);
+		mv.addObject(map);
+		return mv;
+	}
 
 }
+
+
+
+
+
+
+
+

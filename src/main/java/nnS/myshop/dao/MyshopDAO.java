@@ -70,4 +70,9 @@ public class MyshopDAO extends AbstractDAO {
 	public void cancelTstatus(Map<String, Object> map) throws Exception{
 		update("myshop.cancelTstatus", map);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> selectReceipt(Map<String, Object> map) {
+		return (Map<String, Object>)selectOne("myshop.selectReceipt", map);
+	}
 }

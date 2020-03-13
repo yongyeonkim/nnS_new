@@ -51,14 +51,14 @@
 			<br />
 			<div align="center"></div>
 			<img src="./../resources/images/form_co.png">
-			<div align="center">
+			<div align="center" style="vertical-align:middle">
 			<br/>
 			<form id="frm" name="frm" enctype="multipart/form-data">
 				<c:if test="${session_MEM_ID != NULL}">
-					<div width="100%">
-						<textarea id="COMMENTS_CONTENT" name="COMMENTS_CONTENT" rows="6" cols="113"></textarea>
-						<div align="right" style="float:right;">
-							<a href="#this" id="cWrite" name="cWrite">코멘트달기 <br>이미지 넣을거</a>
+					<div width="100%" style="float:center;">
+						<textarea id="COMMENTS_CONTENT" name="COMMENTS_CONTENT"  style="width: 1043px; height: 111px; resize:none;"></textarea>
+						<div align="right"  style="float:right; padding-right:10px; ">
+							<a href="#this" class="btn" id="cWrite"><button class="bttn-bordered bttn-xs bttn-primary">작성     </button></a>
 						</div>
 						<input type="hidden" id="COMMENTS_TYPE" name="COMMENTS_TYPE" value="3"/>
 						<input type="hidden" id="COMMENTS_PARENT" name="COMMENTS_PARENT" value="${map.BOARD_NUM }"/>
@@ -133,10 +133,13 @@
 	
 		function fn_deleteBoard(){
 			var comSubmit = new ComSubmit();
+			var CONFIRM = confirm("정말로 삭제하시겠습니까?");
+			if(CONFIRM==true){
 			comSubmit.setUrl("<c:url value='/community/boardDelete' />");
 			comSubmit.addParam("BOARD_NUM", $("#BOARD_NUM").val());
 			comSubmit.submit();
-			
+			alert("삭제가 완료되었습니다.");
+			}
 		}
 		function fn_writeComment(){
 			var comSubmit = new ComSubmit("frm");

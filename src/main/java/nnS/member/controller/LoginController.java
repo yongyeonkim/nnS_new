@@ -47,9 +47,20 @@ public class LoginController {
 	// private JavaMailSender mailSender;
 
 	@RequestMapping(value = "/loginForm") // 로그인 폼
-	public ModelAndView loginForm() throws Exception {
-		ModelAndView mv = new ModelAndView("loginForm");
-		return mv;
+	public ModelAndView loginForm(HttpServletRequest request) throws Exception {
+		
+		HttpSession session = request.getSession(false);
+		
+		System.out.println("session : " + session.getAttribute("session_MEM_INFO"));
+		
+		if(session.getAttribute("session_MEM_INFO")!=null) {
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("redirect:/main");
+			return mv;
+		} else {
+			ModelAndView mv = new ModelAndView("loginForm");
+			return mv;
+		}
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST) // 로그인
