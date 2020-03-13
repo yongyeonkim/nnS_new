@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import nnS.common.common.CommandMap;
@@ -20,11 +21,12 @@ public class AdminBoardController {
 	private AdminBoardServiceImpl adminBoardService;
 	
 	//자유게시판
-	@RequestMapping(value="/admin/boardList")
-	public ModelAndView boardList(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("adboardList");
+	@RequestMapping(value="/admin/boardListPaging")
+	public ModelAndView boardListPaging(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+		
 		List<Map<String,Object>> list = adminBoardService.boardList(commandMap.getMap());
-		mv.addObject("boardList",list);	
+		mv.addObject("list",list);	
 		if(list.size() > 0){
     		mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));
     		System.out.println(list.get(0).get("TOTAL_COUNT"));
@@ -32,6 +34,13 @@ public class AdminBoardController {
     	else{
     		mv.addObject("TOTAL", 0);
     	}
+		return mv;
+	}
+	
+	@RequestMapping(value="/admin/boardList")
+	public ModelAndView boardList() throws Exception{
+		ModelAndView mv = new ModelAndView("adboardList");
+		
 		return mv;
 	}
 	
@@ -47,9 +56,9 @@ public class AdminBoardController {
 	}
 	
 	//공지사항
-	@RequestMapping(value="/admin/noticeList")
-	public ModelAndView noticeList(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("adnoticeList");
+	@RequestMapping(value="/admin/noticeListPaging")
+	public ModelAndView noticeListPaging(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
 		List<Map<String,Object>> list = adminBoardService.noticeList(commandMap.getMap());
 		mv.addObject("noticeList",list);	
 		if(list.size() > 0){
@@ -59,6 +68,13 @@ public class AdminBoardController {
     	else{
     		mv.addObject("TOTAL", 0);
     	}	
+		return mv;
+	}
+	
+	@RequestMapping(value="/admin/noticeList")
+	public ModelAndView noticeList() throws Exception{
+		ModelAndView mv = new ModelAndView("adnoticeList");
+		
 		return mv;
 	}
 	
@@ -74,11 +90,14 @@ public class AdminBoardController {
 	}	
 	
 	//qna
-	@RequestMapping(value="/admin/qnaList")
-	public ModelAndView qnaList(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("adqnaList");
+	@RequestMapping(value="/admin/qnaListPaging")
+	public ModelAndView qnaListPaging(@RequestParam(value = "search", defaultValue="") String search,@RequestParam(value = "type", defaultValue="") String type, HttpServletRequest request,CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+		request.setAttribute("search", search);
+		request.setAttribute("type", type);
 		List<Map<String,Object>> list = adminBoardService.qnaList(commandMap.getMap());
 		mv.addObject("qnaList",list);	
+		System.out.println("************"+type);
 		if(list.size() > 0){
     		mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));
     		System.out.println(list.get(0).get("TOTAL_COUNT"));
@@ -86,6 +105,14 @@ public class AdminBoardController {
     	else{
     		mv.addObject("TOTAL", 0);
     	}	
+		return mv;
+	}
+	
+	@RequestMapping(value="/admin/qnaList")
+	public ModelAndView qnaList(@RequestParam(value = "search", defaultValue="") String search,@RequestParam(value = "type", defaultValue="") String type, HttpServletRequest request,CommandMap commandMap) throws Exception{
+		request.setAttribute("search", search);
+		request.setAttribute("type", type);
+		ModelAndView mv = new ModelAndView("adqnaList");
 		return mv;
 	}
 	

@@ -36,7 +36,17 @@
 			<mvc:mapping path="/**"/>
 			<bean id="loggerInterceptor" class="nnS.common.logger.LoggerInterceptor"></bean>
 		</mvc:interceptor>
+		
+		<!-- 관리자 페이지 인터셉터 -->	
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/*"/>
+			<mvc:mapping path="/admin"/>
+			<mvc:exclude-mapping path="/admin/loginForm"/>
+			<bean id="adminLoginInterceptor" class="nnS.common.logger.AdminLoginInterceptor"></bean>
+		</mvc:interceptor>
 	</mvc:interceptors>
+	
+	
 	
 	<!--  //각각 path 설정 필요-->
 	<mvc:resources location="/WEB-INF/views/ckeditor/" mapping="/ckeditor/**"/>

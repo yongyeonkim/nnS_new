@@ -9,20 +9,8 @@
 		<![CDATA[
 			SELECT  
 					ROW_NUMBER() OVER (ORDER BY G.GOODS_NUM DESC) RNUM,
-					G.GOODS_NUM,
-			        G.GOODS_TITLE,
-			        G.GOODS_PRICE,
+					G.*,
 			        M.MEM_ID,
-			        G.GOODS_REGION,
-			        G.GOODS_CATEGORY,
-			        G.GOODS_COUNT,
-			        G.GOODS_DATE,
-			        TO_CHAR(G.GOODS_DATE,'hh24:mi:ss') AS GOODS_TIME,
-			        G.GOODS_STATUS,
-			        G.GOODS_THUMBNAIL,
-			        G.GOODS_TSTATUS,
-			        G.GOODS_HASH,
-			        G.GOODS_CONTENT,
 			        NVL(GL.TOTAL_COUNT, 0) AS TOTAL_COUNT2
 			FROM    GOODS G,
 			        (
@@ -38,10 +26,18 @@
 			WHERE   G.GOODS_SELLER = M.MEM_NUM(+)
 			AND     G.GOODS_NUM = GL.GOODS_LIKE_PARENT(+)
 			AND     G.GOODS_DEL_GB = 'N'
-			AND     G.GOODS_TSTATUS = 'N'
 			]]>
+			<include refid="select"/>
 			<include refid="common.pagingPost"/>
 	</select>
+	
+	<sql id="select">
+  <if test="search != null">
+         <if test="search == 'sale'.toString()">AND G.GOODS_TSTATUS = 'N'</if>
+         <if test="search == 'payment'.toString()">AND G.GOODS_TSTATUS = 'ING'</if>
+         <if test="search == 'complete'.toString()">AND G.GOODS_TSTATUS = 'Y'</if>
+      </if>
+</sql>
 	
 	<!-- 상품 삭제 -->
 	<update id="goodsDelete" parameterType="hashmap">

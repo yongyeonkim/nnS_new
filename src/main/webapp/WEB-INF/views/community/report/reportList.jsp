@@ -58,11 +58,7 @@
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 
 	<br />
-	<div align="right">
-	<c:if test="${session_MEM_INFO.MEM_ID != NULL }">
-		<a href="#this"  class="btn" id="write"><button class="bttn-bordered bttn-xs bttn-primary"><img src="./../resources/images/commu_wbtn.png"></button></a>
-	</c:if>
-	</div>
+	
 	</div>
 	</div>
 
@@ -70,10 +66,6 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			fn_selectBoardList(1); 
-			$("#write").on("click", function(e) { //글쓰기 버튼
-				e.preventDefault();
-				fn_openBoardWrite();
-			});
 
 
 			$("a[name='title']").on("click", function(e) { //제목 
@@ -82,11 +74,7 @@
 			});
 		});
 
-		function fn_openBoardWrite() {
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/community/reportWriteForm' />");
-			comSubmit.submit();
-		}
+		
 	
 		function fn_openBoardDetail(obj) {
 			var comSubmit = new ComSubmit();
@@ -128,12 +116,26 @@
 				$.each(
 								data.list,
 								function(key, value) {
+						
+									var status = "";
 									var si = "";
-		                            if(value.REPORT_GOODS_SELLER_ID == null){
+		                            
+									if(value.REPORT_GOODS_SELLER_ID == null){
 		                               si = " ";
 		                            }else{
 		                               si = value.REPORT_GOODS_SELLER_ID;
 		                            }
+									
+									if(value.REPORT_STATUS =='처리대기'){
+										status = '<img src="./../resources/images/report_status1.png" height="18">'
+									}else if(value.REPORT_STATUS == '신고접수'){
+										status = '<img src="./../resources/images/report_status2.png" height="19">'
+									}else if(value.REPORT_STATUS == '처리완료'){
+										status = '<img src="./../resources/images/report_status3.png" height="19">'
+									}else if(value.REPORT_STATUS == '허위신고'){
+										status = '<img src="./../resources/images/report_status4.png" height="20">'
+									}
+									
 									str     += "<tr style=\"text-align: center\">"
 											+ "<td>"
 											+ value.REPORT_NUM
@@ -145,7 +147,7 @@
 											+ "<input type='hidden' id='REPORT_NUM' value=" + value.REPORT_NUM + ">"
 											+"</td>" + "<td>" + value.MEM_ID
 											+ "</td>" + "<td>" + new Date(value.REPORT_DATE).toLocaleString()
-											+ "</td>" + "<td>" + value.REPORT_STATUS
+											+ "</td>" + "<td style='text-align:left;'>" + status
 											+ "</td>" + "<td>" + si
 											+ "</td>" + "<td>" + value.REPORT_COUNT
 											+ "</td>" + "</tr>";

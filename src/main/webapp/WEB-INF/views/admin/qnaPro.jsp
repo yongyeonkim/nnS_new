@@ -58,41 +58,30 @@ $(function(){
 <%@ include file="/WEB-INF/include/include-body.jspf" %> 
 <!-- 메뉴 시작 -->
 
-<divstyle="padding-left:15px;width:700px;">    
+<div style="padding-left:15px;width:700px;">    
 	<h1>답변달기</h1>
-</div>
-
-<divstyle="padding-left:15px;width:700px;">
-	<div>
-		<div>답변을 달아주세요.</div><br/>
+		
 			<div>
 				<form id="frm" name="frm" method="post"> 	
-                        <div>
+                        
                         	<input type="hidden" name="QNA_NUM" id="QNA_NUM" value="${map.QNA_NUM }">
                         	<input type="hidden" name="QNA_TYPE" id="QNA_TYPE" value="${map.QNA_TYPE }">
-                            <label>제목</label><br/>  <br/>                          
-                            ${map.QNA_TITLE }<br/><br/>
-                             <input type="hidden"  name="QNA_TITLE" id="QNA_TITLE" value="${map.QNA_CONTENT }"/>
-<!--                             <input type="text" name="QNA_TITLE" id="QNA_TITLE" style="width:initial;" readonly value="${map.QNA_TITLE }"/>  -->                           
-                        </div>
+                                                    
+                             <input type="hidden" name="QNA_TITLE" id="QNA_TITLE" value="RE: ${map.QNA_TITLE }"/>
+                              
+                                                      
                        
                         <div>
-                            <label>내용</label>
-                            ${map.QNA_CONTENT }<br/>
-                            <input type="hidden"  name="QNA_CONTENT" id="QNA_CONTENT" value="${map.QNA_CONTENT }"/>
-<!--                             <input type="text" name="QNA_CONTENT" id="QNA_CONTENT" style="width:initial;" readonly value="${map.QNA_CONTENT }"/>  -->
-                        </div>
-                        <div>
-                            <label>답변</label>
+                            
                             <textarea rows="20" cols="60" title="답변" id="QNA_RE" name="QNA_RE"></textarea>
                         </div>
                         
-						<a href="#this" class="btn" id="write">답변작성</button>
+						<button class="btn" id="write">답변작성</button>
 						<button type="reset" onclick="back();">작성취소</button>					
 				</form>
 			</div>
 	</div>
-</div>
+
 
 
 

@@ -46,14 +46,15 @@
            <th scope="row"><img src="./../resources/images/report_pid.png" height="25"></th>
            <td>${map.REPORT_GOODS_SELLER_ID }
            <th scope="row"><img src="./../resources/images/report_p.png" height="25"></th>
-           <td>${map.REPORT_PRONUM }</td>
+           <td><input type="hidden" id="GOODS_NUM" value="${map.REPORT_PRONUM }">
+           <a href="#this" id="GOODS_NUM" name="GOODS_NUM">${map.REPORT_PRONUM }</a></td>
          </tr>
          <tr>
             <th scope="row"><img src="./../resources/images/commu_title.png" height="25"></th>
             <td>${map.REPORT_TITLE }</td>
             <th scope="row"><img src="./../resources/images/report_reason.png" height="25"></th>
             <td>${map.REPORT_TYPE }
-            <c:if test="${session_MEM_INFO.MEM_LEVEL eq '2'}">
+            <%-- <c:if test="${session_MEM_INFO.MEM_LEVEL eq '2'}">
             <form id="frm" name="frm">
             <input type="hidden" id="IDX" name="IDX" value="${map.MEM_ID}">
             <input type="hidden" id="IDX2" name="IDX2" value="${map.GOODS_SELLER_ID}">
@@ -65,7 +66,7 @@
 	               <option value="처리완료">완료</option>
 	            </select><a href="#this" class="btn" id="handle">처리 </a>
 	      		</form>
-      		</c:if>
+      		</c:if> --%>
             
             
          </tr>
@@ -88,7 +89,12 @@
          $("#list").on("click", function(e){ //목록으로 버튼
             e.preventDefault();
             fn_openBoardList();
+      
          });
+         $("a[name='GOODS_NUM']").on("click", function(e) { //신고상품바로가기
+     		e.preventDefault();
+     		fn_openBoardDetail($(this));
+     	});
          
          $("#delete").on("click", function(e){ //삭제하기 버튼
             e.preventDefault();
@@ -121,6 +127,12 @@
           comSubmit.addParam("REPORT_NUM",idx);
           comSubmit.submit();         
        }
+      function fn_openBoardDetail(obj) {
+    		var comSubmit = new ComSubmit();
+    		comSubmit.setUrl("<c:url value='/shop/goodsDetail' />");
+    		comSubmit.addParam("GOODS_NUM", obj.parent().find("#GOODS_NUM").val());
+    		comSubmit.submit();
+    	}
    </script>
 </body>
 </html>

@@ -1,22 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
-<%@ include file="/WEB-INF/include/include-header.jspf" %>
 <head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 function delchk(){
     return confirm("삭제하시겠습니까?");
    
 }
 $(document).ready(function() {
-	
-	$("a[name='title']").on("click", function(e) { //제목 
+	fn_selectBoardList(1);
+	/* $("a[name='title']").on("click", function(e) { //제목 
 		e.preventDefault();
 		fn_openBoardDetail($(this));
 	});
-
+ */
 });
 
 function fn_openBoardDetail(obj) {
@@ -25,6 +23,98 @@ function fn_openBoardDetail(obj) {
 	comSubmit.addParam("GOODS_NUM", obj.parent().find("#title2").val());
 	comSubmit.submit();
 }
+function fn_selectBoardList(pageNo) {
+	var comAjax = new ComAjax();
+	comAjax.setUrl("<c:url value='/admin/goodsListPaging' />");
+	comAjax.setCallback("fn_selectBoardListCallback");
+	comAjax.addParam("PAGE_INDEX", pageNo);
+	comAjax.addParam("PAGE_ROW", 15);
+	comAjax.addParam("search", $('#search').val());
+	
+	comAjax.ajax();
+}
+
+function fn_selectBoardListCallback(data) {
+	var total = data.TOTAL;
+	var body = $("table>tbody");
+	body.empty();
+	if (total == 0) {
+		var str = "<tr align=\"center\">" + "<td colspan='9'>등록된 상품이 없습니다</td>"
+				+ "</tr>";
+				
+		body.append(str);
+	} else {
+		var params = {
+			divId : "PAGE_NAVI",
+			pageIndex : "PAGE_INDEX",
+			totalCount : total,
+			recordCount : 15,
+			eventName : "fn_selectBoardList"
+			
+		};
+		gfn_renderPaging(params);
+
+		var str = "";
+		$.each(
+						data.list,
+						function(key, value) {
+							var tstatus = "";
+						    
+							if(value.GOODS_TSTATUS == 'N'){
+								tstatus = "거래가능";
+							}else if (value.GOODS_TSTATUS == 'ING'){
+								tstatus = "거래중";
+						   }else if(value.GOODS_TSTATUS == 'Y'){
+							tstatus ="거래완료"
+						   }
+								str += 
+										'<tr class="gradeA even" role="row">'
+								+			'<td style="text-align:center;vertical-align:middle;">'+ value.GOODS_NUM + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.GOODS_CATEGORY + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ID + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' 
+								+           '<input type="hidden" name="title2" id="title2" value=' + value.GOODS_NUM + '>'
+								+				'<a href="#this" id="title" name="title">'
+								+				value.GOODS_TITLE
+								+			"</a>" + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.GOODS_PRICE + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + tstatus + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + new Date(value.GOODS_DATE).toLocaleString() + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">'
+							
+								+			"<input type='hidden' id='MEM_ID' value=" + value.MEM_ID + ">"	
+								+			 "<a href='/nnS/admin/adGoodsDelete?GOODS_NUM="+value.GOODS_NUM+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()">' + "</a>" + "</td>"									
+								+		"</tr>"
+								+       "<tr class='hiden'>" 
+								+           '<th style="text-align:center;vertical-align:middle;">' + "브랜드" + "</th>"
+								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_BRAND + "</td>" 
+								+           '<th style="text-align:center;vertical-align:middle;">' + "중고상태" + "</th>"
+								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_STATUS + "</td>"
+								+           '<th style="text-align:center;vertical-align:middle;">' + "해시태그" + "</th>"
+								           
+								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_HASH + "</td>"
+								+           '<th style="text-align:center;vertical-align:middle;">' + "판매지역" + "</th>"
+								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_REGION + "</td>"
+								+       "</tr>"
+								+       "<tr class='hiden'>" 
+								+           '<th style="text-align:center;vertical-align:middle;">' + "내용" + "</th>"
+								+           "<td colspan='8' style='text-align:center;vertical-align:middle;'>" +  value.GOODS_CONTENT + "</td>" 
+								+       "</tr>";
+								
+						});
+		body.append(str);
+			$("a[name='title']").toggle(function(){
+				var content = $(this).closest("tr").next();
+				$(this).closest("tr").next().show();
+				content.next().show();
+				}, function(){
+					var content = $(this).closest("tr").next();
+				$(this).closest("tr").next().hide();
+				content.next().hide();
+			});
+	}
+}
+
 </script>
 <style type="text/css">
 .paging{text-align:center;height:32px;margin-top:5px;margin-bottom:15px;}
@@ -40,6 +130,7 @@ function fn_openBoardDetail(obj) {
 .paging a:first-child{margin-left:0;}
 .paging strong{color:#fff;background:#337AB7;border:1px solid #337AB7;}
 .paging .page_arw{font-size:11px;line-height:30px;}
+tr.hiden {display:none; background:#ffffff;}
 </style>
 </head>
 
@@ -56,7 +147,21 @@ function fn_openBoardDetail(obj) {
 				<div id="dataTables-example_wrapper"
 					class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 					<div class="row" style="margin-bottom:5px;">
-						<div class="col-sm-6" style="text-align:left;">
+					<!-- 분류 추가 -->
+							<div class="col-sm-6" style="text-align:left;">
+							   <form action="/nnS/admin/goodsList" method="post">
+				                     <a href="/nnS/admin/goodsList"><button type="button" class="btn btn-outline btn-default">전체</button></a>
+				                     <select class="form-control" name="search" id="search">
+				                        <option value ="">-- 구분 --</option>
+				                        <option value ="sale" <c:out value="${search eq 'sale' ? 'selected' :''}"/>>거래가능</option>
+				                        <option value ="payment" <c:out value="${search eq 'payment' ? 'selected' :''}"/>>거래중</option>
+				                        <option value ="complete" <c:out value="${search eq 'complete' ? 'selected' :''}"/>>거래완료</option>
+				
+				                     </select>
+				                     <input type="submit" value="분류" class="search_btn"/>                  
+	                          </form>
+							</div>
+							<div class="col-sm-6" style="text-align:right;">
 							<div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">총 상품 등록수 : ${TOTAL}</div>
 						</div>
 						
@@ -80,39 +185,13 @@ function fn_openBoardDetail(obj) {
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach var="goodsList"  items="${goodsList}" varStatus="stat">
-								<c:url var="viewURL" value="goodsView.dog" >
-									<c:param name="GOODS_NUM" value="${goodsList.GOODS_NUM}" />
-								    <c:param name="currentPage" value="${currentPage}" />
-								</c:url>									
-									<tr class="gradeA even" role="row">
-										<td style="text-align:center;vertical-align:middle;">${goodsList.GOODS_NUM}</td>
-										<td style="text-align:center;vertical-align:middle;">${goodsList.GOODS_CATEGORY}</td>
-										<td style="text-align:center;vertical-align:middle;">${goodsList.MEM_ID}</td>										
-										<td style="text-align:center;vertical-align:middle;">
-											<input type="hidden" name="title2" id="title2" value="${goodsList.GOODS_NUM}">
-											<a href="#this" id="title" name="title">
-												${goodsList.GOODS_TITLE}
-											</a>
-										</td>
-										<td style="text-align:right;vertical-align:middle;"><fmt:formatNumber value="${goodsList.GOODS_PRICE}" type="number"/></td>
-										<td style="text-align:center;vertical-align:middle;">${goodsList.GOODS_TSTATUS}</td>																	
-										<td style="text-align:center;vertical-align:middle;"><fmt:formatDate value="${goodsList.GOODS_DATE}" pattern="YY.MM.dd HH:mm" /></td>
-										<td style="text-align:center;vertical-align:middle;">
-										<c:url var="viewURL2" value="/admin/adGoodsDelete" >
-											<c:param name="GOODS_NUM" value="${goodsList.GOODS_NUM}" />						
-										</c:url>
-										<input type="hidden" id="GOODS_NUM" value="${goodsList.GOODS_NUM}">		
-										 <a href="${viewURL2}"><input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()"></a></td>		
-										 							
-									</tr>
-								</c:forEach>
-								<!--  등록된 상품이 없을때 -->
-									<c:if test="${fn:length(goodsList) le 0}">
-										<tr><td colspan="9" style="text-align:center;">등록된 상품이 없습니다</td></tr>
-									</c:if> 
+								
 								</tbody>
 							</table>
+							<br/>
+							<div id="PAGE_NAVI" align="center"></div>
+							<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
+							
 						</div>
 					</div>
 

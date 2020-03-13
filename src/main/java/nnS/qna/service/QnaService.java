@@ -18,7 +18,7 @@ public interface QnaService {
 
 	void deleteQna(Map<String, Object> map) throws Exception;
 
-	void insertQnaAnswer(Map<String, Object> map) throws Exception;
+	/* void insertQnaAnswer(Map<String, Object> map) throws Exception; */
 	
    List<Map<String, Object>> selectQnaAnswer(Map<String, Object> map)throws Exception;
 

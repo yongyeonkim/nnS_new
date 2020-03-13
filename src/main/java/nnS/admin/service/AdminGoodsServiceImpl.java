@@ -16,6 +16,8 @@ public class AdminGoodsServiceImpl implements AdminGoodsService{
 	@Resource(name="AdminGoodsDAO")
 	private AdminGoodsDAO adminGoodsDAO;
 	
+	
+	
 	@Override
 	public List<Map<String, Object>> goodsList(Map<String, Object> map) throws Exception {
 		

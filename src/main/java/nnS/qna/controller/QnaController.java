@@ -138,17 +138,18 @@ public class QnaController {
 		return mv;		
 	}
 	
-	@RequestMapping(value = "/community/qnaDetail/answerWrite")
-	public ModelAndView qnaAnswerWrite(CommandMap commandMap, HttpServletRequest request) throws Exception {//관리자만 가능하게 어떻게?
-		
-		ModelAndView mv = new ModelAndView("redirect:/community/qnaDetail");
-		
-		HttpSession session = request.getSession();
-		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
-		qnaService.insertQnaAnswer(commandMap.getMap());
-		mv.addObject("QNA_NUM", commandMap.get("QNA_NUM"));
-		return mv;		
-	}
+	/*
+	 * @RequestMapping(value = "/community/qnaDetail/answerWrite") public
+	 * ModelAndView qnaAnswerWrite(CommandMap commandMap, HttpServletRequest
+	 * request) throws Exception {//관리자만 가능하게 어떻게?
+	 * 
+	 * ModelAndView mv = new ModelAndView("redirect:/community/qnaDetail");
+	 * 
+	 * HttpSession session = request.getSession(); commandMap.put("MEM_ID",
+	 * session.getAttribute("session_MEM_ID"));
+	 * qnaService.insertQnaAnswer(commandMap.getMap()); mv.addObject("QNA_NUM",
+	 * commandMap.get("QNA_NUM")); return mv; }
+	 */
 	
 	@RequestMapping(value = "/community/qnaDetail/answerDelete")
 	public ModelAndView qnaAnswerDelete(CommandMap commandMap) throws Exception {
