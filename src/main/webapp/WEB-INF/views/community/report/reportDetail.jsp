@@ -109,9 +109,13 @@
       function fn_deleteBoard(){
     	 var idx="${map.REPORT_NUM}";
          var comSubmit = new ComSubmit();
+         var CONFIRM = confirm("정말로 삭제하시겠습니까?");
+         if(CONFIRM==true){
          comSubmit.setUrl("<c:url value='/community/reportDelete' />");
          comSubmit.addParam("REPORT_NUM",idx);
          comSubmit.submit();
+         alert("삭제가 완료되었습니다.");
+         }
       }
       
       function fn_report_status(){

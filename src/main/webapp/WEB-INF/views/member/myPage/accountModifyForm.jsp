@@ -31,12 +31,12 @@
                <img src="/nnS/resources/images/mypage_name.png"> <div class="form-control">${map.MEM_NAME } </div><br>
 			   <img src="/nnS/resources/images/mypage_birth.png"><div class="form-control">생년월일 ${map.MEM_BIRTH }</div><br>
 			  <img src="/nnS/resources/images/mypage_gen.png"><div class="form-control">${map.MEM_GEN }</div><br>
-			   <img src="/nnS/resources/images/mypage_email.png"><input type="text" id="MEM_EMAIL" name="MEM_EMAIL" class="form-control" placeholder="${map.MEM_EMAIL }"><br>
-		       <img src="/nnS/resources/images/mypage_phone.png"><input type="text" id="MEM_PHONE" name="MEM_PHONE" class="form-control" placeholder="${map.MEM_PHONE }"><br>
-			   <img src="/nnS/resources/images/mypage_zip.png"><input type="text" id="MEM_ZIP" name="MEM_ZIP" class="form-control" placeholder="${map.MEM_ZIP }"><br>
-			   		 <input type="button" onclick="zipcode()" value="우편번호 찾기"><br>
-			   <img src="/nnS/resources/images/mypage_add.png"><input type="text" id="MEM_ADD1" name="MEM_ADD1" class="form-control" placeholder="${map.MEM_ADD1 }"><br>
-			   <img src="/nnS/resources/images/mypage_add2.png"><input type="text" id="MEM_ADD2" name="MEM_ADD2" class="form-control" placeholder="${map.MEM_ADD2 }"><br>	
+			   <img src="/nnS/resources/images/mypage_email.png"><input type="text" id="MEM_EMAIL" name="MEM_EMAIL" class="form-control" value="${map.MEM_EMAIL }"><br>
+		       <img src="/nnS/resources/images/mypage_phone.png"><input type="text" id="MEM_PHONE" name="MEM_PHONE" class="form-control" value="${map.MEM_PHONE }"><br>
+			   <img src="/nnS/resources/images/mypage_zip.png"><input type="button" class="btn btn-sm btn-primary" onclick="zipcode()" value="주소 검색" style="background-color:#26a69a;"><br>
+			   <input type="text" id="MEM_ZIP" name="MEM_ZIP" class="form-control" value="${map.MEM_ZIP }"><br>
+			   <img src="/nnS/resources/images/mypage_add.png"><input type="text" id="MEM_ADD1" name="MEM_ADD1" class="form-control" value="${map.MEM_ADD1 }"><br>
+			   <img src="/nnS/resources/images/mypage_add2.png"><input type="text" id="MEM_ADD2" name="MEM_ADD2" class="form-control" value="${map.MEM_ADD2 }"><br>	
             </div>
          
             <div class="card-body">

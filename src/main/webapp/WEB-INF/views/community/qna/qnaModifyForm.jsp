@@ -107,9 +107,8 @@
              $("#QNA_CONTENT").focus();
              return false;
          }
-
-         
          comSubmit.submit();
+		alert("수정이 완료되었습니다.");         
       }
    </script>
    

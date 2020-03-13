@@ -5,6 +5,7 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
+<%@ include file="/WEB-INF/views/myshop/orderReceipt.jsp" %>
 <meta charset="UTF-8">
 <link href="<c:url value="/resources/css/board.css"/>" rel="stylesheet">
 <style type="text/css">
@@ -22,7 +23,7 @@ html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
    border: 0;
    
    do: inherit;
-   vertical-align: baseline;
+   vertical-align: center;
 }
    html {
       height: 100%;
@@ -54,6 +55,62 @@ html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
 	margin: auto;
 	border: 0px;
 	padding: 5px;
+}
+
+/* 레이어 팝업 */
+
+/* modal */
+#modal {position: fixed; left:0; top:0; width: 100%; height: 100%; transform: scale(0); z-index:1; }
+#modal .modal-bg {background: rgba(0,0,0,0.7); display:flex; align-items: center; justify-content: center; height: 100%; }
+#modal .modal-bg .modal-cont {position:relative; background: #fff; padding: 40px; width:1000px; max-width: 1200px; display: inline-block; text-align:center;}
+#modal .modal-bg .modal-cont h2 {font-size: 30px; margin:0;}
+#modal .modal-bg .modal-cont p {font-size: 18px; }
+#modal .modal-bg .modal-cont .close {position: absolute; top: 0; right:0; margin:20px; padding: 10px; background: #000; border-radius: 50%; }
+#modal .modal-bg .modal-cont .close svg {width: 24px; fill: #fff; vertical-align: top;}
+
+#modal.three {
+    transform: scale(1);
+}
+#modal.three .modal-bg {
+    background: rgba(0,0,0,0);
+    animation: fadeIn 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+#modal.three .modal-bg .modal-cont {
+    opacity: 0;
+    animation: scaleUp 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+#modal.three.out {
+    animation: quickScaleDown 0s .5s linear forwards;
+}
+#modal.three.out .modal-bg {
+    background: rgba(0,0,0,0);
+    animation: fadeOut 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+#modal.three.out .modal-bg .modal-cont {
+    opacity: 0;
+    animation: scaleDown 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+
+@keyframes fadeIn {
+    0% {background: rgba(0,0,0,0)}
+    100% {background: rgba(0,0,0,0.7)}
+}
+@keyframes fadeOut {
+    0% {background: rgba(0,0,0,0.7)}
+    100% {background: rgba(0,0,0,0)}
+}
+@keyframes scaleUp {
+    0% {transform: scale(0.5) translatey(1000px); opacity:0}
+    100% {transform: scale(1) translatey(0px); opacity:1}
+}
+@keyframes scaleDown {
+    0% {transform: scale(1) translatey(0px); opacity:1}
+    100% {transform: scale(0.5) translatey(1000px); opacity:0}
+}
+@keyframes quickScaleDown {
+    0% {transform: scale(1);}
+    99.9% {transform: scale(1); }
+    100% {transform: scale(0); }
 }
 </style>
 </head>
@@ -129,6 +186,7 @@ html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
 			</div>
 			
 		</div>
+   		<h1 style="font-size:10px">※주문번호를 누르면 주문서를 확인하실 수 있습니다.</h1>
    	</div>
    </div>
 </div>
@@ -166,8 +224,47 @@ $(document).ready(function() {
 		e.preventDefault();
 		fn_goodsDetail($(this));
 	});
+	
+	$(".close").click(function(){
+	    $("#modal").addClass("out");
+	});
 
 });
+
+function fn_receipt(num){
+	$("#modal").removeAttr("class").addClass("three");
+	$.ajax({
+		type:"POST",
+		url:"${pageContext.request.contextPath}/myshop/receipt?ORDERS_NUM="+num,
+		dataType: "json",
+		success:function(data){
+				$('#GOODSTITLE').html(data.hashMap.GOODS_TITLE);
+				$('#GOODSBRAND').html(data.hashMap.GOODS_BRAND);
+				$('#ORDERSDATE').html(data.hashMap.ORDERS_DATE);
+				$('#ORDERSNUM').html(data.hashMap.ORDERS_NUM);
+				$('#ORDERSPRICE').html(data.hashMap.ORDERS_PRICE);
+				$('#ORDERSDCOST').html(data.hashMap.ORDERS_DCOST);
+				$('#ORDERSTCOST').html(data.hashMap.ORDERS_TCOST);
+				$('#ORDERSUSER').html(data.hashMap.ORDERS_USER);
+				$('#ORDERSPHONE').html(data.hashMap.ORDERS_PHONE);
+				$('#ORDERSDADD').html(data.hashMap.ORDERS_DADD1+" "+data.hashMap.ORDERS_DADD2);
+				$('#ORDERSDMEMO').html(data.hashMap.ORDERS_DMEMO);
+				$('#ORDERSPAY').html(data.hashMap.ORDERS_PAY);
+
+		},
+		error: function(data){
+			alert("에러가 발생했습니다. 다시 한번 시도해주세요.");
+			return false;
+		}
+	});
+}
+
+/* function fn_receipt(num) {
+	var comSubmit = new ComSubmit();
+	comSubmit.setUrl("<c:url value='/myshop/receipt' />");
+	comSubmit.addParam("ORDERS_NUM", num);
+	comSubmit.submit();
+} */
 
 function fn_goodsDetail(obj) {
 	var comSubmit = new ComSubmit();
@@ -180,17 +277,25 @@ function fn_goodsDetail(obj) {
 //구매확정 버튼
 function fn_Buychk(num) {
 	var comSubmit = new ComSubmit("");
+	var CONFIRM = confirm("정말로 구매를 확정하시겠습니까?");
+	if(CONFIRM==true){
 	comSubmit.setUrl("<c:url value='/myshop/BuyComplete' />");
 	comSubmit.addParam("ORDERS_NUM", num);
 	comSubmit.submit();
+	alert("구매가 확정되었습니다.");
+	}
 }
 
 //주문취소 버튼
 function fn_orderCancel(num) {
 	var comSubmit = new ComSubmit("");
+	var CONFIRM = confirm("정말로 주문을 취소하시겠습니까?");
+	if(CONFIRM == true){
 	comSubmit.setUrl("<c:url value='/myshop/orderCancel' />");
 	comSubmit.addParam("ORDERS_NUM", num);
 	comSubmit.submit();
+	alert("주문이 취소되었습니다.");
+	}
 }
 
 function fn_selectOrderList(pageNo, tabNo) {
@@ -220,9 +325,10 @@ function fn_selectOrderListCallback1(data) {
 	var str1 = "";
 	body.empty();
 	str1 	+= 	"<tr>"
-				+		"<th width='200px' align='center'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>"
+				+		"<th width='150px' align='center'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>"
+				+		"<th width='200px' align='center'><img src=<c:url value='/resources/images/mysale_list2.png'/>></th>"
 				+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/myorder_list2.png'/>></th>"
-				+		"<th width='200px' align='center'><img src=<c:url value='/resources/images/myorder_list3.png'/>></th>"
+				+		"<th width='150px' align='center'><img src=<c:url value='/resources/images/myorder_list3.png'/>></th>"
 				+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/myorder_list4.png'/>></th>"
 				+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/myorder_list5.png'/>></th>"
 				+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/myshop_ostatus.png'/>></th>"
@@ -247,17 +353,24 @@ function fn_selectOrderListCallback1(data) {
 				function(key, value) {
 					//if(value.ORDERS_STATUS == "주문/결제") {
 						str1 +=	"<tr>"
-				    		+	"<td><a href='#this' id='title' name='title'>"
-				    		+	value.ORDERS_NUM
+				    		+	"<td><input type='button' id='receipt' name='receipt' value='"+value.ORDERS_NUM+"' onclick='fn_receipt("+value.ORDERS_NUM+")'>"
+		      	      		+	"</td>"
+		      	      		+	"<td>"
+		      	      		+	"<a href='#this' id='title' name='title'>"
+		      	      		+	value.GOODS_TITLE
 	      	      			+	"<input type='hidden' name='title2' id='title2' value="+value.ORDERS_PRONUM+">"
 		      	      		+	"</a></td>"
 		      	      		+	"<td width='100px' align='center'>"
 	      	      			+	new Date(value.ORDERS_DATE).toLocaleString()
-		      	      		+	"</td>"
-		      	      		+	"<td width='200px' align='center'>"
+		      	      		+	"</td>";
+		      	      	if(value.ORDERS_STATUS == "주문/결제"){
+		      	      		str1 += "<td>-</td>";
+		      	      	} else {
+		      	      	str1 +=	"<td width='200px' align='center'>"
 		      	      		+	value.ORDERS_DNUM
-		      	      		+	"</td>"
-		      	      		+	"<td width='100px' align='center'>"
+		      	      		+	"</td>";
+		      	      	}
+		      	      	str1 +=	"<td width='100px' align='center'>"
 		      	      		+	value.ORDERS_PRICE
 		      	      		+	"</td>"
 		      	      		+	"<td width='100px' align='center'>"
@@ -269,7 +382,7 @@ function fn_selectOrderListCallback1(data) {
 		      	      	}else if(value.ORDERS_STATUS == "배송중"){
 		      	      		str1 += "<input type='button' id='Buychk' name='Buychk' value='구매확정' onclick='fn_Buychk("+value.ORDERS_PRONUM+")' >"
 		      	      	}else {
-		      	      		str1 += "<td></td>";
+		      	      		str1 += "-";
 		      	      	}
 		      	      	str1 +=	"</td>"
 		      	      		+	"</tr>";

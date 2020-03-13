@@ -18,7 +18,7 @@
     <!-- LoggerAspect라는 클래스는 Controller, Service, DAO가 실행될 때, 어떤 계층의 어떤 메서드가 
 		실행되었는지를 보여주는 역할을 한다. -->
    <aop:aspectj-autoproxy proxy-target-class="true"/>
-  <bean id="loggerAspect" class="nnS.common.logger.LoggerAspect" />
+   <bean id="loggerAspect" class="nnS.common.logger.LoggerAspect" />
    
    <!-- 빈 객체를 사용하는 대신에 맵을 활용해서 파라미터를 수정 추가 등록하는 작업을 하기 위해서 추가 -->
    <!-- HandlerMapping, HandlerAdapter자동 설정 -->
@@ -31,6 +31,14 @@
     <!-- 전체경로 매핑 /를 사용하기위한 디폴트 서블릿 설정 -->
 	<mvc:default-servlet-handler/>
 	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/myPage/**"/>
+			<mvc:mapping path="/myshop/**"/>
+			<mvc:mapping path="/admin/**"/>
+			<bean id="LoginInterceptor" class="nnS.common.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>

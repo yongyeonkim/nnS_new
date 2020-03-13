@@ -24,9 +24,11 @@
 		<colgroup>
 			<col width="10%" />
 			<col width="*" />
-			<col width="15%" />
-			<col width="25%" />  
-			<col width="10%" />
+			<col width="13%" />
+			<col width="20%" />  
+			<col width="8%" />
+			<col width="8%" />
+			<col width="8%" />
 		</colgroup>  
 		<caption><h2>신고게시판</h2></caption>
 		<form action="/nnS/community/reportList" method="post">

@@ -26,6 +26,23 @@ public class JoinServiceImpl implements JoinService{
 	@Override
 	public int selectIdCheck(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
+		String memId = (String) map.get("MEM_ID");
+		
+		if(memId.length()<5) {
+			return 1;
+		}
+		for(int i=0; memId.length()>i; i++) {
+			if(memId.charAt(i) >= 0x61 && memId.charAt(i) <= 0x7A) {
+				// 영문 소문자
+			} else if (memId.charAt(i) >= 0x41 && memId.charAt(i) <= 0x5A) {
+				// 영문 대문자
+			} else if (memId.charAt(i) >= 0x30 && memId.charAt(i) <= 0x39) {
+				//숫자
+			} else {
+				return 1;
+			}
+		}
+		
 		return joinDAO.selectIdCheck(map);
 	}
 

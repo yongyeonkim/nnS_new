@@ -4,11 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import nnS.comment.service.CommentService;
 import nnS.common.common.CommandMap;
@@ -52,7 +57,6 @@ public class CommentController {
 	@RequestMapping(value="/shop/goodsDetail/commentDelete")
 	public ModelAndView shopCommentDelete(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/shop/goodsDetail");
-		
 		commentService.deleteGoodsComment(commandMap.getMap());
 		
 		mv.addObject("GOODS_NUM", commandMap.get("GOODS_NUM"));
@@ -61,9 +65,12 @@ public class CommentController {
 	}
 
 	// 문의 상세보기
-	@RequestMapping(value="/shop/goodsDetail/commentDetail")
-	public ModelAndView shopCommentDetail(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("goodsCommentDetail");
+	@RequestMapping(value="/shop/goodsDetail/commentDetail", method=RequestMethod.POST, produces="application/text; charset=utf8")
+	@ResponseBody
+	public ModelAndView shopCommentDetail(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		HttpSession session = request.getSession(false);
+		commandMap.put("MEM_INFO", session.getAttribute("session_MEM_INFO")); 
+		ModelAndView mv = new ModelAndView("jsonView");
 		System.out.println("commandMap=========================="+commandMap.getMap());
 		
 		Map<String, Object> cMap = commentService.selectGoodsCommentDetail(commandMap.getMap());
@@ -77,7 +84,7 @@ public class CommentController {
 		}
 		
 		mv.addObject("cMap", cMap.get("map"));
-		mv.addObject("G_MEM_ID",commandMap.get("G_MEM_ID"));
+		mv.addObject("G_MEM_ID",commandMap.getMap().get("MEM_ID"));
 		
 		System.out.println("cMap=========================="+cMap.get("map"));
 		
@@ -87,10 +94,11 @@ public class CommentController {
 	// 문의 답변 입력
 	@RequestMapping(value="/shop/goodsDetail/commentReplyWrite")
 	public ModelAndView shopCommentDetailWrite(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/shop/goodsDetail/commentDetail");
+		ModelAndView mv = new ModelAndView("redirect:/shop/goodsDetail");
 		commentService.insertGoodsCommentReply(commandMap.getMap());
 		commentService.insertGoodsCommentStat(commandMap.getMap());
 		System.out.println(commandMap.getMap());
+		mv.addObject("GOODS_NUM", commandMap.get("GOODS_NUM"));
 		mv.addObject("COMMENTS_NUM", commandMap.get("COMMENTS_RNUM"));
 		mv.addObject("G_MEM_ID", commandMap.get("G_MEM_ID"));
 		return mv;

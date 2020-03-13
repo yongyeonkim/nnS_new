@@ -10,6 +10,19 @@
 <link rel="stylesheet" type="text/css"/>
 <link href="<c:url value="/resources/css/btn.css"/>" rel="stylesheet">
 
+<style type="text/css">  
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;             
+    margin: 0;         
+} 
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button {
+    -webkit-appearance: none;             
+    margin: 0;         
+} 
+</style>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -17,6 +30,7 @@
 
 $(function(){
 	$(document).on("click", "#emailBtn", function(){ //이메일 발송
+		alert("이메일을 발송 중 입니다.\n확인 버튼을 눌러주세요.");
 	$.ajax({
 		type:"get",
 		url : "<c:url value='/createEmailAuth'/>",
@@ -25,7 +39,7 @@ $(function(){
 			if(data == true){
 			alert("사용가능한 이메일입니다. 인증번호를 입력해주세요.");
 			}else{
-				alert("이미 사용중인 이메일");
+				alert("사용할 수 없는 이메일입니다.");
 			}
 		},
 		error: function(data){
@@ -64,7 +78,8 @@ function zipcode() {//우편번호 검색창
             // 각 주소의 노출 규칙에 따라 주소를 조합한다.
             // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
             var addr = ''; // 주소 변수
-
+            var mem_ZIP = document.getElementById( 'zip' );
+            var mem_ADD1 = document.getElementById( 'add' );
             //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
             if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                 addr = data.roadAddress;
@@ -72,6 +87,8 @@ function zipcode() {//우편번호 검색창
                 document.getElementById('MEM_ZIP').value = data.zonecode;
                 document.getElementById("MEM_ADD1").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
+                mem_ZIP.classList.add( 'active' );
+                mem_ADD1.classList.add( 'active' );
                 document.getElementById("MEM_ADD2").focus();
             } else { // 사용자가 지번 주소를 선택했을 경우(J)
                 alert("도로명 주소를 입력해주세요.");
@@ -117,7 +134,7 @@ function zipcode() {//우편번호 검색창
                if($.trim(data)=="0"){
                   $('#chkMsg').html("사용가능한 아이디 입니다.").css("color", "blue");         
                }else{
-                  $('#chkMsg').html("사용불가능한 아이디 입니다.").css("color", "red");
+                  $('#chkMsg').html("사용불가능한 아이디 입니다.(5~20자의 영문 소문자, 숫자만 사용 가능합니다.)").css("color", "red");
                }
            },
            error:function(){
@@ -141,11 +158,15 @@ function zipcode() {//우편번호 검색창
         });
         //[2] 암호 확인 기능 구현
         $('#password2').keyup(function() {
-            if ($('#MEM_PW').val() != $('#password2').val()) {
+        	var pass = $('#MEM_PW').val();
+        	
+            if(pass.length < 4){
+            	$('#pw').text(''); // 클리어
+                $('#pw').html("4~16자 영문 대 소문자, 숫자, 특수문자를 사용해주세요.").css("color", "red"); 
+            } else if ($('#MEM_PW').val() != $('#password2').val()) {
                 $('#pw').text(''); // 클리어
                 $('#pw').html("암호가 일치하지 않습니다.").css("color", "red");          //레이어에 HTML 출력
-            }
-            else {
+            } else {
                 $('#pw').text(''); // 클리어
                 $('#pw').html("암호가 일치합니다.").css("color", "blue");
             }
@@ -256,7 +277,7 @@ function zipcode() {//우편번호 검색창
    });
    </script>
    <script>
-   $(".login-form").validate({
+   $(".joinForm").validate({
 	   rules: {
 	     username: {
 	       required: true,
@@ -312,9 +333,9 @@ function zipcode() {//우편번호 검색창
       
       <div class="row margin">
         <div class="input-field col s12">
-          <input type="text" id="MEM_ID" name="MEM_ID"  style="width:80%;">
+          <input type="text" id="MEM_ID" name="MEM_ID"  style="width:83%;" maxlength="20">
           <label for="username">아이디</label>
-          <button onclick="fn_idCheck();" type="button">아이디 중복 확인
+          <input type="button" onclick="fn_idCheck();" value="아이디 중복 확인" class="btn btn-sm btn-primary" style="background-color:#26a69a; ">
             
         </div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id = "chkMsg"></span>
@@ -322,14 +343,14 @@ function zipcode() {//우편번호 검색창
       
       <div class="row margin">
         <div class="input-field col s12">
-          <input type="password" id="MEM_PW" name="MEM_PW">
+          <input type="password" id="MEM_PW" name="MEM_PW" maxlength="16">
           <label for="username">비밀번호</label>
         </div>
       </div>
       
       <div class="row margin">
         <div class="input-field col s12">
-          <input type="password" id="password2"> 
+          <input type="password" id="password2" maxlength="16"> 
           <label for="username">비밀번호 확인</label>
         </div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="pw"></span>
@@ -338,15 +359,17 @@ function zipcode() {//우편번호 검색창
        
       <div class="row margin">
         <div class="input-field col s12">
-          <input type="text" id="MEM_NAME" name="MEM_NAME">
+          <input type="text" id="MEM_NAME" name="MEM_NAME" maxlength="10">
           <label for="username">이름</label>
         </div>
       </div>
        
       <div class="row margin">
         <div class="input-field col s12">
-          <input type="text" id="MEM_BIRTH" name="MEM_BIRTH" placeholder="ex)19950703">
-          <label for="username">생년월일</label>
+         <!--  <input type="text" id="MEM_BIRTH" name="MEM_BIRTH" placeholder="ex)19950703" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="8">
+          --> 
+          <input type="date" id="MEM_BIRTH" name="MEM_BIRTH" min="1900-01-01" max="2099-12-12">
+          <label for="username" class="active">생년월일</label>
         </div>
       </div>
        
@@ -361,9 +384,9 @@ function zipcode() {//우편번호 검색창
       <div class="row margin">
         <div class="input-field col s12">
           	   <input type="hidden" id="MEM_EMAIL" name="MEM_EMAIL">
-               <input type="text" id="email1" name="email1" style="width:45%;" > 
+               <input type="text" id="email1" name="email1" style="width:38%;" > 
                @
-               <input type="text" id="email2" name="email2" value="" style="width:45%;" > 
+               <input type="text" id="email2" name="email2" value="" style="width:38%;" > 
             	<!--
                <select id="email" name="email">
                   <option value="self">직접입력</option>
@@ -373,10 +396,10 @@ function zipcode() {//우편번호 검색창
                   <option value="nate.com">nate.com</option>
                </select>
  				-->
-               <button type="button" id="emailBtn">이메일 발송</button>
+               <button type="button" id="emailBtn" class="btn btn-sm btn-primary" style="background-color:#26a69a;">이메일 발송</button>
                <br/>
-               <input type="text" id="emailAuth" name="emailAuth" placeholder="인증번호" style="width:85%;" />
-               <button type="button" id="emailAuthBtn">이메일 인증</button>
+               <input type="text" id="emailAuth" name="emailAuth" placeholder="인증번호" style="width:79%;" />
+               <button type="button" id="emailAuthBtn" class="btn btn-sm btn-primary" style="background-color:#26a69a;">이메일 인증</button>
                <input type="hidden" path="random" id="random" value="${random }"/>
           <label for="username">이메일</label>
         </div>
@@ -386,7 +409,7 @@ function zipcode() {//우편번호 검색창
       <div class="row margin">
         <div class="input-field col s12">
           <input type="hidden" id="MEM_PHONE" name="MEM_PHONE">
-          <input type="number" id="phone1" name="phone1" style="width:30%;">
+          <input type="text" id="phone1" name="phone1" maxlength="3" style="width:30%;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
           <!-- 
           <select id="phone1" name="phone1">
              <option value="010">010</option>
@@ -397,9 +420,9 @@ function zipcode() {//우편번호 검색창
              <option value="019">019</option>
           </select> 
            -->
-          -<input type="number" id="phone2" name="phone2" style="width:30%;"> 
+          -<input type="text" id="phone2" name="phone2" maxlength="4" style="width:30%;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 
           
-          -<input type="number" id="phone3" name="phone3" style="width:30%;">
+          -<input type="text" id="phone3" name="phone3" maxlength="4" style="width:30%;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
           
           <label for="username">휴대전화</label>
         </div>
@@ -407,16 +430,16 @@ function zipcode() {//우편번호 검색창
        
       <div class="row margin">
         <div class="input-field col s12">
-          <input type="text" id="MEM_ZIP" name="MEM_ZIP" style="width:90%;">
-           <input type="button" onclick="zipcode()" value="우편번호 찾기"><br>
-          <label for="username">우편번호</label>
+          <input type="text" id="MEM_ZIP" name="MEM_ZIP" readonly style="width:90%;">
+           <input type="button" class="btn btn-sm btn-primary" onclick="zipcode()" value="주소 검색" style="background-color:#26a69a;"><br>
+          <label for="username" id="zip">우편번호</label>
         </div>
       </div>
        
       <div class="row margin">
         <div class="input-field col s12">
-          <input type="text" id="MEM_ADD1" name="MEM_ADD1" style="width:90%;">
-          <label for="username">주소</label>
+          <input type="text" id="MEM_ADD1" name="MEM_ADD1" readonly style="width:90%;">
+          <label for="username" id="add">주소</label>
         </div>
       </div>
        

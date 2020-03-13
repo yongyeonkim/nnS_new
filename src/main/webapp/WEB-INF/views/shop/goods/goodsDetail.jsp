@@ -4,6 +4,7 @@
 <html>
 <head>
 	<%@ include file="/WEB-INF/include/include-header.jspf" %>
+	<%@ include file="/WEB-INF/views/shop/goods/commentDetail.jsp" %>
   	<script>
   		$(document).ready(function(){ 
   			$('.bxslider').bxSlider({ 
@@ -16,6 +17,64 @@
 			}); 
 		});
 	</script>
+  	
+<style type="text/css">
+/* 레이어 팝업 */
+
+/* modal */
+#modal {position: fixed; left:0; top:0; width: 100%; height: 100%; transform: scale(0); z-index:1; }
+#modal .modal-bg {background: rgba(0,0,0,0.7); display:flex; align-items: center; justify-content: center; height: 100%; }
+#modal .modal-bg .modal-cont {position:relative; background: #fff; padding: 40px; width:1000px; max-width: 1200px; display: inline-block; text-align:center;}
+#modal .modal-bg .modal-cont h2 {font-size: 30px; margin:0;}
+#modal .modal-bg .modal-cont p {font-size: 18px; }
+#modal .modal-bg .modal-cont .close {position: absolute; top: 0; right:0; margin:20px; padding: 10px; background: #000; border-radius: 50%; }
+#modal .modal-bg .modal-cont .close svg {width: 24px; fill: #fff; vertical-align: top;}
+
+#modal.three {
+    transform: scale(1);
+}
+#modal.three .modal-bg {
+    background: rgba(0,0,0,0);
+    animation: fadeIn 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+#modal.three .modal-bg .modal-cont {
+    opacity: 0;
+    animation: scaleUp 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+#modal.three.out {
+    animation: quickScaleDown 0s .5s linear forwards;
+}
+#modal.three.out .modal-bg {
+    background: rgba(0,0,0,0);
+    animation: fadeOut 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+#modal.three.out .modal-bg .modal-cont {
+    opacity: 0;
+    animation: scaleDown 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+
+@keyframes fadeIn {
+    0% {background: rgba(0,0,0,0)}
+    100% {background: rgba(0,0,0,0.7)}
+}
+@keyframes fadeOut {
+    0% {background: rgba(0,0,0,0.7)}
+    100% {background: rgba(0,0,0,0)}
+}
+@keyframes scaleUp {
+    0% {transform: scale(0.5) translatey(1000px); opacity:0}
+    100% {transform: scale(1) translatey(0px); opacity:1}
+}
+@keyframes scaleDown {
+    0% {transform: scale(1) translatey(0px); opacity:1}
+    100% {transform: scale(0.5) translatey(1000px); opacity:0}
+}
+@keyframes quickScaleDown {
+    0% {transform: scale(1);}
+    99.9% {transform: scale(1); }
+    100% {transform: scale(0); }
+}
+</style>
   	
 <meta charset="UTF-8">
 <link href="<c:url value="/resources/css/board.css"/>" rel="stylesheet">
@@ -187,9 +246,24 @@
 					fn_orderWriteForm($(this));
 				}
 			});
-			$("#cWrite").on("click", function(e){
+			
+			$("#cWrite").on("click", function(e){ // 레이어팝업 닫기
 				e.preventDefault();
 				fn_writeComment();
+			});
+			
+			$(".close").click(function(){
+			    $("#modal").addClass("out");
+			});			
+			
+			$("#rcWrite").on("click", function(e){ //수정하기 버튼
+				e.preventDefault();
+				fn_replyWriteComment();
+			});
+
+			$("#rcDelete").on("click", function(e){ //삭제하기 버튼
+				e.preventDefault();
+				fn_deletereplyComment();
 			});
 		});
 		
@@ -291,12 +365,81 @@
 		
 
 		
-		function fn_detailComment(num){
-			var comSubmit = new ComSubmit();
+		function fn_detailComment(num,name,goods){
+			$("#modal").removeAttr("class").addClass("three");
+			var body2 = $("#commentDetail_a");
+			var str = "";
+			
+			body2.empty();
+			$.ajax({
+				type:"POST",
+				async : false,
+				url:"${pageContext.request.contextPath}/shop/goodsDetail/commentDetail?COMMENTS_NUM="+num+"&MEM_ID="+name+"&GOODS_NUM="+goods,
+				dataType: "json",
+				success:function(data){
+					
+						str +=	"<tr>"
+							+	"<td style='width: 150px'>"+data.cMap.MEM_ID+"</td>"
+		           			+	"<td style='width: 250px'>"+data.cMap.COMMENTS_DATE+"</td>";
+			           	if(data.cMap.COMMENTS_REPLY == 'N'){
+			           	str +=	"<td style='width: 100px'>답변대기</td>";	
+			           	}else if(data.cMap.COMMENTS_REPLY == 'Y'){
+		           		str +=	"<td style='width: 100px'>답변완료</td>";		
+			           	}
+			           	str +=	"<td rowspan='2' style='width: 100px' align='center'>"
+			           		+	"<a href='#this' onClick='fn_deleteComment("+data.cMap.COMMENTS_NUM+")'>문의삭제"
+							+	"<input type='hidden' id='GOODS_NUM' name='GOODS_NUM' value="+data.cMap.COMMENTS_PARENT+">"
+							+	"</a>"
+							+	"</td>"
+							+	"<tr>"
+							+	"<td colspan='3' style='height:150px'>"+data.cMap.COMMENTS_CONTENT+"</td>"
+							+	"</tr>";
+						if(data.cMap.COMMENTS_REPLY == 'N' && '${session_MEM_INFO.MEM_ID}' == data.G_MEM_ID){
+							str +=	"<tr>"
+								+	"<td colspan='3'>${session_MEM_INFO.MEM_ID}</td>"
+								+	"<td rowspan='2' align='center'>"
+								+	"<a href='#this' id='rcWrite' name='rcWrite' onclick='fn_replyWriteComment()'>답글등록</a>"
+								+	"<input type='hidden' id='COMMENTS_TYPE' name='COMMENTS_TYPE' value='1'>"
+								+	"<input type='hidden' id='COMMENTS_PARENT' name='COMMENTS_PARENT' value='"+data.cMap.COMMENTS_PARENT+"'>"
+								+	"<input type='hidden' id='MEM_ID' name='MEM_ID' value='${session_MEM_INFO.MEM_ID }'>"
+								+	"<input type='hidden' id='COMMENTS_RNUM' name='COMMENTS_RNUM' value='"+data.cMap.COMMENTS_NUM+"'>"
+								+	"</td>"
+								+	"</tr>"
+								+	"<tr>"
+								+	"<td colspan='3' style='height:150px'><textarea name='COMMENTS_CONTENT' id='COMMENTS_CONTENT' rows='5' cols='120' style='resize: none;'></textarea></td>"
+								+	"</tr>";
+						} else if(data.cMap.COMMENTS_REPLY == 'Y') {
+							str +=	"<tr>"
+								+	"<td>판매자 : "+data.rMap.MEM_ID+"</td>"
+								+	"<td colspan='2'>"+data.rMap.COMMENTS_DATE+"</td>"
+								+	"<td rowspan='2' align='center'>";
+						if('${session_MEM_INFO.MEM_ID}' == data.G_MEM_ID){
+								+	"<a href='#this' id='rcDelete' name='rcDelete'>답글삭제"
+								+	"<input type='hidden' id='REPLY_NUM' name='REPLY_NUM' value='"+data.rMap.COMMENTS_NUM+"'>"
+								+	"<input type='hidden' id='COMMENTS_RNUM' name='COMMENTS_RNUM' value='"+data.cMap.COMMENTS_NUM+"'>"
+								+	"<input type='hidden' id='G_MEM_ID' name='G_MEM_ID' value='"+data.G_MEM_ID+"'>"
+								+	"</a>";
+							}
+							str	+=	"</td>"
+								+	"</tr>"
+								+	"<tr>"
+								+	"<td colspan='3' style='height:150px'>"+data.rMap.COMMENTS_CONTENT+"</td>"
+								+	"</tr>";
+						}
+			           	body2.append(str);
+				},
+				error: function(data){
+					alert("에러가 발생했습니다. 다시 한번 시도해주세요.");
+					return false;
+				}
+			});
+			
+			
+/*기존거 	var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/shop/goodsDetail/commentDetail'/>");
 			comSubmit.addParam("COMMENTS_NUM", num);
 			comSubmit.addParam("G_MEM_ID", $("#G_MEM_ID").val());
-			comSubmit.submit();
+			comSubmit.submit(); */
 		}
 		
 		function fn_writeComment(){
@@ -321,9 +464,35 @@
 			comSubmit.addParam("GOODS_NUM", $("#GOODS_NUM").val());
 			comSubmit.submit();
 		}
-		
+				
 		function fn_chkUsr(){
 			alert("문의 작성자만 확인할 수 있습니다.")
+		}
+		
+		function fn_replyWriteComment(){
+			var comSubmit = new ComSubmit("frm2");
+			comSubmit.setUrl("<c:url value='/shop/goodsDetail/commentReplyWrite'/>");
+			comSubmit.addParam("COMMENTS_NUM", $("#COMMENTS_NUM").val());
+			comSubmit.addParam("G_MEM_ID", $("G_MEM_ID").val());
+			
+			// 댓글 내용 필요
+	         if(!$("#COMMENTS_CONTENT").val()){
+	             alert("내용를 입력해주세요.");
+	             $("#COMMENTS_CONTENT").focus();
+	             return false;
+	         }
+			
+			comSubmit.submit();
+		}
+		
+		
+		function fn_deletereplyComment(){
+			var comSubmit = new ComSubmit();
+			comSubmit.setUrl("<c:url value='/shop/goodsDetail/commentReplyDelete'/>");
+			comSubmit.addParam("REPLY_NUM", $("#REPLY_NUM").val());
+			comSubmit.addParam("COMMENTS_RNUM", $("#COMMENTS_RNUM").val());
+			comSubmit.addParam("G_MEM_ID", "${G_MEM_ID}");
+			comSubmit.submit();
 		}
 		
 		
@@ -366,7 +535,7 @@
 						           		+	    "<td length='30%' target='_blank' style='width:300px;'>";
 						    if('${session_MEM_INFO.MEM_ID}' == value.MEM_ID || '${session_MEM_INFO.MEM_ID}' == '${memberMap.MEM_ID}'){
 						    	
-						    str +=				"<a href='#this' onClick='fn_detailComment("+value.COMMENTS_NUM+")'>"
+						    str +=				"<a href='#this' onClick='fn_detailComment("+value.COMMENTS_NUM+",\""+value.MEM_ID+"\",\""+value.COMMENTS_PARENT+"\")'>"
 						    			+		"<input type='hidden' id='G_MEM_ID' name='G_MEM_ID' value='${memberMap.MEM_ID}'>"
 						         		+       		value.MEM_ID
 						         		+		" 님의 상품문의입니다.</a>";

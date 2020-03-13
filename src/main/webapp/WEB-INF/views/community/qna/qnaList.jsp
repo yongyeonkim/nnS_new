@@ -25,8 +25,10 @@
 		<colgroup>
 			<col width="10%" />
 			<col width="*" />
-			<col width="15%" />
-			<col width="20%" />
+			<col width="13%" />
+			<col width="20%" />  
+			<col width="12%" />
+			<col width="12%" />
 		</colgroup>
 		<thead>
 			<tr>
@@ -127,8 +129,13 @@
 											+ "<input type='hidden' id='QNA_NUM' value=" + value.QNA_NUM + ">"
 											+ "</td>" + "<td>" + value.MEM_ID
 											+ "</td>" + "<td>" + new Date(value.QNA_DATE).toLocaleString()
-											+ "</td>" + "<td>" + value.QNA_YORN
-											+ "</td>" + "<td>" + value.QNA_COUNT
+											+ "</td>" + "<td>" ;
+									if(value.QNA_YORN=='Y'){
+									str		+=	"답변완료";
+									} else {
+									str		+= "답변대기";
+									}
+									str		+= "</td>" + "<td>" + value.QNA_COUNT
 											+ "</td>" + "</tr>";
 								});
 				body.append(str);

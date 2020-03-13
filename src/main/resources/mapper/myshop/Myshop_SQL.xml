@@ -10,6 +10,7 @@
 			O.ORDERS_NUM,
 			O.ORDERS_PRONUM,
         	G.GOODS_TITLE,
+        	G.GOODS_BRAND,
         	O.ORDERS_STATUS,
         	O.ORDERS_PRICE,
         	O.ORDERS_DCOST,
@@ -36,6 +37,7 @@
 			O.ORDERS_NUM,
 			O.ORDERS_PRONUM,
         	G.GOODS_TITLE,
+        	G.GOODS_BRAND,
         	O.ORDERS_STATUS,
         	O.ORDERS_PRICE,
         	O.ORDERS_DCOST,
@@ -62,6 +64,7 @@
 			O.ORDERS_NUM,
 			O.ORDERS_PRONUM,
         	G.GOODS_TITLE,
+        	G.GOODS_BRAND,
         	O.ORDERS_STATUS,
         	O.ORDERS_PRICE,
         	O.ORDERS_DCOST,
@@ -88,6 +91,7 @@
 	SELECT  ROW_NUMBER() OVER (ORDER BY G.GOODS_NUM DESC) RNUM,
 			G.GOODS_NUM,
         	G.GOODS_TITLE,
+        	G.GOODS_BRAND,
         	G.GOODS_PRICE,
         	G.GOODS_DATE,
         	TO_CHAR(G.GOODS_DATE,'hh24:mi:ss') AS GOODS_TIME,
@@ -119,6 +123,8 @@
 			G.GOODS_NUM,
 			O.ORDERS_PRONUM,
         	G.GOODS_TITLE,
+        	G.GOODS_BRAND,
+        	G.GOODS_THUMBNAIL,
         	O.ORDERS_STATUS,
         	O.ORDERS_PRICE,
         	O.ORDERS_DCOST,
@@ -146,6 +152,7 @@
 			G.GOODS_NUM,
 			O.ORDERS_PRONUM,
         	G.GOODS_TITLE,
+        	G.GOODS_BRAND,
         	O.ORDERS_STATUS,
         	O.ORDERS_PRICE,
         	O.ORDERS_DCOST,
@@ -165,6 +172,34 @@
  <include refid="common.pagingPost"/>
 </select>
 
+<select id="selectReceipt" parameterType="hashMap" resultType="hashmap">
+<![CDATA[
+	SELECT  O.ORDERS_NUM,
+			G.GOODS_NUM,
+			O.ORDERS_PRONUM,
+        	G.GOODS_TITLE,
+        	G.GOODS_BRAND,
+        	O.ORDERS_PHONE,
+        	O.ORDERS_STATUS,
+        	O.ORDERS_PRICE,
+        	O.ORDERS_DCOST,
+        	O.ORDERS_TCOST,
+        	O.ORDERS_DATE,
+        	G.GOODS_THUMBNAIL,
+        	TO_CHAR(O.ORDERS_DATE,'hh24:mi:ss') AS ORDERS_TIME,
+        	O.ORDERS_DNUM,
+        	O.ORDERS_DADD1,
+        	O.ORDERS_DADD2,
+        	O.ORDERS_DMEMO,
+        	O.ORDERS_PAY
+	FROM    ORDERS O,
+        	GOODS G
+	WHERE   O.ORDERS_NUM = #{ORDERS_NUM}
+	AND		O.ORDERS_DEL_GB = 'N'
+	AND     O.ORDERS_PRONUM = G.GOODS_NUM
+ ]]>
+</select>
+
 <!-- 송장번호 입력 -->
 <update id="updateOrderDnum" parameterType="hashMap">
 <![CDATA[
@@ -173,7 +208,7 @@
         	ORDERS_STATUS = '배송중'
 	WHERE   ORDERS_PRONUM = #{ORDERS_NUM}
  ]]>
-</update>
+</update> 
 
 <!-- 구매확정 버튼 -->
 <update id="updateOrderStatus" parameterType="hashMap">

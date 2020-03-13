@@ -6,7 +6,6 @@
 <head>
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/animate.css">
 <link href="<c:url value="/resources/css/btn.css"/>" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -22,8 +21,67 @@
         background:linear-gradient(to bottom right, #f0e199, #f0e199);
    }
    body,table,input,select,textarea,button,h1,h2,h3,h4,h5,h6,a{font-family:'맑은 고딕',Malgun Gothic,sans-serif;font-size:12px;color:#666;font-weight:400;}
-   
-#modal {
+
+
+/* 레이어 팝업 */
+
+/* modal */
+#modal {position: fixed; left:0; top:0; width: 100%; height: 100%; transform: scale(0); z-index:1; }
+#modal .modal-bg {background: rgba(0,0,0,0.7); display:flex; align-items: center; justify-content: center; height: 100%; }
+#modal .modal-bg .modal-cont {position:relative; background: #fff; padding: 40px; width:500px; max-width: 1000px; display: inline-block; text-align:center;}
+#modal .modal-bg .modal-cont h2 {font-size: 30px; margin:0;}
+#modal .modal-bg .modal-cont p {font-size: 18px; }
+#modal .modal-bg .modal-cont .close {position: absolute; top: 0; right:0; margin:20px; padding: 10px; background: #000; border-radius: 50%; }
+#modal .modal-bg .modal-cont .close svg {width: 24px; fill: #fff; vertical-align: top;}
+
+#modal.three {
+    transform: scale(1);
+}
+#modal.three .modal-bg {
+    background: rgba(0,0,0,0);
+    animation: fadeIn 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+#modal.three .modal-bg .modal-cont {
+    opacity: 0;
+    animation: scaleUp 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+#modal.three.out {
+    animation: quickScaleDown 0s .5s linear forwards;
+}
+#modal.three.out .modal-bg {
+    background: rgba(0,0,0,0);
+    animation: fadeOut 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+#modal.three.out .modal-bg .modal-cont {
+    opacity: 0;
+    animation: scaleDown 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;
+}
+
+@keyframes fadeIn {
+    0% {background: rgba(0,0,0,0)}
+    100% {background: rgba(0,0,0,0.7)}
+}
+@keyframes fadeOut {
+    0% {background: rgba(0,0,0,0.7)}
+    100% {background: rgba(0,0,0,0)}
+}
+@keyframes scaleUp {
+    0% {transform: scale(0.5) translatey(1000px); opacity:0}
+    100% {transform: scale(1) translatey(0px); opacity:1}
+}
+@keyframes scaleDown {
+    0% {transform: scale(1) translatey(0px); opacity:1}
+    100% {transform: scale(0.5) translatey(1000px); opacity:0}
+}
+@keyframes quickScaleDown {
+    0% {transform: scale(1);}
+    99.9% {transform: scale(1); }
+    100% {transform: scale(0); }
+}
+
+/*끝*/
+
+/* #modal {
   position:relative;
   width:100%;
   height:100%;
@@ -56,7 +114,7 @@
   height:100%;
   background:rgba(0, 0, 0, 0.5);
   z-index:-1;
-}   
+}     */
 .card {
         margin: 0 auto; /* Added */
         float: none; /* Added */
@@ -77,7 +135,7 @@ function search_check(num) {
 }
 
 $(document).ready(function() {
-	/////////모///달///기///능///////////
+	/* /////////모///달///기///능///////////
 	// 1. 모달창 히든 불러오기
 	$('#background_modal').hide();
 	$(document).on("click", "#searchBtn", function(){
@@ -93,8 +151,14 @@ $(document).ready(function() {
 		if (event.target == $('#background_modal').get(0)) {
             $('#background_modal').hide();
          }
+	}); */
+	$("#searchBtn").click(function(){
+	    $("#modal").removeAttr("class").addClass("three");
 	});
-	
+
+	$(".close").click(function(){
+	    $("#modal").addClass("out");
+	});
 	
 });
 
@@ -122,6 +186,7 @@ var idSearch_click = function(){
 
 var pwSearch_click = function(){
 	var id = $('#MEM_ID').val();
+	alert("요청하신 정보를 확인 중 입니다..\n최대 10초의 시간이 소요될 수 있습니다.\n확인 버튼을 눌러주세요.");
 	$.ajax({
 		type:"get",
 		url : "<c:url value='/findPwResult'/>",
@@ -130,7 +195,7 @@ var pwSearch_click = function(){
 			if(data == true){
 			alert("임시비밀번호를 발송하였습니다.");
 			}else{
-				alert("..?");
+				alert("아이디 혹은 이메일을 잘못 입력하셨습니다.\n다시 한번 입력 바랍니다.");
 			}
 		},
 		error: function(data){
@@ -180,7 +245,7 @@ var pwSearch_click = function(){
 					</div>
 					<div class="form-group">
 						<button id="searchBtn" type="button" onclick="idSearch_click()" class="btn btn-primary btn-block" style="background-color:#26a69a; border-color:#26a69a;">확인</button>
-					<a class="btn btn-danger btn-block"	href="${pageContext.request.contextPath}" style="background-color:#26a69a; border-color:#26a69a;">취소</a>
+						<a class="btn btn-danger btn-block"	href="${pageContext.request.contextPath}" style="background-color:#26a69a; border-color:#26a69a;">취소</a>
 					</div>
 				</div>
 				
@@ -200,9 +265,9 @@ var pwSearch_click = function(){
 						</div>
 					</div>
 					<div class="form-group">
-						<button id="searchBtn2" type="button" onclick="pwSearch_click()" class="btn btn-primary btn-block">확인</button>
+						<button id="searchBtn2" type="button" onclick="pwSearch_click()" class="btn btn-primary btn-block" style="background-color:#26a69a; border-color:#26a69a;">확인</button>
+						<a class="btn btn-danger btn-block"	href="${pageContext.request.contextPath}" style="background-color:#26a69a; border-color:#26a69a;">취소</a>
 						<input type="hidden" path="random" id="random" value="${random}"/>
-					<a class="btn btn-danger btn-block"	href="${pageContext.request.contextPath}">취소</a>
 				</div>
 				</div>
 			</div>
