@@ -28,7 +28,8 @@ a {color:#666;}
 	           }});
 	   }
 	   function updateCallback(data){
-	      window.location.reload();
+		   poll();
+	      //window.location.reload();
 	   }
 	 
 	   function poll() {

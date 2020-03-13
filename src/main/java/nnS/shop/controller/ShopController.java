@@ -86,10 +86,11 @@ public class ShopController{
 	}
 	
 	@RequestMapping(value="/shop/likeGoodsList")
-	public ModelAndView shopLikeGoodsList(@RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception{
+	public ModelAndView shopLikeGoodsList(@RequestParam(value = "tstatus", defaultValue="") String tstatus, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("goodsList");
 		request.setAttribute("searchType", searchType);
 		request.setAttribute("keyword", keyword);
+		request.setAttribute("tstatus", tstatus);
 		request.setAttribute("sortType", "like");
 		mv.addObject("sortType", "like");
 		String filePath_temp = request.getContextPath() + "/file/";
@@ -100,10 +101,11 @@ public class ShopController{
 	}
 	
 	@RequestMapping(value="/shop/viewGoodsList")
-	public ModelAndView shopNewGoodsList(@RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception{
+	public ModelAndView shopViewGoodsList(@RequestParam(value = "tstatus", defaultValue="") String tstatus, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, @RequestParam(value="sortType", defaultValue="") String sortType, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("goodsList");
 		request.setAttribute("searchType", searchType);
 		request.setAttribute("keyword", keyword);
+		request.setAttribute("tstatus", tstatus);
 		request.setAttribute("sortType", "view");
 		mv.addObject("sortType", "view");
 		String filePath_temp = request.getContextPath() + "/file/";

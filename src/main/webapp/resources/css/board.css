@@ -148,7 +148,6 @@ html ul.goodsTabs li.selected, html ul.goodsTabs li.active a:hover  {
    padding: 20px;
    background-color: #fff;
 }
-
 /* �亯�� ���⿡ ���°� */
 .answer p{cursor:pointer;}
 .answer .hide{display:none;}

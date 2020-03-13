@@ -8,9 +8,7 @@
 
 <meta charset="UTF-8">
 <link href="<c:url value="/resources/css/board.css"/>" rel="stylesheet">
- 
 <link href="<c:url value="/resources/css/btn.css"/>" rel="stylesheet">
-
 <link href="<c:url value="/resources/css/card.css"/>" rel="stylesheet">
 
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
@@ -54,21 +52,8 @@ table {
 
 </head>
 <body>
-<c:if test="${sortType eq 'all'}"><c:set var="sorting" value="/nnS/shop/allGoodsList"/></c:if>
-<c:if test="${sortType eq 'like'}"><c:set var="sorting" value="/nnS/shop/likeGoodsList"/></c:if>
-<c:if test="${sortType eq 'view'}"><c:set var="sorting" value="/nnS/shop/viewGoodsList"/></c:if>
-
 <div id="content">
-   <div id="vertical_tab-container">
-      <ul>
-         <li <c:if test="${sortType eq 'all'}">class="selected"</c:if>><a href=<c:url value="/shop/allGoodsList"/>><img src=<c:url value="./../resources/images/goods_tab1.png"/>></a></li>
-         <li <c:if test="${sortType eq 'like'}">class="selected"</c:if>><a href=<c:url value="/shop/likeGoodsList"/>><img src=<c:url value="./../resources/images/goods_tab2.png"/>></a></li>
-         <li <c:if test="${sortType eq 'view'}">class="selected"</c:if>><a href=<c:url value="/shop/viewGoodsList"/>><img src=<c:url value="./../resources/images/goods_tab3.png"/>></a></li>
-      </ul>
-   </div>
-   <div id="main-container">
-
-   		<form action="${sorting}" method="post">
+		<form action="/nnS/main" method="post">
 	      <select name="tstatus" id="tstatus">
 	               <option value="0">전체보기</option>
 	               <option value="1" <c:out value="${tstatus eq '1' ? 'selected' :''}"/>>거래가능</option>
@@ -85,11 +70,11 @@ table {
 			<tr>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="goodsTbody">
 		</tbody>
 		</table>
 		<div align="center">
-		<form action="${sorting}" method="post">
+		<form action="/nnS/main" method="post">
 			<fieldset>
 				<select name="searchType" id="searchType">
 					<option value="nothing">-----</option>
@@ -108,10 +93,6 @@ table {
 		<div id="PAGE_NAVI" align="center"></div>
 		<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 
-   <c:if test="${session_MEM_ID ne null }">
-		<a href="#this"  class="btn" id="write"><button class="bttn-bordered bttn-xs bttn-primary"><img src="../resources/images/commu_wbtn.png"></button></a>
-	</c:if>
-   </div>
 </div>
     
     <%@ include file="/WEB-INF/include/include-body.jspf" %>
@@ -121,16 +102,16 @@ table {
 <script type="text/javascript">
 		$(document).ready(function() {
 			
-			fn_selectGoodsList(1);
+			fn_selectGoodsList_goods(1);
 			
 			$("#write").on("click", function(e) { //상품등록 버튼
 				e.preventDefault();
-				fn_goodsWrite();
+				fn_goodsWrite_goods();
 			});
 
-			$("a[name='title']").on("click", function(e) { //제목 
+			$("a[name='title_goods']").on("click", function(e) { //제목 
 				e.preventDefault();
-				fn_goodsDetail($(this));
+				fn_goodsDetail_goods($(this));
 			});
 			
 		});
@@ -138,9 +119,9 @@ table {
 		function fn_hashSearch(keyword){
 			var comAjax = new ComAjax();
 			comAjax.setUrl("<c:url value='/shop/selectGoodsList' />");
-			comAjax.setCallback("fn_selectGoodsListCallback");
+			comAjax.setCallback("fn_selectGoodsListCallback_goods");
 			comAjax.addParam("PAGE_INDEX", 1);
-			comAjax.addParam("PAGE_ROW", 15);
+			comAjax.addParam("PAGE_ROW", 10);
 			comAjax.addParam("keyword", keyword);
 			comAjax.addParam("searchType", "hash");
 			comAjax.addParam("sortType", $('#sortType').val());
@@ -149,13 +130,14 @@ table {
 			comAjax.ajax();
 			return true;
 		}
-		function fn_goodsWrite() {
+		
+		function fn_goodsWrite_goods() {
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/shop/goodsWriteForm' />");
 			comSubmit.submit();
 		}
 	
-		function fn_goodsDetail(obj) {
+		function fn_goodsDetail_goods(obj) {
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/shop/goodsDetail' />");
 			comSubmit.addParam("GOODS_NUM", obj.parent().find("#IDX1").val());
@@ -163,12 +145,12 @@ table {
 			comSubmit.submit();
 		}
 		
-		function fn_selectGoodsList(pageNo) {
+		function fn_selectGoodsList_goods(pageNo) {
 			var comAjax = new ComAjax();
 			comAjax.setUrl("<c:url value='/shop/selectGoodsList' />");
-			comAjax.setCallback("fn_selectGoodsListCallback");
+			comAjax.setCallback("fn_selectGoodsListCallback_goods");
 			comAjax.addParam("PAGE_INDEX", pageNo);
-			comAjax.addParam("PAGE_ROW", 15);
+			comAjax.addParam("PAGE_ROW", 10);
 			comAjax.addParam("keyword", $('#keyword').val());
 			comAjax.addParam("searchType", $('#searchType').val());
 			comAjax.addParam("sortType", $('#sortType').val());
@@ -177,13 +159,12 @@ table {
 			comAjax.ajax();
 		}
 
-		function fn_selectGoodsListCallback(data) {
+		function fn_selectGoodsListCallback_goods(data) {
 			var total = data.TOTAL;
-			var body = $("table>tbody");
+			var body = $("#goodsTbody");
 			body.empty();
 			if (total == 0) {
-				var str = "<tr>" 
-						+ "<td colspan='4'>조회된 결과가 없습니다.</td>"
+				var str = "<tr>" + "<td colspan='4'>조회된 결과가 없습니다.</td>"
 						+ "</tr>";
 				body.append(str);
 			} else {
@@ -192,7 +173,7 @@ table {
 					pageIndex : "PAGE_INDEX",
 					totalCount : total,
 					recordCount : 15,
-					eventName : "fn_selectGoodsList"
+					eventName : "fn_selectGoodsList_goods"
 				};
 				gfn_renderPaging(params);
 
@@ -244,8 +225,8 @@ table {
 										 	     + "거래중";
 									}
 									
-									str +=  "<div class='card'>"
-										+		"<a href='#this' name='title'>"
+									str +=  "<div class='card' style='width:40%'>"
+										+		"<a href='#this' name='title_goods'>"
 										+	      imgpath
 										+ 					tstatus
 										+ 					"</div >"
@@ -256,10 +237,10 @@ table {
 										+	      "</div>"
 										+	      "<div class='card-body'>"
 										+	         "<div class='card-body-header'>"
-										//+	            "<p class='card-body-hashtag'>"
+										+	            "<p class='card-body-hashtag'>"
 										//+				value.GOODS_HASH
 										+				hashAdd
-										//+				"</p>"
+										+				"</p>"
 										+	            "<h1>"
 										+				value.GOODS_TITLE
 										+				"</h1>"
@@ -268,9 +249,9 @@ table {
 										+	                "판매자: " + value.MEM_ID
 										+	            "</p>"
 										+	         "</div>"
-										+	         "<p class='card-body-description'>"
+										//+	         "<p class='card-body-description'>"
 										//+	            value.GOODS_CONTENT
-										+	         "</p>"
+										//+	         "</p>"
 										+	         "<div class='card-body-footer'>"
 										+	            "<hr style='margin-bottom: 8px; opacity: 0.5; border-color: #EF5A31'>"
 										+	            "<i class='icon icon-view_count'></i>조회수 "
@@ -291,9 +272,9 @@ table {
 								});
 				body.append(str);
 
-				$("a[name='title']").on("click", function(e) { //제목
+				$("a[name='title_goods']").on("click", function(e) { //제목
 					e.preventDefault();
-					fn_goodsDetail($(this));
+					fn_goodsDetail_goods($(this));
 				});
 			}
 		}

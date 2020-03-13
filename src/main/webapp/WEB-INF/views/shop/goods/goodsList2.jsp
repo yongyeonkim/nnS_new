@@ -230,7 +230,7 @@ table {
 										 	     + "거래중";
 									}
 									
-									str +=  "<div class='card'>"
+									str +=  "<div class='card' style='width:40%'>"
 										+		"<a href='#this' name='title'>"
 										+	      imgpath
 										+ 					tstatus

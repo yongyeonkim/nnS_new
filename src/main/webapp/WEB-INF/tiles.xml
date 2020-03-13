@@ -25,6 +25,10 @@
       <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/layout/container.jsp" />
       <put-attribute name="body2" value="/WEB-INF/views/layout/container.jsp" />
+      <put-attribute name="body3" value="/WEB-INF/views/layout/container.jsp" />
+      <put-attribute name="body4" value="/WEB-INF/views/layout/container.jsp" />
+      <put-attribute name="body5" value="/WEB-INF/views/layout/container.jsp" />
+      <put-attribute name="body6" value="/WEB-INF/views/layout/container.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
    </definition>
    
@@ -41,7 +45,11 @@
    <!-- main -->
    <definition name="main" extends="default3">
    	  <put-attribute name="body" value="/WEB-INF/views/member/main/main.jsp" />
-      <put-attribute name="body2" value="/WEB-INF/views/shop/goods/goodsList2.jsp" />
+      <put-attribute name="body2" value="/WEB-INF/views/member/main/goodsList2.jsp" />
+      <put-attribute name="body3" value="/WEB-INF/views/member/main/noticeList2.jsp" />
+      <put-attribute name="body4" value="/WEB-INF/views/member/main/boardList2.jsp" />
+      <put-attribute name="body5" value="/WEB-INF/views/member/main/qnaList2.jsp" />
+      <put-attribute name="body6" value="/WEB-INF/views/member/main/reportList2.jsp" />
    </definition>
    
    <!-- Member -->
