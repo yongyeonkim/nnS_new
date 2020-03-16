@@ -15,9 +15,20 @@
   .comments td {
   	padding: 20px
   }
+  
+  .contentClass{
+	background-color:white;
+	border-radius:10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 1px dashed #cecece;
+    padding:15px;
+	
+	}
+	.contentClass p{
+		background-color:white;
+	}
 </style>
 <meta charset="EUC-KR">
-<title>문의 답글 등록</title>
 </head>
 <body>
 	<div id="modal">
@@ -26,7 +37,7 @@
 
 			<form id="frm2" name="frm2">
 			<table class="comments">
-				<tbody id="commentDetail_a">
+				<tbody id="commentDetail_a" class="contentClass">
 				
 				</tbody>
 			</table>

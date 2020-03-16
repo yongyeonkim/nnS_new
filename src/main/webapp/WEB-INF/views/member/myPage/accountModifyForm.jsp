@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,16 +27,15 @@
             </div>
             <form id="accountModifyForm" method="post">
             <div class="card-body">
-            	
-              <img src="/nnS/resources/images/mypage_id.png"> <div class="form-control">${map.MEM_ID } </div><br>
-               <img src="/nnS/resources/images/mypage_name.png"> <div class="form-control">${map.MEM_NAME } </div><br>
-			   <img src="/nnS/resources/images/mypage_birth.png"><div class="form-control">생년월일 ${map.MEM_BIRTH }</div><br>
-			  <img src="/nnS/resources/images/mypage_gen.png"><div class="form-control">${map.MEM_GEN }</div><br>
+			   <img src="/nnS/resources/images/mypage_id.png"><input type="text" id="MEM_ID" name="MEM_ID" class="form-control" value="${map.MEM_ID }" readonly><br>
+			   <img src="/nnS/resources/images/mypage_name.png"><input type="text" id="MEM_NAME" name="MEM_NAME" class="form-control" value="${map.MEM_NAME }" readonly><br>
+			   <img src="/nnS/resources/images/mypage_birth.png"><input type="text" id="MEM_BIRTH" name="MEM_BIRTH" class="form-control" value="<fmt:formatDate value="${map.MEM_BIRTH }" pattern="yyyy.MM.dd"/>" readonly><br>
+			   <img src="/nnS/resources/images/mypage_gen.png"><input type="text" id="MEM_GEN" name="MEM_GEN" class="form-control" value="${map.MEM_GEN }" readonly><br>
 			   <img src="/nnS/resources/images/mypage_email.png"><input type="text" id="MEM_EMAIL" name="MEM_EMAIL" class="form-control" value="${map.MEM_EMAIL }"><br>
 		       <img src="/nnS/resources/images/mypage_phone.png"><input type="text" id="MEM_PHONE" name="MEM_PHONE" class="form-control" value="${map.MEM_PHONE }"><br>
 			   <img src="/nnS/resources/images/mypage_zip.png"><input type="button" class="btn btn-sm btn-primary" onclick="zipcode()" value="주소 검색" style="background-color:#26a69a;"><br>
-			   <input type="text" id="MEM_ZIP" name="MEM_ZIP" class="form-control" value="${map.MEM_ZIP }"><br>
-			   <img src="/nnS/resources/images/mypage_add.png"><input type="text" id="MEM_ADD1" name="MEM_ADD1" class="form-control" value="${map.MEM_ADD1 }"><br>
+			   <input type="text" id="MEM_ZIP" name="MEM_ZIP" class="form-control" value="${map.MEM_ZIP }" readonly><br>
+			   <img src="/nnS/resources/images/mypage_add.png"><input type="text" id="MEM_ADD1" name="MEM_ADD1" class="form-control" value="${map.MEM_ADD1 }" readonly><br>
 			   <img src="/nnS/resources/images/mypage_add2.png"><input type="text" id="MEM_ADD2" name="MEM_ADD2" class="form-control" value="${map.MEM_ADD2 }"><br>	
             </div>
          
@@ -140,6 +140,7 @@ $(document).ready(function() { //변경 버튼 클릭시
     var comSubmit = new ComSubmit("accountModifyForm");
     comSubmit.setUrl("<c:url value='/myPage/accountModify'/>");
     comSubmit.submit();
+    alert("회정 정보 수정이 완료되었습니다.");
  }
  $("#accountModifyForm").on("submit",function(e){
  });

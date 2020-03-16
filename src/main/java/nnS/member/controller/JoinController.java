@@ -71,7 +71,7 @@ public class JoinController {
    public ModelAndView insertMember(CommandMap commandMap) throws Exception{ //회원가입성공
 	   System.out.println(commandMap.getMap());
 	   joinService.insertMember(commandMap.getMap());
-	   ModelAndView mv = new ModelAndView("/member/join/joinConfirm");
+	   ModelAndView mv = new ModelAndView("redirect:/main");
 	   return mv;
    }
    
@@ -108,7 +108,7 @@ public class JoinController {
    }
 
    @RequestMapping(value = "/authComplete", method = RequestMethod.GET) 
-   public ModelAndView join(CommandMap commandMap) throws Exception { //이메일 인증기능 처리
+   public ModelAndView join(CommandMap commandMap) throws Exception { //이메일 인증기능 처리 (뭔지 모르겠음)
 	  ModelAndView mv = new ModelAndView("member/join/welcome");
 	  
 	  return mv; 

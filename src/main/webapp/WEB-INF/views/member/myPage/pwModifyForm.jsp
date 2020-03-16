@@ -41,23 +41,29 @@ $(document).ready(function() { //id check
 
 function fn_pwchangeCheck(){ //pw check
     var MEM_PW = {MEM_PW : $('#MEM_PW').val()};
-    $.ajax({
-        url:"<c:url value='/myPage/pwchangeCheck'/>",
-        type:'get',
-        data: MEM_PW,
-        success:function(data){              
-            if($.trim(data)=="1"){
-            	var comSubmit = new ComSubmit("pwchangeform");
-            	comSubmit.setUrl("<c:url value='/myPage/modifySuccess'/>");
-            	comSubmit.submit();
-            }else{
-               $('#pwc').html("비밀번호가 틀렸습니다.").css("color", "red");
-            }
-        },
-        error:function(){
-                alert("에러입니다");
-        }
-    });
+    
+    var CONFIRM = confirm("정말로 비밀번호를 변경하시겠습니까?");
+    
+    if(CONFIRM==true){
+	    $.ajax({
+	        url:"<c:url value='/myPage/pwchangeCheck'/>",
+	        type:'get',
+	        data: MEM_PW,
+	        success:function(data){              
+	            if($.trim(data)=="1"){
+	            	var comSubmit = new ComSubmit("pwchangeform");
+	            	comSubmit.setUrl("<c:url value='/myPage/modifySuccess'/>");
+	            	comSubmit.submit();
+	            	alert("비밀번호가 변경되었습니다.\n\n메인으로 이동합니다.");
+	            }else{
+	               $('#pwc').html("비밀번호가 틀렸습니다.").css("color", "red");
+	            }
+	        },
+	        error:function(){
+	                alert("에러입니다");
+	        }
+	    });
+    }
 };
 
 $("#pwchangeform").on("submit",function(e){

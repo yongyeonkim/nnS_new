@@ -283,7 +283,7 @@ table {
 			      		</div>
 			      		<!-- 문의 작성 폼 -->
 			      		<form id="frm" name="frm">
-				      		<c:if test="${session_MEM_ID != NULL}">
+				      		<c:if test="${session_MEM_ID != NULL && session_MEM_ID != map.MEM_ID}">
 					      		<div width="100%">
 				      				<textarea name='COMMENTS_CONTENT' id='COMMENTS_CONTENT' rows='5' cols='150' style='resize: none;'></textarea>
 				      				<input type="hidden" id="COMMENTS_TYPE" name="COMMENTS_TYPE" value="1"/>
@@ -511,7 +511,7 @@ table {
 					
 						str +=	"<tr>"
 							+	"<td style='width: 150px'>"+data.cMap.MEM_ID+"</td>"
-		           			+	"<td style='width: 250px'>"+data.cMap.COMMENTS_DATE+"</td>";
+		           			+	"<td style='width: 250px'>"+new Date(data.cMap.COMMENTS_DATE).toLocaleString()+"</td>";
 			           	if(data.cMap.COMMENTS_REPLY == 'N'){
 			           	str +=	"<td style='width: 100px'>답변대기</td>";	
 			           	}else if(data.cMap.COMMENTS_REPLY == 'Y'){
@@ -525,7 +525,7 @@ table {
 							+	"<tr>"
 							+	"<td colspan='3' style='height:150px'>"+data.cMap.COMMENTS_CONTENT+"</td>"
 							+	"</tr>";
-						if(data.cMap.COMMENTS_REPLY == 'N' && '${session_MEM_INFO.MEM_ID}' == data.G_MEM_ID){
+						if(data.cMap.COMMENTS_REPLY == 'N' && '${session_MEM_INFO.MEM_ID}' == "${map.MEM_ID}"){
 							str +=	"<tr>"
 								+	"<td colspan='3'>${session_MEM_INFO.MEM_ID}</td>"
 								+	"<td rowspan='2' align='center'>"
@@ -544,7 +544,7 @@ table {
 								+	"<td>판매자 : "+data.rMap.MEM_ID+"</td>"
 								+	"<td colspan='2'>"+data.rMap.COMMENTS_DATE+"</td>"
 								+	"<td rowspan='2' align='center'>";
-						if('${session_MEM_INFO.MEM_ID}' == data.G_MEM_ID){
+						if('${session_MEM_INFO.MEM_ID}'  == "${map.MEM_ID}"){
 								+	"<a href='#this' id='rcDelete' name='rcDelete'>답글삭제"
 								+	"<input type='hidden' id='REPLY_NUM' name='REPLY_NUM' value='"+data.rMap.COMMENTS_NUM+"'>"
 								+	"<input type='hidden' id='COMMENTS_RNUM' name='COMMENTS_RNUM' value='"+data.cMap.COMMENTS_NUM+"'>"
@@ -575,26 +575,38 @@ table {
 		}
 		
 		function fn_writeComment(){
-			var comSubmit = new ComSubmit("frm");
-			comSubmit.setUrl("<c:url value='/shop/goodsDetail/commentWrite'/>");
-			comSubmit.addParam("GOODS_NUM", $("#GOODS_NUM").val());
 			
-			// 댓글 내용 필요
-	         if(!$("#COMMENTS_CONTENT").val()){
-	             alert("내용를 입력해주세요.");
-	             $("#COMMENTS_CONTENT").focus();
-	             return false;
-	         }
+			var CONFIRM = confirm("문의를 남기시겠습니까?");
 			
-			comSubmit.submit();
+			if(CONFIRM==true){
+				var comSubmit = new ComSubmit("frm");
+				comSubmit.setUrl("<c:url value='/shop/goodsDetail/commentWrite'/>");
+				comSubmit.addParam("GOODS_NUM", $("#GOODS_NUM").val());
+				
+				// 댓글 내용 필요
+		         if(!$("#COMMENTS_CONTENT").val()){
+		             alert("내용를 입력해주세요.");
+		             $("#COMMENTS_CONTENT").focus();
+		             return false;
+		         }
+				
+				comSubmit.submit();
+				alert("문의가 정상적으로 작성되었습니다.");
+			}
 		} 
 		
 		function fn_deleteComment(num){
+			
+			var CONFIRM = confirm("정말로 삭제하시겠습니까?");
+			
+			if(CONFIRM==true){
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/shop/goodsDetail/commentDelete'/>");
 			comSubmit.addParam("COMMENTS_NUM", num);
 			comSubmit.addParam("GOODS_NUM", $("#GOODS_NUM").val());
 			comSubmit.submit();
+			alert("문의가 정상적으로 삭제되었습니다.")
+			}
 		}
 				
 		function fn_chkUsr(){
@@ -602,29 +614,41 @@ table {
 		}
 		
 		function fn_replyWriteComment(){
-			var comSubmit = new ComSubmit("frm2");
-			comSubmit.setUrl("<c:url value='/shop/goodsDetail/commentReplyWrite'/>");
-			comSubmit.addParam("COMMENTS_NUM", $("#COMMENTS_NUM").val());
-			comSubmit.addParam("G_MEM_ID", $("G_MEM_ID").val());
 			
-			// 댓글 내용 필요
-	         if(!$("#COMMENTS_CONTENT").val()){
-	             alert("내용를 입력해주세요.");
-	             $("#COMMENTS_CONTENT").focus();
-	             return false;
-	         }
+			var CONFIRM = confirm("정말로 답변을 남기시겠습니까?");
 			
-			comSubmit.submit();
+			if(CONFIRM==true){
+				var comSubmit = new ComSubmit("frm2");
+				comSubmit.setUrl("<c:url value='/shop/goodsDetail/commentReplyWrite'/>");
+				comSubmit.addParam("COMMENTS_NUM", $("#COMMENTS_NUM").val());
+				comSubmit.addParam("G_MEM_ID", $("G_MEM_ID").val());
+				
+				// 댓글 내용 필요
+		         if(!$("#COMMENTS_CONTENT").val()){
+		             alert("내용를 입력해주세요.");
+		             $("#COMMENTS_CONTENT").focus();
+		             return false;
+		         }
+				
+				comSubmit.submit();
+				alert("답변 작성이 완료되었습니다!");
+			}
 		}
 		
 		
 		function fn_deletereplyComment(){
+			
+			var CONFIRM = confirm("정말로 삭제하시겠습니까?");
+			
+			if(CONFIRM==true){
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/shop/goodsDetail/commentReplyDelete'/>");
 			comSubmit.addParam("REPLY_NUM", $("#REPLY_NUM").val());
 			comSubmit.addParam("COMMENTS_RNUM", $("#COMMENTS_RNUM").val());
 			comSubmit.addParam("G_MEM_ID", "${G_MEM_ID}");
 			comSubmit.submit();
+			alert("문의가 정상적으로 삭제되었습니다.")
+			}
 		}
 		
 		

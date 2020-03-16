@@ -24,7 +24,7 @@
             <div class="card-title" style="margin-top:30px;">
                <h2 class="card-title text-center" style="color:#113366;"><img src="./../resources/images/mypage_success.png"></h2>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="text-align:center;">
                정보 변경이 완료되었습니다.
 			   <span id="pw"></span>
             </div>
