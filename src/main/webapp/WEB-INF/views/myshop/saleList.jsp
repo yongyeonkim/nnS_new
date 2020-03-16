@@ -384,8 +384,6 @@ function fn_dnum_in(num) {
 	comSubmit.submit();
 }
 
-<<<<<<< HEAD
-
 //택배추적
 function fn_sweetTracker(Dnum){
 	$("#modal2").removeAttr("class").addClass("three");
