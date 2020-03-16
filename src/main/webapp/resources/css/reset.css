@@ -17,7 +17,9 @@ legend{}
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block;}
 textarea,label, input, button, select, img {vertical-align:middle;}
 button {cursor:pointer;}
+/*
 hr{display:none;}
+*/
 pre{overflow-x:scroll;font-size:1.1em;}
 a{color:#707070;text-decoration:none;}
 iframe{max-width:100%;}

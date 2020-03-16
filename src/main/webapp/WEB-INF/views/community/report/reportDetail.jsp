@@ -19,6 +19,7 @@
    </div>
    <div id="main-container">
 		<img src="./../resources/images/form_t3.png" width="100" height="30">
+		
    <table border="1" align="center" class="tbl_type">
       <colgroup>
          <col width="15%"/>
@@ -32,7 +33,8 @@
          <tr>
             <th scope="row"><img src="./../resources/images/commu_num.png" height="25"></th>
             <td>${map.REPORT_NUM }
-            <input type="hidden" id="REPORT_NUM" name="REPORT_NUM" value="${map.REPORT_NUM }"></td>
+            <input type="hidden" id="REPORT_NUM" name="REPORT_NUM" value="${map.REPORT_NUM }">
+            </td>
             <th scope="row"><img src="./../resources/images/commu_hit.png" height="25"></th>
             <td>${map.REPORT_COUNT }</td>
          </tr>
@@ -51,23 +53,24 @@
          </tr>
          <tr>
             <th scope="row"><img src="./../resources/images/commu_title.png" height="25"></th>
-            <td>${map.REPORT_TITLE }</td>
+            <td>${map.REPORT_TITLE }
+            <c:choose>
+	            <c:when test="${map.REPORT_STATUS eq '처리대기'}">
+	            	<img src="./../resources/images/report_status1.png" height="18">
+	            </c:when>
+	            <c:when test="${map.REPORT_STATUS eq '신고접수'}">
+	            	<img src="./../resources/images/report_status2.png" height="19">
+	            </c:when>
+	            <c:when test="${map.REPORT_STATUS eq '처리완료'}">
+	            	<img src="./../resources/images/report_status3.png" height="19">
+	            </c:when>
+	            <c:when test="${map.REPORT_STATUS eq '허위신고'}">
+	            	<img src="./../resources/images/report_status4.png" height="20">
+	            </c:when>
+            </c:choose>
+            </td>
             <th scope="row"><img src="./../resources/images/report_reason.png" height="25"></th>
             <td>${map.REPORT_TYPE }
-            <%-- <c:if test="${session_MEM_INFO.MEM_LEVEL eq '2'}">
-            <form id="frm" name="frm">
-            <input type="hidden" id="IDX" name="IDX" value="${map.MEM_ID}">
-            <input type="hidden" id="IDX2" name="IDX2" value="${map.GOODS_SELLER_ID}">
-            
-	            <select name="REPORT_STATUS" id="REPORT_STATUS">
-	               <option value="처리대기">대기</option>
-	               <option value="신고접수">접수</option>
-	               <option value="허위신고">무죄</option>
-	               <option value="처리완료">완료</option>
-	            </select><a href="#this" class="btn" id="handle">처리 </a>
-	      		</form>
-      		</c:if> --%>
-            
             
          </tr>
          <tr>

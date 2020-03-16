@@ -25,11 +25,13 @@
 		<img src="./../resources/images/commu_rtitle.png" width="200" height="70"> 
 	<table border="1" align="center" class="tbl_type">
 		<colgroup>
-			<col width="10%" />
+			<col width="8%" />
 			<col width="*" />
 			<col width="15%" />
-			<col width="25%" />  
 			<col width="10%" />
+			<col width="15%" />
+			<col width="15%" />  
+			<col width="8%" />
 		</colgroup>  
 		<caption><h2>신고게시판</h2></caption>
 		<form action="/nnS/myPage/reportList" method="post">
@@ -46,10 +48,10 @@
 			<tr>
 				<th scope="col"><img src="./../resources/images/commu_num.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_title.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_rid.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_status.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_writer.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_date.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_status.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_rid.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_hit.png" height="25"></th>
 			</tr>
 		</thead>
@@ -116,25 +118,43 @@
 				$.each(
 								data.list,
 								function(key, value) {
+									var title = value.REPORT_TITLE;
+									if(title.length > 20){
+										title = title.substring(0, 19) + "...";
+									}
+									
+									var status = "";
 									var si = "";
-		                            if(value.REPORT_GOODS_SELLER_ID == null){
+		                            
+									if(value.REPORT_GOODS_SELLER_ID == null){
 		                               si = " ";
 		                            }else{
 		                               si = value.REPORT_GOODS_SELLER_ID;
 		                            }
+									
+									if(value.REPORT_STATUS =='처리대기'){
+										status = '<img src="./../resources/images/report_status1.png" height="18">'
+									}else if(value.REPORT_STATUS == '신고접수'){
+										status = '<img src="./../resources/images/report_status2.png" height="19">'
+									}else if(value.REPORT_STATUS == '처리완료'){
+										status = '<img src="./../resources/images/report_status3.png" height="19">'
+									}else if(value.REPORT_STATUS == '허위신고'){
+										status = '<img src="./../resources/images/report_status4.png" height="20">'
+									}
+									
 									str     += "<tr style=\"text-align: center\">"
 											+ "<td>"
 											+ value.REPORT_NUM
 											+ "</td>"
 											+ "<td class='title'>"
 											+ "<a href='#this' name='title'>"
-											+ value.REPORT_TITLE
+											+ title
 											+ "</a>"
 											+ "<input type='hidden' id='REPORT_NUM' value=" + value.REPORT_NUM + ">"
+											+ "</td>" + "<td>" + si
+											+ "</td>" + "<td>" + status
 											+"</td>" + "<td>" + value.MEM_ID
 											+ "</td>" + "<td>" + new Date(value.REPORT_DATE).toLocaleString()
-											+ "</td>" + "<td>" + value.REPORT_STATUS
-											+ "</td>" + "<td>" + si
 											+ "</td>" + "<td>" + value.REPORT_COUNT
 											+ "</td>" + "</tr>";
 								});

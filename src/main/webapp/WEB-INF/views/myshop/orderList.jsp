@@ -55,7 +55,11 @@ html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
 	margin: auto;
 	border: 0px;
 	padding: 5px;
-}
+	}
+	
+	.hyperButton{
+		color: #2478FF;
+	}
 
 /* 레이어 팝업 */
 
@@ -159,6 +163,14 @@ html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
 			<div class='goodsTab_container'>
 				<div id="goodsTab1" class="goodsTab_content">
 					<table id="main_table1" class="tbl_type">
+						<colgroup>
+							<col width="13%" />
+							<col width="*" />
+							<col width="10%" />
+							<col width="10%" />
+							<col width="10%" />  
+							<col width="15%" />
+						</colgroup>  
 						<tbody>
 						</tbody>
 					</table>
@@ -168,6 +180,15 @@ html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
 				</div>
 			<div id="goodsTab2" class="goodsTab_content">
 				<table id="main_table2" class="tbl_type">
+					<colgroup>
+						<col width="13%" />
+						<col width="*" />
+						<col width="10%" />
+						<col width="10%" />
+						<col width="15%" />
+						<col width="10%" />  
+						<col width="15%" />
+					</colgroup>  
 					<tbody>
 					</tbody>
 				</table>
@@ -177,6 +198,14 @@ html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
 			</div>
 			<div id="goodsTab3" class="goodsTab_content">
 				<table id="main_table3" class="tbl_type">
+					<colgroup>
+						<col width="13%" />
+						<col width="*" />
+						<col width="10%" />
+						<col width="10%" />
+						<col width="15%" />
+						<col width="15%" />
+					</colgroup>  
 					<tbody>
 					</tbody>
 				</table>
@@ -314,29 +343,42 @@ function fn_selectOrderListCallback1(data) {
 	var total = data.TOTAL;
 	var tabNo = data.tabNo;
 	var body = "";
+	var dnum = "";
+	var dnum2 = "";
 	
 	if(tabNo == 1){
-		body = $("#main_table1 tbody");	
+		body = $("#main_table1 tbody");
+		dnum2 += "<th align='center'><img src=<c:url value='/resources/images/myshop_ostatus.png'/>></th>";
 	}else if(tabNo == 2){
-		body = $("#main_table2 tbody");	
+		body = $("#main_table2 tbody");
+		dnum += "<th align='center'><img src=<c:url value='/resources/images/myorder_list3.png'/>></th>";
+		dnum2 += "<th align='center'><img src=<c:url value='/resources/images/myshop_ostatus.png'/>></th>";
 	}else if(tabNo == 3){
-		body = $("#main_table3 tbody");	
+		body = $("#main_table3 tbody");
+		dnum += "<th align='center'><img src=<c:url value='/resources/images/myorder_list3.png'/>></th>";
 	}
 	var str1 = "";
 	body.empty();
+	
 	str1 	+= 	"<tr>"
-				+		"<th width='150px' align='center'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>"
-				+		"<th width='200px' align='center'><img src=<c:url value='/resources/images/mysale_list2.png'/>></th>"
-				+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/myorder_list2.png'/>></th>"
-				+		"<th width='150px' align='center'><img src=<c:url value='/resources/images/myorder_list3.png'/>></th>"
-				+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/myorder_list4.png'/>></th>"
-				+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/myorder_list5.png'/>></th>"
-				+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/myshop_ostatus.png'/>></th>"
+				+		"<th align='center'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>"
+				+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list2.png'/>></th>"
+				+		"<th align='center'><img src=<c:url value='/resources/images/myorder_list4.png'/>></th>"
+				+		"<th align='center'><img src=<c:url value='/resources/images/myorder_list5.png'/>></th>"
+				+ dnum
+				+ dnum2
+				+		"<th align='center'><img src=<c:url value='/resources/images/myorder_list2.png'/>></th>"
 				+	"</tr>";
 	if (total == 0) {
-		str1 += "<tr align='center'>" 
-			  +	"<td colspan='6'>조회된 결과가 없습니다.</td>"
-			  +	"</tr>";
+		if(tabNo == 1 || tabNo == 3){
+			str1 += "<tr align='center'>" 
+				  +	"<td colspan='6'>조회된 결과가 없습니다.</td>"
+				  +	"</tr>";			
+		}else{
+			str1 += "<tr align='center'>" 
+				  +	"<td colspan='7'>조회된 결과가 없습니다.</td>"
+				  +	"</tr>";		
+		}
 		body.append(str1);
 	} else {
 		var params = {
@@ -351,42 +393,49 @@ function fn_selectOrderListCallback1(data) {
 			
 		$.each(data.list, 
 				function(key, value) {
-					//if(value.ORDERS_STATUS == "주문/결제") {
+						var title = value.GOODS_TITLE;
+						if(title.length > 20){
+							title = title.substring(0, 19) + "...";
+						}
+						
+						var dnumber = "";
+						if(tabNo == 2 || tabNo == 3){
+							dnumber += "<td align='center'>"
+					  	      		+	value.ORDERS_DNUM
+					  	      		+	"</td>";
+			  	      	} else {
+			  	      		dnumber += "";
+			  	      	}
 						str1 +=	"<tr>"
-				    		+	"<td><input type='button' id='receipt' name='receipt' value='"+value.ORDERS_NUM+"' onclick='fn_receipt("+value.ORDERS_NUM+")'>"
+				    		+	"<td><input class='hyperButton' type='button' id='receipt' name='receipt' value='"+value.ORDERS_NUM+"' onclick='fn_receipt("+value.ORDERS_NUM+")'>"
 		      	      		+	"</td>"
 		      	      		+	"<td>"
 		      	      		+	"<a href='#this' id='title' name='title'>"
-		      	      		+	value.GOODS_TITLE
+		      	      		+	title
 	      	      			+	"<input type='hidden' name='title2' id='title2' value="+value.ORDERS_PRONUM+">"
 		      	      		+	"</a></td>"
-		      	      		+	"<td width='100px' align='center'>"
-	      	      			+	new Date(value.ORDERS_DATE).toLocaleString()
-		      	      		+	"</td>";
-		      	      	if(value.ORDERS_STATUS == "주문/결제"){
-		      	      		str1 += "<td>-</td>";
-		      	      	} else {
-		      	      	str1 +=	"<td width='200px' align='center'>"
-		      	      		+	value.ORDERS_DNUM
-		      	      		+	"</td>";
-		      	      	}
-		      	      	str1 +=	"<td width='100px' align='center'>"
+		      	      		+	"<td align='center'>"
 		      	      		+	value.ORDERS_PRICE
 		      	      		+	"</td>"
-		      	      		+	"<td width='100px' align='center'>"
+		      	      		+	"<td align='center'>"
 		      	      		+	value.ORDERS_STATUS	
 		      	      		+	"</td>"
-		      	      		+	"<td>";
+			      	      	+	dnumber;
 		      	      	if(value.ORDERS_STATUS == "주문/결제"){
-	      	      			str1 +=	"<input type='button' id='orderCancel' name='orderCancel' value='주문취소' onclick='fn_orderCancel("+value.ORDERS_PRONUM+")' >";
+	      	      			str1 +=	"<td>"
+	      	      				 +	"<input class='hyperButton' type='button' id='orderCancel' name='orderCancel' value='주문취소' onclick='fn_orderCancel("+value.ORDERS_PRONUM+")' >"
+	      	      				 +  "</td>";
 		      	      	}else if(value.ORDERS_STATUS == "배송중"){
-		      	      		str1 += "<input type='button' id='Buychk' name='Buychk' value='구매확정' onclick='fn_Buychk("+value.ORDERS_PRONUM+")' >"
+		      	      		str1 +=	"<td>" 
+		      	      			 +  "<input class='hyperButton' type='button' id='Buychk' name='Buychk' value='구매확정' onclick='fn_Buychk("+value.ORDERS_PRONUM+")' >"
+		      	      			 +  "</td>";
 		      	      	}else {
-		      	      		str1 += "-";
+		      	      		
 		      	      	}
-		      	      	str1 +=	"</td>"
-		      	      		+	"</tr>";
-					//}
+		      	      	str1 +=	"<td align='center'>"
+	      	      			 +	new Date(value.ORDERS_DATE).toLocaleString()
+		      	      		 +	"</td>"
+		      	      		 +	"</tr>";
 		});
 							body.append(str1);
 							

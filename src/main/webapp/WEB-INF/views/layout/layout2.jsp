@@ -24,12 +24,12 @@
 		<tiles:insertAttribute name="body"/><!-- // container -->
 	</div> 	
 	<!-- container --> 
-	<div id="container" style="width:30%; margin:10px 10px 10px 9%; float:left;">
+	<div id="container" style="width:38%; margin:10px 5px 10px 6%; float:left;">
 		<div style="border: 1px dashed; margin-top:30px;">
 			<tiles:insertAttribute name="body2"/><!-- // container -->
 		</div>
 	</div>
-	<div id="container" style="width:50%; margin:10px 9% 10px 10px; float:right;">
+	<div id="container" style="width:48%; margin:10px 6% 10px 5px; float:right;">
 		<div style="border: 1px dashed; margin-top:30px;">
 			<tiles:insertAttribute name="body3"/><!-- // container -->
 		</div>

@@ -54,7 +54,11 @@ html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
 	margin: auto;
 	border: 0px;
 	padding: 5px;
-}
+	}
+	
+	.hyperButton{
+		color: #2478FF;
+	}
 
 /* 레이어 팝업 */
 
@@ -158,6 +162,14 @@ html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
 			<div class='goodsTab_container'>
 				<div id="goodsTab1" class="goodsTab_content">
 					<table id="main_table1" class="tbl_type">
+						<colgroup>
+							<col width="10%" />
+							<col width="*" />
+							<col width="10%" />
+							<col width="10%" />
+							<col width="10%" />  
+							<col width="15%" />
+						</colgroup>  
 						<tbody>
 						</tbody>
 					</table>
@@ -167,6 +179,16 @@ html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
 				</div>
 			<div id="goodsTab2" class="goodsTab_content">
 				<table id="main_table2" class="tbl_type">
+					<colgroup>
+						<col width="13%" />
+						<col width="10%" />
+						<col width="*" />
+						<col width="10%" />
+						<col width="10%" />
+						<col width="15%" />
+						<col width="10%" />
+						<col width="15%" />
+					</colgroup>  
 					<tbody>
 					</tbody>
 				</table>
@@ -176,6 +198,15 @@ html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
 			</div>
 			<div id="goodsTab3" class="goodsTab_content">
 				<table id="main_table3" class="tbl_type">
+					<colgroup>
+						<col width="13%" />
+						<col width="10%" />
+						<col width="*" />
+						<col width="10%" />
+						<col width="10%" />
+						<col width="10%" />  
+						<col width="15%" />
+					</colgroup>  
 					<tbody>
 					</tbody>
 				</table>
@@ -281,6 +312,17 @@ function fn_dnum_in(num) {
 	comSubmit.submit();
 }
 
+// 판매취소 버튼
+function fn_deleteGoods(num){
+	var comSubmit = new ComSubmit();
+	var CONFIRM = confirm("정말로 삭제하시겠습니까?");
+	if(CONFIRM==true){
+		comSubmit.setUrl("<c:url value='/shop/goodsDelete' />");
+		comSubmit.addParam("GOODS_NUM", $("#IDX").val());
+		comSubmit.submit();
+	}
+}
+
 function fn_selectMySaleList(pageNo, tabNo) {
 	var comAjax = new ComAjax();
 	comAjax.setUrl("<c:url value='/myshop/selectSaleList' />");
@@ -296,30 +338,49 @@ function fn_selectMySaleListCallback1(data) {
 	var total = data.TOTAL;
 	var tabNo = data.tabNo;
 	var body = "";
+	var dnum1 = "";
+	var dnum2 = "";
+	var dnum3 = "";
 	
 	if(tabNo == 1){
-		body = $("#main_table1 tbody");	
+		body = $("#main_table1 tbody");
+		dnum3 += "<th align='center'><img src=<c:url value='/resources/images/myshop_sstatus.png'/>></th>";
 	}else if(tabNo == 2){
 		body = $("#main_table2 tbody");	
+		dnum1 += "<th align='center'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>";
+		dnum2 += "<th align='center'><img src=<c:url value='/resources/images/myshop_dnum.png'/>></th>";
+		dnum3 += "<th align='center'><img src=<c:url value='/resources/images/myshop_sstatus.png'/>></th>";
 	}else if(tabNo == 3){
-		body = $("#main_table3 tbody");	
+		body = $("#main_table3 tbody");
+		dnum1 += "<th align='center'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>";
+		dnum2 += "<th align='center'><img src=<c:url value='/resources/images/myshop_dnum.png'/>></th>";
 	}
 	var str1 = "";	
 	body.empty();
 	str1 	+= 	"<tr>"
-		+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>"
-		+		"<th width='150px' align='center'><img src=<c:url value='/resources/images/mysale_list1.png'/>></th>"
-		+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/mysale_list2.png'/>></th>"
-		+		"<th width='150px' align='center'><img src=<c:url value='/resources/images/mysale_list3.png'/>></th>"
-		+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/mysale_list4.png'/>></th>"
-		+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/mysale_list5.png'/>></th>"
-		+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/myshop_dnum.png'/>></th>"
-		+		"<th width='100px' align='center'><img src=<c:url value='/resources/images/myshop_sstatus.png'/>></th>"
+		+ dnum1
+		+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list1.png'/>></th>"
+		+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list2.png'/>></th>"
+		+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list3.png'/>></th>"
+		+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list5.png'/>></th>"
+		+ dnum2
+		+ dnum3
+		+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list4.png'/>></th>"
 		+	"</tr>";
 	if (total == 0) {
-		str1 += "<tr align=\"center\">" 
-			+	"<td colspan='7'>조회된 결과가 없습니다.</td>"
-			+	"</tr>";
+		if(tabNo == 1){
+			str1 += "<tr align=\"center\">" 
+				+	"<td colspan='6'>조회된 결과가 없습니다.</td>"
+				+	"</tr>";			
+		}else if(tabNo == 3){
+			str1 += "<tr align=\"center\">" 
+				+	"<td colspan='7'>조회된 결과가 없습니다.</td>"
+				+	"</tr>";			
+		}else{
+			str1 += "<tr align=\"center\">" 
+				+	"<td colspan='8'>조회된 결과가 없습니다.</td>"
+				+	"</tr>";
+		}
 		body.append(str1);
 	} else {
 		var params = {
@@ -334,22 +395,41 @@ function fn_selectMySaleListCallback1(data) {
 			
 		$.each(data.list, 
 				function(key, value) {
+						var title = value.GOODS_TITLE;
+						if(title.length > 20){
+							title = title.substring(0, 19) + "...";
+						}
+						var onumber = "";
+						var dnumber = "";
+						if(tabNo == 2 || tabNo == 3){
+							if(value.ORDERS_STATUS == "배송중" || value.ORDERS_STATUS == "주문/결제" || value.ORDERS_STATUS == "거래완료"){
+								onumber += "<td><input type='button' id='receipt' name='receipt' value='"+value.ORDERS_NUM+"' onclick='fn_receipt("+value.ORDERS_NUM+")'>";
+								} else {
+								onumber += "<td>-</td>";
+								}
+			  	      	} else {
+			  	      		onumber += "";
+			  	      		dnumber += "";
+			  	      	}
+/*
 						str1 +=	"<tr>"
 						if(value.ORDERS_STATUS == "배송중" || value.ORDERS_STATUS == "주문/결제" || value.ORDERS_STATUS == "거래완료"){
 						str1 += "<td><input type='button' id='receipt' name='receipt' value='"+value.ORDERS_NUM+"' onclick='fn_receipt("+value.ORDERS_NUM+")'>";
 						} else {
 						str1 += "<td>-</td>";
 						}
-				    	str1 +=	"<td width='200px' align='center'>"
+*/
+				    	str1 += onumber
+				    		+	"<td align='center'>"
 							+	value.GOODS_NUM
 							+	"</td>"
-		      	      		+	"<td width='100px' align='center'>"
+		      	      		+	"<td align='center'>"
 		      	      		+	"<a href='#this' id='title' name='title'>"
-	      	      			+	value.GOODS_TITLE
+	      	      			+	title
 	      	      			+	"</a>"
 	      	      			+	"<input type='hidden' id='title2' name='title2' value="+value.GOODS_NUM+">"
 		      	      		+	"</td>"
-		      	      		+	"<td width='200px' align='center'>";
+		      	      		+	"<td align='center'>";
 		      	      	if(value.GOODS_THUMBNAIL==null){
 		      	      		str1+="-"
 		      	      	} else{
@@ -357,43 +437,44 @@ function fn_selectMySaleListCallback1(data) {
 		      	      	}
 		      	      		str1+=	"</td>"
 		      	      	if(value.ORDERS_STATUS == "배송중") {
-		      	      	str1 +=   "<td width='100px' align='center'>"
-		      	      		+	new Date(value.ORDERS_DATE).toLocaleString()
-		      	      		+	"</td>"
-		      	      		+	"<td width='100px' align='center'>"
+		      	      	str1 += "<td align='center'>"
 		      	      		+	value.ORDERS_STATUS	
 		      	      		+	"</td>"
-							+	"<td width='200px' align='center'>"+value.ORDERS_DNUM+"</td>"+"<td>-</td>";
+							+	"<td align='center'>"+value.ORDERS_DNUM+"</td>"+"<td>-</td>"
+		      	      		+	"<td align='center'>"
+		      	      		+	new Date(value.ORDERS_DATE).toLocaleString()
+		      	      		+	"</td>";
 						} else if(value.ORDERS_STATUS == "주문/결제") {
-							str1 +=	"<td width='100px' align='center'>"
-			       	      		 +	new Date(value.ORDERS_DATE).toLocaleString()
-			      	       		 +	"</td>"
-			      	       		 +	"<td width='100px' align='center'>"
+							str1 +=	"<td align='center'>"
 			      	      		 +	value.ORDERS_STATUS	
 			      	      		 +	"</td>"
-								 +  "<td width='200px' align='center'>"
+								 +  "<td align='center'>"
 		      	      			 +	"<input type='text' id='ORDERS_DNUM"+value.GOODS_NUM+"' name='ORDERS_DNUM'>"
 		      	      			 +	"</td>"
-		      	      			 +  "<td>"
-	      	      				 +	"<input type='button' id='DNUM_IN' name='DNUM_IN' value='입력확인' onclick='fn_dnum_in("+value.GOODS_NUM+")' >" 
-		      	      			 +	"</td>";
-		      	      	}else if(value.ORDERS_STATUS == "거래완료"){
-		      	      		str1 += "<td width='100px' align='center'>"
+		      	      			 +  "<td align='center'>"
+	      	      				 +	"<input class='hyperButton' type='button' id='DNUM_IN' name='DNUM_IN' value='송장번호 입력' onclick='fn_dnum_in("+value.GOODS_NUM+")' >" 
+		      	      			 +	"</td>"
+		      	      			 +	"<td align='center'>"
 			       	      		 +	new Date(value.ORDERS_DATE).toLocaleString()
-			      	       		 +	"</td>"
-			      	       		 +	"<td width='100px' align='center'>"
+			      	       		 +	"</td>";
+		      	      	}else if(value.ORDERS_STATUS == "거래완료"){
+		      	      		str1 += "<td align='center'>"
 			      	      		 +	value.ORDERS_STATUS	
 			      	      		 +	"</td>"
-			      	      		 +	"<td width='200px' align='center'>"+value.ORDERS_DNUM+"</td><td>-</td>";
+			      	      		 +	"<td align='center'>"+value.ORDERS_DNUM+"</td>"
+		      	      			 +	"<td align='center'>"
+			       	      		 +	new Date(value.ORDERS_DATE).toLocaleString()
+			      	       		 +	"</td>";
 		      	      	} else {
-		      	      	str1 +=   "<td width='100px' align='center'>"
+		      	      	str1 +=   "<td align='center'>"
+		      	      		+	"판매대기"
+		      	      		+	"</td>"	
+							+	"<td>"
+							+   "<input class='hyperButton' type='button' id='deleteGoods' name='deleteGoods' value='판매 취소' onclick='fn_deleteGoods("+value.GOODS_NUM+")' >"
+		      	      		+   "</td>"
+		      	      		+	"<td align='center'>"
 		      	      		+	new Date(value.GOODS_DATE).toLocaleString()
-		      	      		+	"</td>"
-		      	      		+	"<td width='100px' align='center'>"
-		      	      		+	"판매대기"	
-		      	      		+	"</td>"
-							+	"<td width='200px' align='center'>"+"-"+"</td>"
-							+	"<td>-</td>";
+		      	      		+	"</td>";
 
 		      	      	}
 		      	      	str1 +=	"</tr>";

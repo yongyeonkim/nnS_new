@@ -51,7 +51,22 @@
          </tr>
          <tr>
             <th scope="row"><img src="./../resources/images/commu_title.png" height="25"></th>
-            <td>${map.REPORT_TITLE }</td>
+            <td>${map.REPORT_TITLE }
+            <c:choose>
+	            <c:when test="${map.REPORT_STATUS eq '처리대기'}">
+	            	<img src="./../resources/images/report_status1.png" height="18">
+	            </c:when>
+	            <c:when test="${map.REPORT_STATUS eq '신고접수'}">
+	            	<img src="./../resources/images/report_status2.png" height="19">
+	            </c:when>
+	            <c:when test="${map.REPORT_STATUS eq '처리완료'}">
+	            	<img src="./../resources/images/report_status3.png" height="19">
+	            </c:when>
+	            <c:when test="${map.REPORT_STATUS eq '허위신고'}">
+	            	<img src="./../resources/images/report_status4.png" height="20">
+	            </c:when>
+            </c:choose>
+            </td>
             <th scope="row"><img src="./../resources/images/report_reason.png" height="25"></th>
             <td>${map.REPORT_TYPE }
             <c:if test="${session_MEM_INFO.MEM_LEVEL eq '2'}">
