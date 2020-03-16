@@ -35,6 +35,7 @@ public class KakaoPay implements KakaoPayService{
     
     public String kakaoPayReady(String orderNum, String goodsTcost, String itemName, String memID){
     	System.out.println("1. 진입");
+    	System.out.println();
         RestTemplate restTemplate = new RestTemplate();
  
         // 서버로 요청할 Header
@@ -52,14 +53,14 @@ public class KakaoPay implements KakaoPayService{
         params.add("quantity", "1");
         params.add("total_amount", goodsTcost);
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:8000/nnS/kakaoPaySuccess");
-        params.add("cancel_url", "http://localhost:8000/nnS/kakaoPayCancel");
-        params.add("fail_url", "http://localhost:8000/nnS/kakaoPaySuccessFail");
+        params.add("approval_url", "http://localhost:8080/nnS/kakaoPaySuccess");
+        params.add("cancel_url", "http://localhost:8080/nnS/kakaoPayCancel");
+        params.add("fail_url", "http://localhost:8080/nnS/kakaoPaySuccessFail");
  
          HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
          	
-         //System.out.println(params);
-         //System.out.println(body);
+         System.out.println(params);
+         System.out.println(body);
         try {
         	String str = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, String.class);
         	//System.out.println(str);

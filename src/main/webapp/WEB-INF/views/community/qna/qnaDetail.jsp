@@ -69,25 +69,22 @@ table.hide td {
 			</tr>
 			<tr>
 				<th scope="row"><img src="./../resources/images/commu_title.png" height="25"></th>
-				<td>${map.QNA_TITLE }</td>
+				<td>${map.QNA_TITLE }
+	            <c:choose>
+		            <c:when test="${map.QNA_YORN eq 'N'}">
+		            	<img src="./../resources/images/answer_button1.png" height="21">
+		            </c:when>
+		            <c:when test="${map.QNA_YORN eq 'Y'}">
+		            	<img src="./../resources/images/answer_button2.png" height="21">
+		            </c:when>
+	            </c:choose>
+	            </td>
 				<th scope="row"><img src="./../resources/images/commu_date.png" height="25"></th>
-				<td>${map.QNA_TIME }</td>
+				<td>${map.QNA_DATE}</td>
 			</tr>
 			<tr>
 				<td colspan="4" height="600px" style="vertical-align:top;"><pre style="overflow:hidden;  white-space: pre-wrap">${map.QNA_CONTENT }</pre></td>
 			</tr>
-			<%-- <tr>
-				<th scope="row">첨부파일</th>
-				<td colspan="3">
-					<c:forEach var="row" items="${list }">
-						<div>
-							<input type="hidden" id="FILES_NUM" value="${row.FILES_NUM }">
-							<a href="#this" name="file">${row.FILES_ORGNAME }</a>
-							(${row.FILES_SIZE}kb)
-						</div>
-					</c:forEach>
-				</td>
-			</tr> --%>
 		</tbody>
 	</table>
 	    <br/><br/>
@@ -159,6 +156,10 @@ table.hide td {
 			
 			$("#update").on("click", function(e){ //수정하기 버튼
 				e.preventDefault();
+				if("${map.QNA_YORN}" == 'Y'){
+					alert("이미 답변이 작성된 게시글입니다. 수정할 수 없습니다.");
+					return false;
+				}
 				fn_openBoardUpdate();
 			});
 			$("#delete").on("click", function(e){ //삭제하기 버튼

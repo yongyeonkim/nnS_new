@@ -14,42 +14,9 @@
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-
-<style>
-html, body, div, span, applet, object, iframes, h1, h2, h3, h4, h5, h6,
-   p, blockquote, pre, a, abbr, acronym, address, big, quotes, code, del,
-   dfn, em, img, ins, kbd, q, s, samp, small, strike, sub, sup, tt, var, u,
-   i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table,
-   caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
-   details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
-   output, ruby, section, summary, time, mark, audio, video {
-   margin: 0;
-   padding: 0;
-   border: 0;
-   
-   do: inherit;
-   vertical-align: baseline;
-}
-article, aside, details, figcaption, figure, footer, header, hgroup,
-   menu, nav, section {
-   display: block;
-}
-blockquote, q {
-   quotes: none;
-}
-blockquote : before, blockquote : after, q : before, q : after {
-   content: '';
-   content: none;
-}
-table {
-   border-collapse: collapse;
-   border-spacing: 0;
-}
-/*css 초기화*/
+<style type="text/css">
 
 </style>
-
-
 </head>
 <body>
 <div id="content">
@@ -61,7 +28,6 @@ table {
 	               <option value="3" <c:out value="${tstatus eq '3' ? 'selected' :''}"/>>거래완료</option>
 	      </select>
 	      <input type="submit" value="분류" class="search_btn" onClick="onSearch()"/>
-	    </form>
    		<table class="board_list">
 		<colgroup>
 			<col width="100%" />
@@ -74,7 +40,6 @@ table {
 		</tbody>
 		</table>
 		<div align="center">
-		<form action="/nnS/main" method="post">
 			<fieldset>
 				<select name="searchType" id="searchType">
 					<option value="nothing">-----</option>
@@ -181,6 +146,10 @@ table {
 				$.each(
 								data.list,
 								function(key, value) {
+									var title = value.GOODS_TITLE;
+									if(title.length > 10){
+										title = title.substring(0, 9) + "...";
+									}
 									var imgpath = "";
 									var tstatus = "";
 									var hashStr = "";
@@ -225,7 +194,7 @@ table {
 										 	     + "거래중";
 									}
 									
-									str +=  "<div class='card' style='width:40%'>"
+									str +=  "<div class='card' style='width:42%; margin:25px 25px 25px 25px;'>"
 										+		"<a href='#this' name='title_goods'>"
 										+	      imgpath
 										+ 					tstatus
@@ -241,8 +210,8 @@ table {
 										//+				value.GOODS_HASH
 										+				hashAdd
 										+				"</p>"
-										+	            "<h1>"
-										+				value.GOODS_TITLE
+										+	            "<h1 style='    font-size: 22px;font-weight: bold;color: #666;'>"
+										+				title
 										+				"</h1>"
 										+	            "<p class = 'card-body-nickname'>"
 										+					value.GOODS_PRICE + "원&nbsp;&nbsp;&nbsp;"
@@ -254,10 +223,14 @@ table {
 										//+	         "</p>"
 										+	         "<div class='card-body-footer'>"
 										+	            "<hr style='margin-bottom: 8px; opacity: 0.5; border-color: #EF5A31'>"
-										+	            "<i class='icon icon-view_count'></i>조회수 "
+										+	            "<i class='icon icon-view_count'>"
+										+"<img src='./resources/images/goods_count.png' style='width: 17px;height: 17px;'>"
+										+				"</i>"
 										+				value.GOODS_COUNT
 										+				"회"
-										+	            "<i class='icon icon-comments_count'></i>좋아요 "
+										+	            "<i class='icon icon-comments_count'>"
+										+"<img src='./resources/images/goods_heart.png' style='width: 17px;height: 17px;'>"
+										+				"</i>"
 										+				value.TOTAL_COUNT2
 										+				"개"
 										+	            "<i class='reg_date'>"

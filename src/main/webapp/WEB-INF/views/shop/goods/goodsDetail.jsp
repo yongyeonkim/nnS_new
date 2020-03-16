@@ -414,10 +414,12 @@ table {
 	
 		function fn_deleteGoods(){
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/shop/goodsDelete' />");
-			comSubmit.addParam("GOODS_NUM", $("#IDX").val());
-			comSubmit.submit();
-			
+			var CONFIRM = confirm("정말로 삭제하시겠습니까?");
+			if(CONFIRM==true){
+				comSubmit.setUrl("<c:url value='/shop/goodsDelete' />");
+				comSubmit.addParam("GOODS_NUM", $("#IDX").val());
+				comSubmit.submit();
+			}
 		}
 		
 		/* 좋아요 */

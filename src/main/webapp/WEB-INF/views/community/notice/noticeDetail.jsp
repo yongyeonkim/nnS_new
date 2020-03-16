@@ -94,9 +94,12 @@
 	
 		function fn_deleteBoard(){
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/community/noticeDelete' />");
-			comSubmit.addParam("NOTICE_NUM", $("#NOTICE_NUM").val());
-			comSubmit.submit();
+			var CONFIRM = confirm("정말로 삭제하시겠습니까?");
+			if(CONFIRM==true){
+				comSubmit.setUrl("<c:url value='/community/noticeDelete' />");
+				comSubmit.addParam("NOTICE_NUM", $("#NOTICE_NUM").val());
+				comSubmit.submit();
+			}
 		}
 	</script>
 </body>
