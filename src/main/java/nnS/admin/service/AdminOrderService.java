@@ -12,6 +12,7 @@ public interface AdminOrderService {
 	
 	void updateOrderModify(Map<String, Object> map) throws Exception;
 	
-	void orderCancel(Map<String, Object> map, HttpServletRequest request)throws Exception; 
-
+	void orderCancel(Map<String, Object> map)throws Exception; 
+    
+	
 }

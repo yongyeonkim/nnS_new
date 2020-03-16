@@ -36,10 +36,12 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 		
 	}
 
-	public void orderCancel(Map<String, Object> map, HttpServletRequest request) throws Exception{
+	public void orderCancel(Map<String, Object> map) throws Exception{
 		// TODO Auto-generated method stub
 		adminOrderDAO.orderCancel(map);
 		adminOrderDAO.cancelTstatus(map);
 	}
+
+	
 
 }

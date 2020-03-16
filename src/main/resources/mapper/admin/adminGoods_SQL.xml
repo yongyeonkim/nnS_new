@@ -11,10 +11,14 @@
 					ROW_NUMBER() OVER (ORDER BY G.GOODS_NUM DESC) RNUM,
 					G.*,
 			        M.MEM_ID,
+			        M.MEM_NAME,
+			        M.MEM_GEN,
+			        M.MEM_EMAIL,
+		            M.MEM_PHONE,
 			        NVL(GL.TOTAL_COUNT, 0) AS TOTAL_COUNT2
 			FROM    GOODS G,
 			        (
-			         SELECT  MEM_NUM, MEM_ID
+			         SELECT  *
 			         FROM    MEMBER
 			        ) M,
 			        (
@@ -25,7 +29,6 @@
 			        ) GL
 			WHERE   G.GOODS_SELLER = M.MEM_NUM(+)
 			AND     G.GOODS_NUM = GL.GOODS_LIKE_PARENT(+)
-			AND     G.GOODS_DEL_GB = 'N'
 			]]>
 			<include refid="select"/>
 			<include refid="common.pagingPost"/>
@@ -48,6 +51,16 @@
 			WHERE
 				GOODS_NUM = #{GOODS_NUM}
 		]]>
+	</update>
+	
+	
+	<update id="orderCancel" parameterType="hashMap">
+	<![CDATA[
+		UPDATE  ORDERS
+		SET    	ORDERS_STATUS = '주문취소',
+				ORDERS_DEL_GB = 'Y'
+		WHERE   ORDERS_PRONUM = #{GOODS_NUM}
+	 ]]>
 	</update>
 	
 </mapper>

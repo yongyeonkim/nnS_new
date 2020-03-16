@@ -25,8 +25,11 @@ function fn_selectBoardList(pageNo) {
 
 function fn_selectBoardListCallback(data) {
 	var total = data.TOTAL;
+	var count = $(".dataTables_info");
 	var body = $("table>tbody");
 	body.empty();
+	count.empty();
+	count.append("총 회원 수 : "+ total);
 	if (total == 0) {
 		var str = "<tr align=\"center\">" + "<td colspan='9'>조회된 회원이 없습니다.</td>"
 				+ "</tr>";
