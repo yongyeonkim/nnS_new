@@ -344,7 +344,7 @@ function fn_receipt(num){
 				$('#ORDERSPRICE').html(data.hashMap.ORDERS_PRICE);
 				$('#ORDERSDCOST').html(data.hashMap.ORDERS_DCOST);
 				$('#ORDERSTCOST').html(data.hashMap.ORDERS_TCOST);
-				$('#ORDERSUSER').html(data.hashMap.ORDERS_USER);
+				$('#ORDERSNAME').html(data.hashMap.ORDERS_NAME);
 				$('#ORDERSPHONE').html(data.hashMap.ORDERS_PHONE);
 				$('#ORDERSDADD').html(data.hashMap.ORDERS_DADD1+" "+data.hashMap.ORDERS_DADD2);
 				$('#ORDERSDMEMO').html(data.hashMap.ORDERS_DMEMO);

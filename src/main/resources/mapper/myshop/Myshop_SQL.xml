@@ -182,6 +182,8 @@
         	O.ORDERS_PHONE,
         	O.ORDERS_STATUS,
         	O.ORDERS_PRICE,
+        	O.ORDERS_USER,
+        	O.ORDERS_NAME,
         	O.ORDERS_DCOST,
         	O.ORDERS_TCOST,
         	O.ORDERS_DATE,

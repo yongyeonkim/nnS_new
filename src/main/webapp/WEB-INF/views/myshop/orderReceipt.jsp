@@ -23,7 +23,7 @@
 	 <div class="modal-cont">
 	 	<table class="receipt">
 				<tr>
-					<th style="width: 16.6667%; text-align:center; vertical-align:middle;" >상품 이름</th>
+					<th style="width: 16.6667%; text-align:center; vertical-align:middle;">상품 이름</th>
 					<th style="width: 16.6667%; text-align:center; vertical-align:middle;">상품브랜드</th>
 					<th style="width: 16.6667%; text-align:center; vertical-align:middle;">주문 일자</th>
 					<th style="width: 16.6667%; text-align:center; vertical-align:middle;">주문 번호</th>
@@ -52,7 +52,7 @@
 					</th>
 				</tr>
 				<tr>
-					<td id="ORDERSUSER" style="text-align:center; vertical-align:middle;"></td>
+					<td id="ORDERSNAME" style="text-align:center; vertical-align:middle;"></td>
 					<td id="ORDERSPHONE" style="text-align:center; vertical-align:middle;"></td>
 					<td colspan="5" id="ORDERSDADD" style="text-align:center; vertical-align:middle;"></td>
 				</tr>
