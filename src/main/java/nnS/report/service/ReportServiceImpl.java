@@ -29,8 +29,10 @@ Logger log = Logger.getLogger(this.getClass());
 	private FileUtils fileUtils;
 
 	@Override
-	public List<Map<String, Object>> selectReportList(Map<String, Object> map, String search) throws Exception {
+	public List<Map<String, Object>> selectReportList(Map<String, Object> map, String search, String keyword, String searchType) throws Exception {
 		// TODO Auto-generated method stub
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
 		map.put("search", search);
 		return reportDAO.selectReportList(map);
 	}

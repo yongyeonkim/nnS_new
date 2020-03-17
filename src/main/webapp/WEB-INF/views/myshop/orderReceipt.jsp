@@ -18,51 +18,51 @@
 </style>
 </head>
 <body>
-<div id="modal">
+<div id="modal1">
 	<div class="modal-bg">
 	 <div class="modal-cont">
 	 	<table class="receipt">
 				<tr>
-					<th style="width: 16.6667%;">상품 이름</th>
-					<th style="width: 16.6667%;">상품브랜드</th>
-					<th style="width: 16.6667%;">주문 일자</th>
-					<th style="width: 16.6667%;">주문 번호</th>
-					<th style="width: 16.6667%;">주문금액</th>
-					<th style="width: 16.6667%;">배송비</th>
-					<th style="width: 16.6667%;">최종 결제금액</th>
+					<th style="width: 16.6667%; text-align:center; vertical-align:middle;" >상품 이름</th>
+					<th style="width: 16.6667%; text-align:center; vertical-align:middle;">상품브랜드</th>
+					<th style="width: 16.6667%; text-align:center; vertical-align:middle;">주문 일자</th>
+					<th style="width: 16.6667%; text-align:center; vertical-align:middle;">주문 번호</th>
+					<th style="width: 16.6667%; text-align:center; vertical-align:middle;">주문금액</th>
+					<th style="width: 16.6667%; text-align:center; vertical-align:middle;">배송비</th>
+					<th style="width: 16.6667%; text-align:center; vertical-align:middle;">최종 결제금액</th>
 				</tr>
 				<tr>
-					<td style="width: 16.6667%;" id="GOODSTITLE"></td>
-					<td style="width: 16.6667%;" id="GOODSBRAND"></td>
-					<td style="width: 16.6667%;" id="ORDERSDATE"></td>
-					<td style="width: 16.6667%;" id="ORDERSNUM"></td>
-					<td style="width: 16.6667%;" id="ORDERSPRICE"></td>
-					<td style="width: 16.6667%;" id="ORDERSDCOST"></td>
-					<td style="width: 16.6667%;" id="ORDERSTCOST"></td>
+					<td style="width: 16.6667%; text-align:center; vertical-align:middle;" id="GOODSTITLE"></td>
+					<td style="width: 16.6667%; text-align:center; vertical-align:middle;" id="GOODSBRAND"></td>
+					<td style="width: 16.6667%; text-align:center; vertical-align:middle;" id="ORDERSDATE"></td>
+					<td style="width: 16.6667%; text-align:center; vertical-align:middle;" id="ORDERSNUM"></td>
+					<td style="width: 16.6667%; text-align:center; vertical-align:middle;" id="ORDERSPRICE"></td>
+					<td style="width: 16.6667%; text-align:center; vertical-align:middle;" id="ORDERSDCOST"></td>
+					<td style="width: 16.6667%; text-align:center; vertical-align:middle;" id="ORDERSTCOST"></td>
 				</tr>
 				<tr >
-					<th>
+					<th style="text-align:center; vertical-align:middle;">
 						이름
 					</th>
-					<th>
+					<th style="text-align:center; vertical-align:middle;">
 						휴대전화
 					</th>
-					<th colspan="5">
+					<th colspan="5" style="text-align:center; vertical-align:middle;">
 						배송주소
 					</th>
 				</tr>
 				<tr>
-					<td id="ORDERSUSER"></td>
-					<td id="ORDERSPHONE"></td>
-					<td colspan="5" id="ORDERSDADD"></td>
+					<td id="ORDERSUSER" style="text-align:center; vertical-align:middle;"></td>
+					<td id="ORDERSPHONE" style="text-align:center; vertical-align:middle;"></td>
+					<td colspan="5" id="ORDERSDADD" style="text-align:center; vertical-align:middle;"></td>
 				</tr>
 				<tr>
-					<th colspan="7">
+					<th colspan="7" style="text-align:center; vertical-align:middle;">
 						배송 메모
 					</th>
 				</tr>
 				<tr>
-					<td colspan="7" id="ORDERSDMEMO"></td>
+					<td colspan="7" id="ORDERSDMEMO" style="text-align:center; vertical-align:middle;"></td>
 				</tr>
 				<tr>
 					<td colspan="1">

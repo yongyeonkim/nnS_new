@@ -85,7 +85,7 @@
 						<input type="hidden" id="GOODS_NUM" name="GOODS_NUM" value="${orderG.GOODS_NUM}"/>
 						<input type="hidden" id="GOODS_PRICE" name="GOODS_PRICE" value="${orderG.GOODS_PRICE}"/>
 						<input type="hidden" id="GOODS_DCOST" name="GOODS_DCOST" value="${orderG.GOODS_DCOST}"/>
-						<input type="hidden" id="orderNumber" name="orderNumber" value="${orderG.GOODS_NUM}" />
+						<input type="hidden" id="orderNumber" name="orderNumber" value="${orderG.GOODS_NUM}"/>
 						<input type="hidden" id="GOODS_TCOST" name="GOODS_TCOST" value="${orderG.GOODS_PRICE+orderG.GOODS_DCOST}" />
 						<input type="hidden" id="item_name" name="item_name" value="${orderG.GOODS_BRAND}"/>
 					</td>
@@ -232,6 +232,7 @@ $(document).ready(function() {
 	var openWin;
 	
 	function popup(){
+		alert(document.getElementById("orderNumber").value);
 		var url = "/nnS/kakaoPay";
 		var param = "?orderNum="
 				  + document.getElementById("orderNumber").value

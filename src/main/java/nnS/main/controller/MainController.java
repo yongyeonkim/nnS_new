@@ -68,6 +68,16 @@ public class MainController {
       return mv;
       
    }
+   
+   @RequestMapping(value = "/error")
+   public ModelAndView errorPage(HttpServletRequest request) throws Exception {
+      ModelAndView mv = new ModelAndView("errorPage");
+      
+      mv.addObject("context", request.getContextPath());
+      
+      return mv;
+      
+   }
 }
       
       

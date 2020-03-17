@@ -272,7 +272,10 @@ function zipcode() {//우편번호 검색창
       $("#MEM_EMAIL").val(email);
       $("#MEM_PHONE").val(phone);
       comSubmit.submit();
+      
+      alert("회원가입이 완료되었습니다.")
    }
+   
    $("#joinForm").on("submit",function(e){
    });
    </script>

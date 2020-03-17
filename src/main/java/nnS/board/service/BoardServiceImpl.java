@@ -25,7 +25,10 @@ public class BoardServiceImpl implements BoardService {
 	private FileUtils fileUtils;
 	
 	@Override
-	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
+	public List<Map<String, Object>> selectBoardList(Map<String, Object> map, String keyword, String searchType) throws Exception {
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		
 		return boardDAO.selectBoardList(map);
 	}
 

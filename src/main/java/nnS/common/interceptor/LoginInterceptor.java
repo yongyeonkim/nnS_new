@@ -16,8 +16,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			throws Exception {
 		HttpSession session = request.getSession(false);
 		
-		System.out.println("session 정보 : "+session.getAttribute("session_MEM_INFO"));
-		
 		if(session.getAttribute("session_MEM_INFO") == null) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();

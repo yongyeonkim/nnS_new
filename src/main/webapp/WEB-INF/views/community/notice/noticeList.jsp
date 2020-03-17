@@ -41,6 +41,21 @@
 			<!-- 스크립트를 통해 게시글에 대한 정보가 담김 -->
 		</tbody>
 	</table>
+	<br/>
+	<div align="center">
+		<form action="/nnS/community/noticeList" method="post">
+			<fieldset>
+				<select name="searchType" id="searchType">
+					<option value="nothing">-----</option>
+					<option value="title" <c:out value="${searchType eq 'title'?'selected':''}"/>>제목</option>
+					<option value="content" <c:out value="${searchType eq 'content'?'selected':''}"/>>내용</option>
+					<option value="writer" <c:out value="${searchType eq 'writer'?'selected':''}"/>>작성자</option>
+				</select>
+				<input type="text" class="txt" placeholder="Search" name="keyword" id="keyword" value="${keyword}"/>&nbsp;
+				<input type="submit" value="검색" class="search_btn" onClick="onSearch()"/>
+			</fieldset>
+		</form>
+	</div>
 	<div id="PAGE_NAVI" align="center"></div>
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 		<div align="right">
@@ -85,6 +100,8 @@
 			comAjax.setCallback("fn_selectBoardListCallback");
 			comAjax.addParam("PAGE_INDEX", pageNo);
 			comAjax.addParam("PAGE_ROW", 15);
+			comAjax.addParam("keyword", $('#keyword').val());
+			comAjax.addParam("searchType", $('#searchType').val());
 			comAjax.ajax();
 		}
 
@@ -131,6 +148,11 @@
 							+ "</td>" + "</tr>";
 								});
 				body.append(str);
+
+				$("a[name='title']").on("click", function(e) { //제목
+					e.preventDefault();
+					fn_openBoardDetail($(this));
+				});
 			}
 		}
 	</script>

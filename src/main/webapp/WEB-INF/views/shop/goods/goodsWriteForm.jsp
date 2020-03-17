@@ -42,26 +42,26 @@
 	      	<td>
 	      		<select name="GOODS_CATEGORY" id="GOODS_CATEGORY">
 					<option value="" selected disabled hidden>==선택하세요==</option>
-				    <option value=1>식품</option>
-					<option value=2>주방</option>
-					<option value=3>생활</option>
-					<option value=4>인테리어</option>
-					<option value=5>가전디지털</option>
-					<option value=6>스포츠레저</option>
-					<option value=7>자동차</option>
-					<option value=8>도서</option>
-					<option value=9>음반</option>
-					<option value=10>DVD</option>
-					<option value=11>완구</option>
-					<option value=12>문구</option>
-					<option value=13>헬스건강</option>
-					<option value=14>여행</option>
-					<option value=15>아트공예</option>
-					<option value=16>뷰티</option>
-					<option value=17>가방</option>
-					<option value=18>패션</option>
-					<option value=19>신발</option>
-					<option value=20>기타</option>
+				    <option value=1 <c:out value="${map.GOODS_CATEGORY eq '1' ? 'selected' :''}"/>>식품</option>
+					<option value=2 <c:out value="${map.GOODS_CATEGORY eq '2' ? 'selected' :''}"/>>주방</option>
+					<option value=3 <c:out value="${map.GOODS_CATEGORY eq '3' ? 'selected' :''}"/>>생활</option>
+					<option value=4 <c:out value="${map.GOODS_CATEGORY eq '4' ? 'selected' :''}"/>>인테리어</option>
+					<option value=5 <c:out value="${map.GOODS_CATEGORY eq '5' ? 'selected' :''}"/>>가전디지털</option>
+					<option value=6 <c:out value="${map.GOODS_CATEGORY eq '6' ? 'selected' :''}"/>>스포츠레저</option>
+					<option value=7 <c:out value="${map.GOODS_CATEGORY eq '7' ? 'selected' :''}"/>>자동차</option>
+					<option value=8 <c:out value="${map.GOODS_CATEGORY eq '8' ? 'selected' :''}"/>>도서</option>
+					<option value=9 <c:out value="${map.GOODS_CATEGORY eq '9' ? 'selected' :''}"/>>음반</option>
+					<option value=10 <c:out value="${map.GOODS_CATEGORY eq '10' ? 'selected' :''}"/>>DVD</option>
+					<option value=11 <c:out value="${map.GOODS_CATEGORY eq '11' ? 'selected' :''}"/>>완구</option>
+					<option value=12 <c:out value="${map.GOODS_CATEGORY eq '12' ? 'selected' :''}"/>>문구</option>
+					<option value=13 <c:out value="${map.GOODS_CATEGORY eq '13' ? 'selected' :''}"/>>헬스건강</option>
+					<option value=14 <c:out value="${map.GOODS_CATEGORY eq '14' ? 'selected' :''}"/>>여행</option>
+					<option value=15 <c:out value="${map.GOODS_CATEGORY eq '15' ? 'selected' :''}"/>>아트공예</option>
+					<option value=16 <c:out value="${map.GOODS_CATEGORY eq '16' ? 'selected' :''}"/>>뷰티</option>
+					<option value=17 <c:out value="${map.GOODS_CATEGORY eq '17' ? 'selected' :''}"/>>가방</option>
+					<option value=18 <c:out value="${map.GOODS_CATEGORY eq '18' ? 'selected' :''}"/>>패션</option>
+					<option value=19 <c:out value="${map.GOODS_CATEGORY eq '19' ? 'selected' :''}"/>>신발</option>
+					<option value=20 <c:out value="${map.GOODS_CATEGORY eq '20' ? 'selected' :''}"/>>기타</option>
 				</select>
 	      	</td>
 	      	<th>
@@ -85,10 +85,10 @@
 	      	<td>
 	      		<select name="GOODS_STATUS" id="GOODS_STATUS">
 					<option value="" selected disabled hidden>==선택하세요==</option>
-				    <option value="1">A</option>
-				    <option value="2">B</option>
-				    <option value="3">C</option>
-				    <option value="4">D</option>
+				    <option value="1" <c:out value="${map.GOODS_STATUS eq '1' ? 'selected' :''}"/>>A</option>
+				    <option value="2" <c:out value="${map.GOODS_STATUS eq '2' ? 'selected' :''}"/>>B</option>
+				    <option value="3" <c:out value="${map.GOODS_STATUS eq '3' ? 'selected' :''}"/>>C</option>
+				    <option value="4" <c:out value="${map.GOODS_STATUS eq '4' ? 'selected' :''}"/>>D</option>
 				</select>
 	      	</td>
 		</tr>
@@ -180,8 +180,17 @@
 	function fn_insertGoods(){
 		var comSubmit = new ComSubmit("frm");
 		comSubmit.setUrl("<c:url value='/shop/goodsWrite' />");
-		
-     	// 게시글 카테고리 필요
+		comSubmit.submit();
+	} 
+	
+	function fn_updateGoods(){
+		var comSubmit = new ComSubmit("frm");
+		comSubmit.setUrl("<c:url value='/shop/goodsModify' />");
+		comSubmit.submit();
+	} 
+	
+	function fn_formCheck() {
+		// 게시글 카테고리 필요
         if(!$("#GOODS_CATEGORY").val()){
             alert("카테고리를 입력해주세요.");
             $("#GOODS_CATEGORY").focus();
@@ -238,35 +247,16 @@
             return false;
         }
      	
-     	
-		
-		comSubmit.submit();
-	} 
-	
-	function fn_updateGoods(){
-		var comSubmit = new ComSubmit("frm");
-		comSubmit.setUrl("<c:url value='/shop/goodsModify' />");
-		comSubmit.submit();
-	} 
-	
-	function fn_formCheck() {
-		// submit을 제외한 모든 input태그의 갯수를 가져옴
-	    var length = document.frm.length;
-	 
-	    for ( var i = 0; i < length; i++) { // 길이만큼 루프를 돌면서
-	 		if(document.frm[i] = 'file'){
-	 			continue;
-	 		}
-	        if (document.frm[i].value == null || document.frm[i].value == "") {
-	            // 경고창을 띄우고
-	            alert("값을 입력하세요.");
-	            //alert(document.frm[i].name + "을(를) 입력하세요.");
-	            // null인 태그에 포커스를 줌
-	            document.frm[i].focus();
-	            return false;
-	        }//end if
-	    }//end for
-	    return true;
+     	if($("#GOODS_PRICE").val() && $("#GOODS_DCOST").val()){
+     		var gp = $("#GOODS_PRICE").val();
+     		var dc = $("#GOODS_DCOST").val();
+     		if((parseInt(gp)+parseInt(dc)) >= 1000000){
+     			alert("합계 가격이 1,000,000원을 넘을 수 없습니다.");
+                $("#GOODS_PRICE").focus();
+                return false;
+     		}
+     	}
+     	return true;
 		}
 </script>
 </body>

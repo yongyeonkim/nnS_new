@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import nnS.qna.service.QnaServiceImpl;
@@ -23,14 +24,14 @@ public class QnaController {
 	private QnaServiceImpl qnaService;
 	
 	@RequestMapping(value = {"/community/qnaListPaging","/myPage/qnaListPaging"})
-	public ModelAndView qnaListPaging(CommandMap commandMap,HttpServletRequest request) throws Exception {
+	public ModelAndView qnaListPaging(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("jsonView");
 		
 		if(request.getServletPath().equals("/myPage/qnaListPaging")){
 			HttpSession session = request.getSession();
 			commandMap.put("session_MEM_ID", session.getAttribute("session_MEM_ID"));
 			}
-		List<Map<String,Object>> list = qnaService.selectQnaList(commandMap.getMap());
+		List<Map<String,Object>> list = qnaService.selectQnaList(commandMap.getMap(), keyword, searchType);
 		mv.addObject("list", list);
 		
 		if(list.size() > 0){
@@ -45,13 +46,19 @@ public class QnaController {
 
 	
 	@RequestMapping(value =  "/myPage/qnaList")
-	public ModelAndView qnaList() throws Exception {
+	public ModelAndView qnaList(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("myqnaList");
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("keyword", keyword);
+		
 		return mv;
 		}
 	@RequestMapping(value =  "/community/qnaList")
-	public ModelAndView qnaMyList() throws Exception {
+	public ModelAndView qnaMyList(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("qnaList");
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("keyword", keyword);
+		
 		return mv;
 		}
 		

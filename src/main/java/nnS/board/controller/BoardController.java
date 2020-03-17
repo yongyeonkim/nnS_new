@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import nnS.common.common.CommandMap;
@@ -24,18 +25,19 @@ public class BoardController {
 	
 	// 자유게시판 리스트
 	@RequestMapping(value = "/community/boardList")
-	public ModelAndView boardList() throws Exception{
+	public ModelAndView boardList(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("boardList");
-		
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("keyword", keyword);
 		return mv;		
 	}
 
 	// 자유게시판 목록
 	@RequestMapping(value="/community/boardListPaging")
-	public ModelAndView boardListPaging(CommandMap commandMap) throws Exception{
+	public ModelAndView boardListPaging(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
 		ModelAndView mv=new ModelAndView("jsonView");
 		
-		List<Map<String,Object>> list=boardService.selectBoardList(commandMap.getMap());
+		List<Map<String,Object>> list=boardService.selectBoardList(commandMap.getMap(), keyword, searchType);
 		mv.addObject("list",list);	
 		if(list.size() > 0){
     		mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));

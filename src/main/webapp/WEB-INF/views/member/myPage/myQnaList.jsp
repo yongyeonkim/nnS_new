@@ -25,26 +25,41 @@
 		<img src="./../resources/images/commu_qtitle.png" width="200" height="70"> 
 	<table border="1" align="center" class="tbl_type">
 		<colgroup>
-			<col width="10%" />
+			<col width="8%" />
 			<col width="*" />
-			<col width="15%" />
-			<col width="25%" />  
 			<col width="10%" />
-		</colgroup>  
-		<caption><h2>문의게시판</h2></caption>
+			<col width="15%" />
+			<col width="15%" />  
+			<col width="8%" />
+		</colgroup>
 		<thead>
 			<tr>
 				<th scope="col"><img src="./../resources/images/commu_num.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_title.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_re.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_writer.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_date.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_re.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_hit.png" height="25"></th>
 			</tr>
 		</thead>
 		<tbody>
 		</tbody>
 	</table>
+	<br/>
+	<div align="center">
+		<form action="/nnS/myPage/qnaList" method="post">
+			<fieldset>
+				<select name="searchType" id="searchType">
+					<option value="nothing">-----</option>
+					<option value="title" <c:out value="${searchType eq 'title'?'selected':''}"/>>제목</option>
+					<option value="content" <c:out value="${searchType eq 'content'?'selected':''}"/>>내용</option>
+					<option value="writer" <c:out value="${searchType eq 'writer'?'selected':''}"/>>작성자</option>
+				</select>
+				<input type="text" class="txt" placeholder="Search" name="keyword" id="keyword" value="${keyword}"/>&nbsp;
+				<input type="submit" value="검색" class="search_btn" onClick="onSearch()"/>
+			</fieldset>
+		</form>
+	</div>
 	
 	<div id="PAGE_NAVI" align="center"></div>
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
@@ -80,6 +95,8 @@
 			comAjax.addParam("id", id); 
 			comAjax.addParam("PAGE_INDEX", pageNo);
 			comAjax.addParam("PAGE_ROW", 15);
+			comAjax.addParam("keyword", $('#keyword').val());
+			comAjax.addParam("searchType", $('#searchType').val());
 			comAjax.ajax();
 		}
 
@@ -106,27 +123,40 @@
 				$.each(
 								data.list,
 								function(key, value) {
+									var answer = "";
+									if(value.QNA_YORN=='Y'){
+										answer = '<img src="./../resources/images/answer_button2.png" height="21">';
+									} else {
+										answer = '<img src="./../resources/images/answer_button1.png" height="21">';
+									}
+								
+									var title = value.QNA_TITLE;
+									if(title.length > 20){
+										title = title.substring(0, 19) + "...";
+									}
+									
 									str     += "<tr style=\"text-align: center\">"
 											+ "<td>"
 											+ value.QNA_NUM
 											+ "</td>"
 											+ "<td class='title'>"
 											+ "<a href='#this' name='title'>"
-											+ value.QNA_TITLE
+											+ title
 											+ "</a>"
 											+ "<input type='hidden' id='QNA_NUM' value=" + value.QNA_NUM + ">"
+											+ "</td>" + "<td>" + answer
 											+ "</td>" + "<td>" + value.MEM_ID
 											+ "</td>" + "<td>" + new Date(value.QNA_DATE).toLocaleString()
-											+ "</td>" + "<td>" + value.QNA_YORN
-											+ "</td>" + "<td>" + value.QNA_COUNT
+											+ "</td>" + "<td>" 
+											+ value.QNA_COUNT
 											+ "</td>" + "</tr>";
 								});
 				body.append(str);
 
-				/* $("a[name='title']").on("click", function(e) { //제목
+				$("a[name='title']").on("click", function(e) { //제목
 					e.preventDefault();
 					fn_openBoardDetail($(this));
-				}); */
+				});
 			}
 		} 
 	</script>

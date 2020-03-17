@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface NoticeService {
 	
-	List<Map<String, Object>> selectNoticeList(Map<String, Object> map) throws Exception;
+	List<Map<String, Object>> selectNoticeList(Map<String,Object> map, String keyword, String searchType) throws Exception;
 	
 	Map<String, Object> selectNoticeDetail(Map<String, Object> map)throws Exception;
 	
