@@ -240,7 +240,7 @@
 										+	                "판매자: " + value.MEM_ID
 										+	            "</p>"
 										+	         "</div>"
-										+	         "<p class='card-body-description'>"
+										+	         "<p style='overflow:hidden;' class='card-body-description'>"
 										//+	            value.GOODS_CONTENT
 										+	         "</p>"
 										+	         "<div class='card-body-footer'>"

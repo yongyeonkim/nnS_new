@@ -516,6 +516,11 @@ table {
 				success:function(data){
 					
 						str +=	"<tr>"
+							+	"<th>작성자</th>"
+							+	"<th>작성일</th>"
+							+	"<th width='130px'>답변여부</th>"
+							+	"</tr>"
+							+	"<tr>"
 							+	"<td style='width: 150px'>"+data.cMap.MEM_ID+"</td>"
 		           			+	"<td style='width: 250px'>"+new Date(data.cMap.COMMENTS_DATE).toLocaleString()+"</td>";
 			           	if(data.cMap.COMMENTS_REPLY == 'N'){
@@ -523,44 +528,60 @@ table {
 			           	}else if(data.cMap.COMMENTS_REPLY == 'Y'){
 		           		str +=	"<td style='width: 100px'>답변완료</td>";		
 			           	}
-			           	str +=	"<td rowspan='2' style='width: 100px' align='center'>"
-			           		+	"<a href='#this' onClick='fn_deleteComment("+data.cMap.COMMENTS_NUM+")'>문의삭제"
+			           	str +=	"<tr>"
+							+	"<th colspan='3'>문의내용</th>"
+							+	"</tr>"
+			           		+	"<tr>"
+							+	"<td colspan='2' style='height:150px'>"+data.cMap.COMMENTS_CONTENT+"</td>"
+							+	"<td style='btn' align='center'>"
+			           		+	"<a href='#this' id='btn' onClick='fn_deleteComment("+data.cMap.COMMENTS_NUM+")'>"
+			           		+	"<button class='bttn-bordered bttn-xs bttn-primary'>삭제</button>"
 							+	"<input type='hidden' id='GOODS_NUM' name='GOODS_NUM' value="+data.cMap.COMMENTS_PARENT+">"
 							+	"</a>"
 							+	"</td>"
-							+	"<tr>"
-							+	"<td colspan='3' style='height:150px'>"+data.cMap.COMMENTS_CONTENT+"</td>"
 							+	"</tr>";
 						if(data.cMap.COMMENTS_REPLY == 'N' && '${session_MEM_INFO.MEM_ID}' == "${map.MEM_ID}"){
 							str +=	"<tr>"
-								+	"<td colspan='3'>${session_MEM_INFO.MEM_ID}</td>"
-								+	"<td rowspan='2' align='center'>"
-								+	"<a href='#this' id='rcWrite' name='rcWrite' onclick='fn_replyWriteComment()'>답글등록</a>"
+								+	"<th colspan='3'>"
+								+	"문의 답변하기"
+								+	"</th>"
+								+	"</tr>"
+								+	"<tr>"
+								+	"<td colspan='2' style='height:150px'><textarea name='COMMENTS_CONTENT' id='COMMENTS_CONTENT' rows='8' cols='100' style='resize: none;'></textarea></td>"
+								+	"<td align='center'>"
+								+	"<a href='#this' id='btn' name='rcWrite' onclick='fn_replyWriteComment()'>"
+				           		+	"<button class='bttn-bordered bttn-xs bttn-primary'>작성</button>"
 								+	"<input type='hidden' id='COMMENTS_TYPE' name='COMMENTS_TYPE' value='1'>"
 								+	"<input type='hidden' id='COMMENTS_PARENT' name='COMMENTS_PARENT' value='"+data.cMap.COMMENTS_PARENT+"'>"
 								+	"<input type='hidden' id='MEM_ID' name='MEM_ID' value='${session_MEM_INFO.MEM_ID }'>"
 								+	"<input type='hidden' id='COMMENTS_RNUM' name='COMMENTS_RNUM' value='"+data.cMap.COMMENTS_NUM+"'>"
+								+	"</a>"
 								+	"</td>"
-								+	"</tr>"
-								+	"<tr>"
-								+	"<td colspan='3' style='height:150px'><textarea name='COMMENTS_CONTENT' id='COMMENTS_CONTENT' rows='5' cols='120' style='resize: none;'></textarea></td>"
 								+	"</tr>";
 						} else if(data.cMap.COMMENTS_REPLY == 'Y') {
 							str +=	"<tr>"
-								+	"<td>판매자 : "+data.rMap.MEM_ID+"</td>"
-								+	"<td colspan='2'>"+data.rMap.COMMENTS_DATE+"</td>"
-								+	"<td rowspan='2' align='center'>";
-						if('${session_MEM_INFO.MEM_ID}'  == "${map.MEM_ID}"){
-								+	"<a href='#this' id='rcDelete' name='rcDelete'>답글삭제"
-								+	"<input type='hidden' id='REPLY_NUM' name='REPLY_NUM' value='"+data.rMap.COMMENTS_NUM+"'>"
-								+	"<input type='hidden' id='COMMENTS_RNUM' name='COMMENTS_RNUM' value='"+data.cMap.COMMENTS_NUM+"'>"
-								+	"<input type='hidden' id='G_MEM_ID' name='G_MEM_ID' value='"+data.G_MEM_ID+"'>"
-								+	"</a>";
-							}
-							str	+=	"</td>"
+								+	"<th>판매자</th>"
+								+	"<th colspan='2'>작성일</th>"
 								+	"</tr>"
 								+	"<tr>"
-								+	"<td colspan='3' style='height:150px'>"+data.rMap.COMMENTS_CONTENT+"</td>"
+								+	"<td>"+data.rMap.MEM_ID+"</td>"
+								+	"<td colspan='2'>"+new Date(data.rMap.COMMENTS_DATE).toLocaleString()+"</td>"
+								+	"</tr>"
+								+	"<tr>"
+								+	"<th colspan='3'>답변내용</th>"
+								+	"</tr>"
+								+	"<tr>"
+								+	"<td colspan='2' style='height:150px'>"+data.rMap.COMMENTS_CONTENT+"</td>"
+								+	"<td align='center'>";
+								if('${session_MEM_INFO.MEM_ID}'  == '${map.MEM_ID}'){
+									str	+=	"<a href='#this' id='btn' name='rcDelete' onclick='fn_deletereplyComment()'>"
+										+	"<button class='bttn-bordered bttn-xs bttn-primary'>삭제</button>"
+										+	"<input type='hidden' id='REPLY_NUM' name='REPLY_NUM' value='"+data.rMap.COMMENTS_NUM+"'>"
+										+	"<input type='hidden' id='COMMENTS_RNUM' name='COMMENTS_RNUM' value='"+data.cMap.COMMENTS_NUM+"'>"
+										+	"<input type='hidden' id='G_MEM_ID' name='G_MEM_ID' value='"+data.G_MEM_ID+"'>"
+										+	"</a>";
+								}
+							str	+=	"</td>"
 								+	"</tr>";
 						}
 			           	body2.append(str);
@@ -653,7 +674,7 @@ table {
 			comSubmit.addParam("COMMENTS_RNUM", $("#COMMENTS_RNUM").val());
 			comSubmit.addParam("G_MEM_ID", "${G_MEM_ID}");
 			comSubmit.submit();
-			alert("문의가 정상적으로 삭제되었습니다.")
+			alert("답변이 정상적으로 삭제되었습니다.")
 			}
 		}
 		
