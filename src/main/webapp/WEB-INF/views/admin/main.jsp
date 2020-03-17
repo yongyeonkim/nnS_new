@@ -60,6 +60,18 @@
                                         </div>
                                     </div>
                                 </li>
+                                <li>
+                                    <div class="timeline-badge danger"><i class="fa fa-bomb"></i>
+                                    </div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h4 class="timeline-title">주문 관리</h4>
+                                        </div>
+                                        <div class="timeline-body">
+                                            <p>주문목록 이동 - 주문목록을 볼 수 있습니다</p>
+                                        </div>
+                                    </div>
+                                </li>
                                 <li class="timeline-inverted">
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">

@@ -10,10 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import nnS.order.dao.OrderDAO;
+import nnS.common.dao.InformDAO;
 import nnS.common.util.FileUtils;
 
 @Service("orderService")
 public class OrderServiceImpl implements OrderService {
+	
+	@Resource(name="informDAO") 
+	private InformDAO informDAO;
 	
 	@Resource(name="orderDAO")
 	private OrderDAO orderDAO;
@@ -33,7 +37,10 @@ public class OrderServiceImpl implements OrderService {
 		
 		List<Map<String, Object>> list = orderDAO.selectFileList(map);
 		resultMap.put("list", list);
-		 
+		
+		Map<String, Object> inform = new HashMap<String, Object>();
+		inform.put("IDX", orderG.get("GOODS_SELLER"));
+		informDAO.informInsert(inform, "상품이 팔렸습니다.");
 		
 		return resultMap;
 	}
@@ -42,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
 	public void insertOrder(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		
 		orderDAO.insertOrder(map);
+		
 		
 	}
 	

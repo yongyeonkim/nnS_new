@@ -5,7 +5,7 @@
 
 	<select id="orderWriteG" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
-			SELECT  
+			SELECT  (SELECT MEM_ID FROM MEMBER WHERE MEM_NUM = GOODS_SELLER) AS GOODS_SELLER,
 					GOODS_NUM,
 					GOODS_TITLE,
 					GOODS_BRAND,
