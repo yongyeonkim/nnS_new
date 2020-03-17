@@ -110,6 +110,11 @@
 											+ "</td>" + "</tr>";
 								});
 				body.append(str);
+
+				$("a[name='title']").on("click", function(e) { //제목
+					e.preventDefault();
+					fn_openBoardDetail($(this));
+				});
 			}
 		}
 	</script>

@@ -15,6 +15,7 @@ import nnS.notice.service.NoticeService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class NoticeController {
@@ -26,18 +27,20 @@ public class NoticeController {
 	//공지사항	
 	// 공지사항 리스트
 	@RequestMapping(value = "/community/noticeList")
-	public ModelAndView noticeList(CommandMap commandMap) throws Exception {
+	public ModelAndView noticeList(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("noticeList");
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("keyword", keyword);
 		
 		return mv;		
 	}
 	
 	//목록
 	@RequestMapping(value="/community/noticeListPaging")
-	public ModelAndView noticeListPaging(CommandMap commandMap) throws Exception{
+	public ModelAndView noticeListPaging(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
 		ModelAndView mv=new ModelAndView("jsonView");
 		
-		List<Map<String,Object>> list=noticeService.selectNoticeList(commandMap.getMap());
+		List<Map<String,Object>> list=noticeService.selectNoticeList(commandMap.getMap(), keyword, searchType);
 		mv.addObject("list",list);	
 		if(list.size() > 0){
     		mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));

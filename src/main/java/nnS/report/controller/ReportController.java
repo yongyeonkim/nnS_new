@@ -44,14 +44,14 @@ public class ReportController {
 	}
 	
     @RequestMapping(value = {"/myPage/reportListPaging","/community/reportListPaging"})
-    public ModelAndView reportListPaging(CommandMap commandMap,@RequestParam(value = "search", defaultValue="") String search, HttpServletRequest request) throws Exception {
+    public ModelAndView reportListPaging(CommandMap commandMap,@RequestParam(value = "search", defaultValue="") String search, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
        ModelAndView mv = new ModelAndView("jsonView");
        
        if(request.getServletPath().equals("/myPage/reportListPaging")) {
           HttpSession session = request.getSession();
           commandMap.put("session_MEM_ID", session.getAttribute("session_MEM_ID"));
        }
-       List<Map<String,Object>> list = reportService.selectReportList(commandMap.getMap(),search);
+       List<Map<String,Object>> list = reportService.selectReportList(commandMap.getMap(), search, keyword, searchType);
        mv.addObject("list", list);
        
        if(list.size() > 0){
@@ -64,15 +64,19 @@ public class ReportController {
     } 
    
     @RequestMapping(value ="/community/reportList")
-    public ModelAndView reportList(@RequestParam(value = "search", defaultValue="") String search, HttpServletRequest request) throws Exception {
+    public ModelAndView reportList(@RequestParam(value = "search", defaultValue="") String search, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
        ModelAndView mv = new ModelAndView("reportList");
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("keyword", keyword);
        request.setAttribute("search", search);
        return mv;
     }
    
     @RequestMapping(value = "/myPage/reportList")
-    public ModelAndView reportMyList(@RequestParam(value = "search", defaultValue="") String search, HttpServletRequest request,CommandMap commandMap) throws Exception {
+    public ModelAndView reportMyList(@RequestParam(value = "search", defaultValue="") String search, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
        ModelAndView mv = new ModelAndView("myreportList");
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("keyword", keyword);
        request.setAttribute("search", search);
        return mv;
     }

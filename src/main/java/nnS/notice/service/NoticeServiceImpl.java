@@ -31,7 +31,10 @@ public class NoticeServiceImpl implements NoticeService {
 	private FileUtils fileUtils;
 
 	@Override
-	public List<Map<String, Object>> selectNoticeList(Map<String, Object> map) throws Exception {
+	public List<Map<String, Object>> selectNoticeList(Map<String, Object> map, String keyword, String searchType) throws Exception {
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		
 		return noticeDAO.selectNoticeList(map);
 	}
 

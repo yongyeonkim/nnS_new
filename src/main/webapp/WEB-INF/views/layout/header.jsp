@@ -98,7 +98,7 @@ a {color:#666;}
                  <option value="hash">해시태그</option>
                 </select>
                <input type="text" class="txt" placeholder="Search" name="keyword"/>&nbsp;
-               <input type="submit" value="검색" class="search_btn" onClick="onSearch()"/>
+               <input type="submit" value="상품검색" class="search_btn" onClick="onSearch()"/>
             </fieldset>
          </form>
       </div>

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface ReportService {
 	
-	List<Map<String, Object>> selectReportList(Map<String, Object> map, String search) throws Exception;
+	List<Map<String, Object>> selectReportList(Map<String, Object> map, String search, String keyword, String searchType) throws Exception;
 	
 	Map<String, Object> selectReportDetail(Map<String, Object> map) throws Exception;
 
