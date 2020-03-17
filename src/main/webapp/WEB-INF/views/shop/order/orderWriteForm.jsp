@@ -80,6 +80,7 @@
 				</tr>
 				<tr>
 					<td>
+					    <input type="hidden" id="GOODS_SELLER" name="GOODS_SELLER" value="${orderG.GOODS_SELLER}">
 						<input type="hidden" id="MEM_ID" name="MEM_ID" value="${session_MEM_ID}">
 						<input type="hidden" id="GOODS_NUM" name="GOODS_NUM" value="${orderG.GOODS_NUM}"/>
 						<input type="hidden" id="GOODS_PRICE" name="GOODS_PRICE" value="${orderG.GOODS_PRICE}"/>

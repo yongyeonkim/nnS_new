@@ -18,8 +18,9 @@ import nnS.report.dao.ReportDAO;
 public class ReportServiceImpl implements ReportService {
 Logger log = Logger.getLogger(this.getClass());
 	
-	@Resource(name="informDAO")
-	private InformDAO informDAO;
+	/*
+	 * @Resource(name="informDAO") private InformDAO informDAO;
+	 */
 	
 	@Resource(name="reportDAO")
 	private ReportDAO reportDAO;
@@ -65,12 +66,13 @@ Logger log = Logger.getLogger(this.getClass());
 		reportDAO.deleteReport(map);
 	}
 	
-	public void updateStatus(Map<String, Object> map) throws Exception {
-	      // TODO Auto-generated method stub
-	      reportDAO.updateStatus(map);
-	      informDAO.informInsert(map, "내 신고글에 처리상태가 변경되었습니다.");
-	      informDAO.informInsert2(map, "회원님에 신고가 처리되었습니다.");
-	      
-	   }
+	/*
+	 * public void updateStatus(Map<String, Object> map) throws Exception { // TODO
+	 * Auto-generated method stub reportDAO.updateStatus(map);
+	 * informDAO.informInsert(map, "내 신고글에 처리상태가 변경되었습니다.");
+	 * informDAO.informInsert2(map, "회원님에 신고가 처리되었습니다.");
+	 * 
+	 * }
+	 */
 	
 }

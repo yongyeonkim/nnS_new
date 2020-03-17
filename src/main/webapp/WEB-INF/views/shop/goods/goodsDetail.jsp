@@ -326,6 +326,10 @@
 		/* 신고하기 */
 		function report_func(){
 			if(session_chk()){
+				if("${session_MEM_ID}" == "${memberMap.MEM_ID}"){
+					alert("자신의 상품은 신고할 수 없습니다.");
+					return false;
+					}
 				var comSubmit = new ComSubmit();
 				comSubmit.setUrl("<c:url value='/community/reportWriteForm'/>");
 				comSubmit.addParam("GOODS_NUM", "${map.GOODS_NUM}");

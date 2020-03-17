@@ -108,11 +108,11 @@ public class ReportController {
 		return mv;		
 	}
 	
-	@RequestMapping(value = "/community/reportDetail/reportHandle")
-	public ModelAndView reportHandle(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("redirect:/community/reportList");
-	  	reportService.updateStatus(commandMap.getMap());
-		return mv;      
-	}
+	/*
+	 * @RequestMapping(value = "/community/reportDetail/reportHandle") public
+	 * ModelAndView reportHandle(CommandMap commandMap) throws Exception {
+	 * ModelAndView mv = new ModelAndView("redirect:/community/reportList");
+	 * reportService.updateStatus(commandMap.getMap()); return mv; }
+	 */
 	
 }

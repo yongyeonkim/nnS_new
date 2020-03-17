@@ -59,6 +59,60 @@ function fn_selectBoardListCallback(data) {
 						data.list,
 						function(key, value) {
 							var tstatus = "";
+							var category = "";
+							var status = "";
+						    if(value.GOODS_CATEGORY =='1'){
+						    	category = "식품";
+						    }else if(value.GOODS_CATEGORY =='2'){
+						    	category = "주방";
+						    }else if(value.GOODS_CATEGORY =='3'){
+						    	category = "생활";
+						    }else if(value.GOODS_CATEGORY =='4'){
+						    	category = "인테리어";
+						    }else if(value.GOODS_CATEGORY =='5'){
+						    	category = "가전디지털";
+						    }else if(value.GOODS_CATEGORY =='6'){
+						    	category = "스포츠레저";
+						    }else if(value.GOODS_CATEGORY =='7'){
+						    	category = "자동차";
+						    }else if(value.GOODS_CATEGORY =='8'){
+						    	category = "도서";
+						    }else if(value.GOODS_CATEGORY =='9'){
+						    	category = "음반";
+						    }else if(value.GOODS_CATEGORY =='10'){
+						    	category = "DVD";
+						    }else if(value.GOODS_CATEGORY =='11'){
+						    	category = "완구";
+						    }else if(value.GOODS_CATEGORY =='12'){
+						    	category = "문구";
+						    }else if(value.GOODS_CATEGORY =='13'){
+						    	category = "헬스건강";
+						    }else if(value.GOODS_CATEGORY =='14'){
+						    	category = "여행";
+						    }else if(value.GOODS_CATEGORY =='15'){
+						    	category = "아트공예";
+						    }else if(value.GOODS_CATEGORY =='16'){
+						    	category = "뷰티";
+						    }else if(value.GOODS_CATEGORY =='17'){
+						    	category = "가방";
+						    }else if(value.GOODS_CATEGORY =='18'){
+						    	category = "패션";
+						    }else if(value.GOODS_CATEGORY =='19'){
+						    	category = "신발";
+						    }else if(value.GOODS_CATEGORY =='20'){
+						    	category = "기타";
+						    }
+						    
+						    
+						    if(value.GOODS_STATUS =='1'){
+						    	status = "A";
+						    }else if(value.GOODS_STATUS =='2'){
+						    	status = "B";
+						    }else if(value.GOODS_STATUS =='3'){
+						    	status = "C";
+						    }else if(value.GOODS_STATUS =='4'){
+						    	status = "D";
+						    }
 						    
 							if(value.GOODS_TSTATUS == 'N'){
 								tstatus = "거래가능";
@@ -70,7 +124,7 @@ function fn_selectBoardListCallback(data) {
 								str += 
 										'<tr class="gradeA even" role="row">'
 								+			'<td style="text-align:center;vertical-align:middle;">'+ value.GOODS_NUM + "</td>"
-								+			'<td style="text-align:center;vertical-align:middle;">' + value.GOODS_CATEGORY + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + category + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ID + "</td>"
 								+			'<td colspan="2" style="text-align:center;vertical-align:middle;">' 
 								+           '<input type="hidden" name="title2" id="title2" value=' + value.GOODS_NUM + '>'
@@ -86,11 +140,11 @@ function fn_selectBoardListCallback(data) {
 								+			"<input type='hidden' id='MEM_ID' value=" + value.MEM_ID + ">"	
 								+			 "<a href='/nnS/admin/adGoodsDelete?GOODS_NUM="+value.GOODS_NUM+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()">' + "</a>" + "</td>"									
 								+		"</tr>"
-								+       "<tr class='hiden'>" 
+								+       "<tr class='hiden' style='background-color:#fff;'>" 
 								+           '<th style="text-align:center;vertical-align:middle;">' + "판매자이름" + "</th>"
 								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.MEM_NAME + "</td>" 
 								+           '<th style="text-align:center;vertical-align:middle;">' + "판매자 성별" + "</th>"
-								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.MEM_GEN + "</td>"
+								+           "<td style='width: 15%; text-align:center;vertical-align:middle;'>" +  value.MEM_GEN + "</td>"
 								+           '<th style="text-align:center;vertical-align:middle;">' + "판매자 이메일" + "</th>"
 								           
 								+           "<td colspan='2' style='text-align:center;vertical-align:middle;'>" +  value.MEM_EMAIL + "</td>"
@@ -98,11 +152,11 @@ function fn_selectBoardListCallback(data) {
 								+           "<td colspan='2' style='text-align:center;vertical-align:middle;'>" +  value.MEM_PHONE + "</td>"
 								
 								+       "</tr>"
-								+       "<tr class='hiden'>" 
+								+       "<tr class='hiden' style='background-color:#fff;'>" 
 								+           '<th style="text-align:center;vertical-align:middle;">' + "브랜드" + "</th>"
 								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_BRAND + "</td>" 
 								+           '<th style="text-align:center;vertical-align:middle;">' + "중고상태" + "</th>"
-								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_STATUS + "</td>"
+								+           "<td style='text-align:center;vertical-align:middle;'>" +  status + "</td>"
 								+           '<th style="text-align:center;vertical-align:middle;">' + "해시태그" + "</th>"
 								           
 								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_HASH + "</td>"
@@ -111,7 +165,7 @@ function fn_selectBoardListCallback(data) {
 								+           '<th style="text-align:center;vertical-align:middle;">' + "배송비" + "</th>"
 								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_DCOST + "</td>"
 								+       "</tr>"
-								+       "<tr class='hiden'>" 
+								+       "<tr class='hiden' style='background-color:#fff;'>" 
 								+           '<th style="text-align:center;vertical-align:middle;">' + "내용" + "</th>"
 								+           "<td colspan='9' style='text-align:center;vertical-align:middle;'>" +  value.GOODS_CONTENT + "</td>" 
 								+       "</tr>";
@@ -120,14 +174,16 @@ function fn_selectBoardListCallback(data) {
 		body.append(str);
 			$("a[name='title']").toggle(function(){
 				var content = $(this).closest("tr").next();
+				/* title 밑으로 세줄 보이기 */
 				$(this).closest("tr").next().show();
 				content.next().show();
-				content.next().next().show();
+				content.next().closest("tr").next().show();
 				}, function(){
 					var content = $(this).closest("tr").next();
+					/* title 밑으로 세줄 감추기 */
 				$(this).closest("tr").next().hide();
 				content.next().hide();
-				content.next().next().hide();
+				content.next().closest("tr").next().hide();
 			});
 	}
 }

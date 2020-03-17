@@ -19,8 +19,9 @@ public class QnaServiceImpl implements QnaService{
 	
 	Logger log = Logger.getLogger(this.getClass());
 	
-	@Resource(name="informDAO")
-	private InformDAO informDAO;
+	/*
+	 * @Resource(name="informDAO") private InformDAO informDAO;
+	 */
 	
 	@Resource(name="qnaDAO")
 	private QnaDAO qnaDAO;

@@ -8,9 +8,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import nnS.admin.dao.AdminBoardDAO;
+import nnS.common.dao.InformDAO;
 
 @Service("adminBoardService")
 public class AdminBoardServiceImpl implements AdminBoardService{
+	
+	@Resource(name="informDAO") 
+	private InformDAO informDAO;
 	
 	@Resource(name="AdminBoardDAO")
 	private AdminBoardDAO adminBoardDAO;
@@ -56,6 +60,7 @@ public class AdminBoardServiceImpl implements AdminBoardService{
 	@Override
 	public void qnaRePro(Map<String, Object> map) throws Exception {
 		adminBoardDAO.qnaRePro(map);
+		informDAO.informInsert(map,"내 문의글에 답변이 달렸습니다.");
 	}
 
 }

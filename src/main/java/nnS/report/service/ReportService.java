@@ -15,6 +15,6 @@ public interface ReportService {
 	
 	void deleteReport(Map<String, Object> map) throws Exception;
 
-	void updateStatus(Map<String, Object> map) throws Exception;
+	/* void updateStatus(Map<String, Object> map) throws Exception; */
 
 }
