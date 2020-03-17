@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface BoardService {
 
-	List<Map<String, Object>> selectBoardList(Map<String,Object> map) throws Exception;
+	List<Map<String, Object>> selectBoardList(Map<String,Object> map, String keyword, String searchType) throws Exception;
 	
 	Map<String, Object> selectBoardDetail(Map<String,Object> map) throws Exception;
 	

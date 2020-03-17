@@ -23,9 +23,18 @@
    AND     NOTICE_DEL_GB = 'N'
    
 ]]>
-   <include refid="common.pagingPost"/>
+  	<include refid="search"></include>
+	<include refid="common.pagingPost"/>
 </select>
 
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 'title'.toString()">AND N.NOTICE_TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'content'.toString()">AND N.NOTICE_CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'writer'.toString()">AND M.MEM_ID LIKE '%' || #{keyword} || '%'</if>
+		</if>
+	</sql>
+	
 <!-- 공지사항 조회수 증가 -->
 <update id="updateCount" parameterType="hashmap">
    <![CDATA[

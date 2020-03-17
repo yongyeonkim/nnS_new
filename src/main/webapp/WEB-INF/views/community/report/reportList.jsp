@@ -40,7 +40,6 @@
 	               <option value="4" <c:out value="${search eq '4' ? 'selected' :''}"/>>처리완료</option>
 	      </select>
 	      <input type="submit" value="분류" class="search_btn" onClick="onSearch()"/>
-	    </form>
 		<thead>
 			<tr>
 				<th scope="col"><img src="./../resources/images/commu_num.png" height="25"></th>
@@ -55,6 +54,20 @@
 		<tbody>
 		</tbody>
 	</table>
+	<br/>
+	<div align="center">
+			<fieldset>
+				<select name="searchType" id="searchType">
+					<option value="nothing">-----</option>
+					<option value="title" <c:out value="${searchType eq 'title'?'selected':''}"/>>제목</option>
+					<option value="content" <c:out value="${searchType eq 'content'?'selected':''}"/>>내용</option>
+					<option value="writer" <c:out value="${searchType eq 'writer'?'selected':''}"/>>작성자</option>
+				</select>
+				<input type="text" class="txt" placeholder="Search" name="keyword" id="keyword" value="${keyword}"/>&nbsp;
+				<input type="submit" value="검색" class="search_btn" onClick="onSearch()"/>
+			</fieldset>
+		</form>
+	</div>
 	
 	<div id="PAGE_NAVI" align="center"></div>
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
@@ -91,6 +104,8 @@
 			comAjax.setCallback("fn_selectBoardListCallback");
 			comAjax.addParam("PAGE_INDEX", pageNo);
 			comAjax.addParam("PAGE_ROW", 15);
+			comAjax.addParam("keyword", $('#keyword').val());
+			comAjax.addParam("searchType", $('#searchType').val());
 			comAjax.addParam("search", $('#search').val());
 			comAjax.ajax();
 		}
@@ -160,10 +175,10 @@
 								});
 				body.append(str);
 
-				/*$("a[name='title']").on("click", function(e) { //제목
+				$("a[name='title']").on("click", function(e) { //제목
 					e.preventDefault();
 					fn_openBoardDetail($(this));
-				});*/
+				});
 			}
 		} 
 	</script>

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface QnaService {
 	
 	
-	List<Map<String, Object>> selectQnaList(Map<String, Object> map) throws Exception;
+	List<Map<String, Object>> selectQnaList(Map<String, Object> map, String keyword, String searchType) throws Exception;
 	
 	void insertQnaBoard(Map<String, Object> map,HttpServletRequest request)throws Exception;
 
