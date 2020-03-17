@@ -27,6 +27,7 @@ public class AdminGoodsServiceImpl implements AdminGoodsService{
 	@Override
 	public void deleteGoods(Map<String, Object> map) throws Exception {
 		adminGoodsDAO.deleteGoods(map);
+		adminGoodsDAO.orderCancel(map);
 	}
 	
 }

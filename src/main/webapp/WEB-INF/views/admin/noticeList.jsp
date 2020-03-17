@@ -27,8 +27,11 @@ function fn_selectBoardList(pageNo) {
 
 function fn_selectBoardListCallback(data) {
 	var total = data.TOTAL;
+	var count = $(".dataTables_info");
 	var body = $("table>tbody");
 	body.empty();
+	count.empty();
+	count.append("총 게시글 수 : "+ total);
 	if (total == 0) {
 		var str = "<tr align=\"center\">" + "<td colspan='9'>조회된 게시글이 없습니다</td>"
 				+ "</tr>";
@@ -59,6 +62,7 @@ function fn_selectBoardListCallback(data) {
 								+			"</a>" + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ID + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">' + new Date(value.NOTICE_DATE).toLocaleString() + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.NOTICE_DEL_GB + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">'
 								+			"<input type='hidden' id='MEM_ID' value=" + value.MEM_ID + ">"	
 								+			 "<a href='/nnS/admin/adNoticeDelete?NOTICE_NUM="+value.NOTICE_NUM+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()">' + "</a>" + "</td>"									
@@ -122,11 +126,12 @@ tr.hiden {display:none}
 								aria-describedby="dataTables-example_info">
 								<thead>
 									<tr role="row">
-										<th style="width: 10%; text-align:center;">번호</th>
-										<th style="width: 45%; text-align:center;">제목</th>
-										<th style="width: 15%; text-align:center;">작성자</th>										
+										<th style="width: 9%; text-align:center;">번호</th>
+										<th style="width: 44%; text-align:center;">제목</th>
+										<th style="width: 14%; text-align:center;">작성자</th>										
 										<th style="width: 15%; text-align:center;">작성일</th>
-										<th style="width: 15%; text-align:center;">관리</th>
+										<th style="width: 9%; text-align:center;">삭제여부</th>
+										<th style="width: 9%; text-align:center;">관리</th>
 									</tr>
 								</thead>
 								<tbody>

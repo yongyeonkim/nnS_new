@@ -109,13 +109,22 @@
 									if(title.length > 20){
 										title = title.substring(0, 19) + "...";
 									}
-									
+									var status ="";
 									var si = "";
 		                            if(value.REPORT_GOODS_SELLER_ID == null){
 		                               si = " ";
 		                            }else{
 		                               si = value.REPORT_GOODS_SELLER_ID;
 		                            }
+		                            if(value.REPORT_STATUS =='처리대기'){
+										status = '<img src="./resources/images/report_status1.png" height="18">'
+									}else if(value.REPORT_STATUS == '신고접수'){
+										status = '<img src="./resources/images/report_status2.png" height="19">'
+									}else if(value.REPORT_STATUS == '처리완료'){
+										status = '<img src="./resources/images/report_status3.png" height="19">'
+									}else if(value.REPORT_STATUS == '허위신고'){
+										status = '<img src="./resources/images/report_status4.png" height="20">'
+									}
 									str     += "<tr style=\"text-align: center\">"
 											+ "<td>"
 											+ value.REPORT_NUM
@@ -127,7 +136,7 @@
 											+ "<input type='hidden' id='REPORT_NUM' value=" + value.REPORT_NUM + ">"
 											+"</td>" + "<td>" + value.MEM_ID
 											+ "</td>" + "<td>" + si
-											+ "</td>" + "<td>" + value.REPORT_STATUS
+											+ "</td>" + "<td>" + status
 											+ "</td>" + "<td>" + new Date(value.REPORT_DATE).toLocaleString()
 											+ "</td>" + "<td>" + value.REPORT_COUNT
 											+ "</td>" + "</tr>";

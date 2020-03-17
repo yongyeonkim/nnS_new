@@ -22,12 +22,12 @@
 		<img src="./../resources/images/commu_rtitle.png" width="200" height="70"> 
 	<table border="1" align="center" class="tbl_type">
 		<colgroup>
-			<col width="8%" />
-			<col width="*" />
-			<col width="15%" />
 			<col width="10%" />
-			<col width="15%" />
-			<col width="15%" />  
+			<col width="*" />
+			<col width="13%" />
+			<col width="20%" />  
+			<col width="8%" />
+			<col width="8%" />
 			<col width="8%" />
 		</colgroup>  
 		<caption><h2>신고게시판</h2></caption>
@@ -45,10 +45,10 @@
 			<tr>
 				<th scope="col"><img src="./../resources/images/commu_num.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_title.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_rid.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_status.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_writer.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_date.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_status.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_rid.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_hit.png" height="25"></th>
 			</tr>
 		</thead>
@@ -118,11 +118,7 @@
 				$.each(
 								data.list,
 								function(key, value) {
-									var title = value.REPORT_TITLE;
-									if(title.length > 20){
-										title = title.substring(0, 19) + "...";
-									}
-									
+						
 									var status = "";
 									var si = "";
 		                            
@@ -148,13 +144,13 @@
 											+ "</td>"
 											+ "<td class='title'>"
 											+ "<a href='#this' name='title'>"
-											+ title
+											+ value.REPORT_TITLE
 											+ "</a>"
 											+ "<input type='hidden' id='REPORT_NUM' value=" + value.REPORT_NUM + ">"
-											+ "</td>" + "<td>" + si
-											+ "</td>" + "<td>" + status
 											+"</td>" + "<td>" + value.MEM_ID
 											+ "</td>" + "<td>" + new Date(value.REPORT_DATE).toLocaleString()
+											+ "</td>" + "<td style='text-align:left;'>" + status
+											+ "</td>" + "<td>" + si
 											+ "</td>" + "<td>" + value.REPORT_COUNT
 											+ "</td>" + "</tr>";
 								});

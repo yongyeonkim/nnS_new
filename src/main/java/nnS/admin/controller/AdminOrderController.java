@@ -66,11 +66,12 @@ public class AdminOrderController {
   	}
 	
 	@RequestMapping(value="/admin/orderCancel")
-	public ModelAndView orderCancle(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	public ModelAndView orderCancle(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/admin/orderList");
 
-		adminOrderService.orderCancel(commandMap.getMap(), request);
+		adminOrderService.orderCancel(commandMap.getMap());
 		
 		return mv;
 	}
+	
 }

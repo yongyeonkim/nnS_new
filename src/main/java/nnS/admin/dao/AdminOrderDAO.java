@@ -30,4 +30,5 @@ public class AdminOrderDAO extends AbstractDAO {
 		// TODO Auto-generated method stub
 		update("adminOrder.cancelTstatus",map);
 	}
+	
 }

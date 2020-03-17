@@ -11,7 +11,6 @@ function delchk(){
 }
 $(document).ready(function() {
 	fn_selectBoardList(1);
-
 });
 
 function fn_openBoardDetail(obj) {
@@ -31,8 +30,11 @@ function fn_selectBoardList(pageNo) {
 
 function fn_selectBoardListCallback(data) {
 	var total = data.TOTAL;
+	var count = $(".dataTables_info");
 	var body = $("table>tbody");
 	body.empty();
+	count.empty();
+	count.append("총 게시글 수 : "+ total);
 	if (total == 0) {
 		var str = "<tr align=\"center\">" + "<td colspan='9'>조회된 게시글이 없습니다</td>"
 				+ "</tr>";
@@ -48,7 +50,7 @@ function fn_selectBoardListCallback(data) {
 			
 		};
 		gfn_renderPaging(params);
-
+		
 		var str = "";
 		$.each(
 						data.list,
@@ -63,6 +65,7 @@ function fn_selectBoardListCallback(data) {
 								+			"</a>" + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ID + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">' + new Date(value.BOARD_DATE).toLocaleString() + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.BOARD_DEL_GB + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">'
 								+			"<input type='hidden' id='MEM_ID' value=" + value.MEM_ID + ">"	
 								+			 "<a href='/nnS/admin/adBoardDelete?BOARD_NUM="+value.BOARD_NUM+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()">' + "</a>" + "</td>"									
@@ -74,6 +77,7 @@ function fn_selectBoardListCallback(data) {
 								
 						});
 		body.append(str);
+		
 			$("a[name='title']").toggle(function(){
 				$(this).closest("tr").next().show();
 				}, function(){
@@ -82,6 +86,7 @@ function fn_selectBoardListCallback(data) {
 		
 	}
 }
+
 </script>
 <style type="text/css">
 .paging{text-align:center;height:32px;margin-top:5px;margin-bottom:15px;}
@@ -127,11 +132,12 @@ tr.hiden {display:none}
 								aria-describedby="dataTables-example_info">
 								<thead>
 									<tr role="row">
-										<th style="width: 10%; text-align:center;">번호</th>
-										<th style="width: 45%; text-align:center;">제목</th>
-										<th style="width: 15%; text-align:center;">작성자</th>										
+										<th style="width: 9%; text-align:center;">번호</th>
+										<th style="width: 44%; text-align:center;">제목</th>
+										<th style="width: 14%; text-align:center;">작성자</th>										
 										<th style="width: 15%; text-align:center;">작성일</th>
-										<th style="width: 15%; text-align:center;">관리</th>
+										<th style="width: 9%; text-align:center;">삭제여부</th>
+										<th style="width: 9%; text-align:center;">관리</th>
 									</tr>
 								</thead>
 								<tbody class="boby">

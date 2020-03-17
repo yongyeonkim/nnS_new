@@ -39,7 +39,7 @@ function back(){
 .paging a:first-child{margin-left:0;}
 .paging strong{color:#fff;background:#337AB7;border:1px solid #337AB7;}
 .paging .page_arw{font-size:11px;line-height:30px;}
-tr.hiden {display:none}
+
 </style>
 </head>
 

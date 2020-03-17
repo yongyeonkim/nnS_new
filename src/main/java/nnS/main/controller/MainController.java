@@ -51,8 +51,12 @@ public class MainController {
          
          mv.addObject("list",list);
          
-      }
+         if(list.size() > 0){
+     		mv.addObject("TOTAL", list.size());
+     	}
          
+      }
+        
       return mv;
    }
    

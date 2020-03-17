@@ -25,17 +25,17 @@
 		<colgroup>
 			<col width="8%" />
 			<col width="*" />
-			<col width="10%" />
+			<col width="15%" />
 			<col width="15%" />
 			<col width="15%" />  
 			<col width="8%" />
-		</colgroup>
+		</colgroup>  
 		<thead>
 			<tr>
 				<th scope="col"><img src="./../resources/images/commu_num.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_title.png" height="25"></th>
-				<th scope="col"><img src="./../resources/images/commu_re.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_writer.png" height="25"></th>
+				<th scope="col"><img src="./../resources/images/commu_re.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_date.png" height="25"></th>
 				<th scope="col"><img src="./../resources/images/commu_hit.png" height="25"></th>
 			</tr>
@@ -118,13 +118,6 @@
 				$.each(
 								data.list,
 								function(key, value) {
-									var answer = "";
-									if(value.QNA_YORN=='Y'){
-										answer = '<img src="./../resources/images/answer_button2.png" height="21">';
-									} else {
-										answer = '<img src="./../resources/images/answer_button1.png" height="21">';
-									}
-								
 									var title = value.QNA_TITLE;
 									if(title.length > 20){
 										title = title.substring(0, 19) + "...";
@@ -139,11 +132,10 @@
 											+ title
 											+ "</a>"
 											+ "<input type='hidden' id='QNA_NUM' value=" + value.QNA_NUM + ">"
-											+ "</td>" + "<td>" + answer
 											+ "</td>" + "<td>" + value.MEM_ID
+											+ "</td>" + "<td>" + value.QNA_YORN
 											+ "</td>" + "<td>" + new Date(value.QNA_DATE).toLocaleString()
-											+ "</td>" + "<td>" 
-											+ value.QNA_COUNT
+											+ "</td>" + "<td>" + value.QNA_COUNT
 											+ "</td>" + "</tr>";
 								});
 				body.append(str);

@@ -44,29 +44,36 @@ a {color:#666;}
 	   };
 	   
 	   function callback(data){
-	      var total = data.list;
-	      var body = $("#inform");
-	      body.empty();
-	      var str = "";
-	      if (total == 0) {
-	         str += "<tr>" + "<td colspan='4'>새로운 알림이 없습니다.</td>"
-	         + "</tr>";
-	         body.append(str);
-	      } else {
-	            $.each(
-	            data.list,
-	            function(key, value) {
-	               str += "<a href='#this'  name='confirm' onClick='fn_InformConfirm("+value.INFORM_NUM+")'> " 
-	                  + new Date(value.INFORM_DATE).toLocaleString()
-	                  + "<br/>"
-	                  + value.INFORM_CONTENT
-	                  + "<input type='hidden' id='INFORM_NUM' value=" + value.INFORM_NUM + ">"
-	                  + "</a>";
-	            });
+		      var total = data.list;
+		      var totalcount = data.TOTAL;
+		      var count = $(".count_number");
+		      var body = $("#inform");
+		      count.empty();
+		      body.empty();
+		      count.append(totalcount);
+		      var str = "";
+		      if (total == 0) {
+		    	 count.css("opacity","1");
+		    	 count.remove();
+		         str += "<tr>" + "<td colspan='4'>새로운 알림이 없습니다.</td>"
+		         + "</tr>";
+		         body.append(str);
+		      } else {
+		            $.each(
+		            data.list,
+		            function(key, value) {
+		               str += "<a href='#this'  name='confirm' onClick='fn_InformConfirm("+value.INFORM_NUM+")'> " 
+		                  + new Date(value.INFORM_DATE).toLocaleString()
+		                  + "<br/>"
+		                  + value.INFORM_CONTENT
+		                  + "<input type='hidden' id='INFORM_NUM' value=" + value.INFORM_NUM + ">"
+		                  + "</a>";
+		            });
 
-	            body.append(str);
-	      }
-	   }
+		            body.append(str);
+		            count.css("background-color","red");
+		      }
+		   }
 
 </script>
 <!-- header_area -->
@@ -94,6 +101,7 @@ a {color:#666;}
       <c:if test="${session_MEM_ID != null}">
          <div class="dropdown">
          <button class="dropbtn"><img style="width:30px; height:30px;" src="<c:url value="/resources/images/Bell.png"/>"/></button>
+            <div class="count_number"></div>
             <div class="dropdown-content">
               <table id="inform">
                  <tbody>

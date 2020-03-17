@@ -72,7 +72,7 @@ function fn_selectBoardListCallback(data) {
 								+			'<td style="text-align:center;vertical-align:middle;">'+ value.GOODS_NUM + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">' + value.GOODS_CATEGORY + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">' + value.MEM_ID + "</td>"
-								+			'<td style="text-align:center;vertical-align:middle;">' 
+								+			'<td colspan="2" style="text-align:center;vertical-align:middle;">' 
 								+           '<input type="hidden" name="title2" id="title2" value=' + value.GOODS_NUM + '>'
 								+				'<a href="#this" id="title" name="title">'
 								+				value.GOODS_TITLE
@@ -80,11 +80,24 @@ function fn_selectBoardListCallback(data) {
 								+			'<td style="text-align:center;vertical-align:middle;">' + value.GOODS_PRICE + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">' + tstatus + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">' + new Date(value.GOODS_DATE).toLocaleString() + "</td>"
+								+			'<td style="text-align:center;vertical-align:middle;">' + value.GOODS_DEL_GB + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">'
 							
 								+			"<input type='hidden' id='MEM_ID' value=" + value.MEM_ID + ">"	
 								+			 "<a href='/nnS/admin/adGoodsDelete?GOODS_NUM="+value.GOODS_NUM+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()">' + "</a>" + "</td>"									
 								+		"</tr>"
+								+       "<tr class='hiden'>" 
+								+           '<th style="text-align:center;vertical-align:middle;">' + "판매자이름" + "</th>"
+								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.MEM_NAME + "</td>" 
+								+           '<th style="text-align:center;vertical-align:middle;">' + "판매자 성별" + "</th>"
+								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.MEM_GEN + "</td>"
+								+           '<th style="text-align:center;vertical-align:middle;">' + "판매자 이메일" + "</th>"
+								           
+								+           "<td colspan='2' style='text-align:center;vertical-align:middle;'>" +  value.MEM_EMAIL + "</td>"
+								+           '<th style="text-align:center;vertical-align:middle;">' + "판매자 연락처" + "</th>"
+								+           "<td colspan='2' style='text-align:center;vertical-align:middle;'>" +  value.MEM_PHONE + "</td>"
+								
+								+       "</tr>"
 								+       "<tr class='hiden'>" 
 								+           '<th style="text-align:center;vertical-align:middle;">' + "브랜드" + "</th>"
 								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_BRAND + "</td>" 
@@ -95,10 +108,12 @@ function fn_selectBoardListCallback(data) {
 								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_HASH + "</td>"
 								+           '<th style="text-align:center;vertical-align:middle;">' + "판매지역" + "</th>"
 								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_REGION + "</td>"
+								+           '<th style="text-align:center;vertical-align:middle;">' + "배송비" + "</th>"
+								+           "<td style='text-align:center;vertical-align:middle;'>" +  value.GOODS_DCOST + "</td>"
 								+       "</tr>"
 								+       "<tr class='hiden'>" 
 								+           '<th style="text-align:center;vertical-align:middle;">' + "내용" + "</th>"
-								+           "<td colspan='8' style='text-align:center;vertical-align:middle;'>" +  value.GOODS_CONTENT + "</td>" 
+								+           "<td colspan='9' style='text-align:center;vertical-align:middle;'>" +  value.GOODS_CONTENT + "</td>" 
 								+       "</tr>";
 								
 						});
@@ -107,10 +122,12 @@ function fn_selectBoardListCallback(data) {
 				var content = $(this).closest("tr").next();
 				$(this).closest("tr").next().show();
 				content.next().show();
+				content.next().next().show();
 				}, function(){
 					var content = $(this).closest("tr").next();
 				$(this).closest("tr").next().hide();
 				content.next().hide();
+				content.next().next().hide();
 			});
 	}
 }
@@ -175,12 +192,13 @@ tr.hiden {display:none; background:#ffffff;}
 								<thead>
 									<tr role="row">
 										<th style="width: 6%; text-align:center;">번호</th>
-										<th style="width: 10%; text-align:center;">카테고리</th>
-										<th style="width: 10%; text-align:center;">판매자</th>										
-										<th style="width: 32%; text-align:center;">상품명</th>
-										<th style="width: 10%; text-align:center;">가격</th>
-										<th style="width: 10%; text-align:center;">상품상태</th>
+										<th style="width: 9%; text-align:center;">카테고리</th>
+										<th style="width: 9%; text-align:center;">판매자</th>										
+										<th colspan="2" style="width: 30%; text-align:center;">상품명</th>
+										<th style="width: 9%; text-align:center;">가격</th>
+										<th style="width: 9%; text-align:center;">상품상태</th>
 										<th style="width: 10%; text-align:center;">등록일자</th>
+										<th style="width: 9%; text-align:center;">삭제여부</th>
 										<th style="width: 10%; text-align:center;">관리</th>
 									</tr>
 								</thead>
