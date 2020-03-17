@@ -530,34 +530,34 @@ function fn_selectOrderListCallback1(data) {
 	
 	if(tabNo == 1){
 		body = $("#main_table1 tbody");
-		dnum2 += "<th align='center'><img src=<c:url value='/resources/images/myshop_ostatus.png'/>></th>";
+		dnum2 += "<th style='text-align:center;'><img src=<c:url value='/resources/images/myshop_ostatus.png'/>></th>";
 	}else if(tabNo == 2){
 		body = $("#main_table2 tbody");
-		dnum += "<th align='center'><img src=<c:url value='/resources/images/myorder_list3.png'/>></th>";
-		dnum2 += "<th align='center'><img src=<c:url value='/resources/images/myshop_ostatus.png'/>></th>";
+		dnum += "<th style='text-align:center;'><img src=<c:url value='/resources/images/myorder_list3.png'/>></th>";
+		dnum2 += "<th style='text-align:center;'><img src=<c:url value='/resources/images/myshop_ostatus.png'/>></th>";
 	}else if(tabNo == 3){
 		body = $("#main_table3 tbody");
-		dnum += "<th align='center'><img src=<c:url value='/resources/images/myorder_list3.png'/>></th>";
+		dnum += "<th style='text-align:center;'><img src=<c:url value='/resources/images/myorder_list3.png'/>></th>";
 	}
 	var str1 = "";
 	body.empty();
 	
 	str1 	+= 	"<tr>"
-				+		"<th align='center'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>"
-				+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list2.png'/>></th>"
-				+		"<th align='center'><img src=<c:url value='/resources/images/myorder_list4.png'/>></th>"
-				+		"<th align='center'><img src=<c:url value='/resources/images/myorder_list5.png'/>></th>"
+				+		"<th style='text-align:center;'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>"
+				+		"<th style='text-align:center;'><img src=<c:url value='/resources/images/mysale_list2.png'/>></th>"
+				+		"<th style='text-align:center;'><img src=<c:url value='/resources/images/myorder_list4.png'/>></th>"
+				+		"<th style='text-align:center;'><img src=<c:url value='/resources/images/myorder_list5.png'/>></th>"
 				+ dnum
 				+ dnum2
-				+		"<th align='center'><img src=<c:url value='/resources/images/myorder_list2.png'/>></th>"
+				+		"<th style='text-align:center;'><img src=<c:url value='/resources/images/myorder_list2.png'/>></th>"
 				+	"</tr>";
 	if (total == 0) {
 		if(tabNo == 1 || tabNo == 3){
-			str1 += "<tr align='center'>" 
+			str1 += "<tr style='text-align:center;''>" 
 				  +	"<td colspan='6'>조회된 결과가 없습니다.</td>"
 				  +	"</tr>";			
 		}else{
-			str1 += "<tr align='center'>" 
+			str1 += "<tr style='text-align:center;'>" 
 				  +	"<td colspan='7'>조회된 결과가 없습니다.</td>"
 				  +	"</tr>";		
 		}
@@ -596,34 +596,23 @@ function fn_selectOrderListCallback1(data) {
 		      	      		+	title
 	      	      			+	"<input type='hidden' name='title2' id='title2' value="+value.ORDERS_PRONUM+">"
 		      	      		+	"</a></td>"
-		      	      		+	"<td width='100px' align='center'>"
-	      	      			+	new Date(value.ORDERS_DATE).toLocaleString()
-		      	      		+	"</td>";
-		      	      	if(value.ORDERS_STATUS == "주문/결제"){
-		      	      		str1 += "<td>-</td>";
-		      	      	} else {
-		      	      	str1 +=	"<td width='200px' align='center'>"
-		      	      		+	"<a href='#this' id='DTracker' onclick='fn_sweetTracker("+value.ORDERS_DNUM+")'>"+value.ORDERS_DNUM+"</a>"
-		      	      		+	"</td>";
-		      	      	}
-		      	      	str1 +=	"<td width='100px' align='center'>"
 		      	      		+	"<td align='center'>"
 		      	      		+	value.ORDERS_PRICE
 		      	      		+	"</td>"
 		      	      		+	"<td align='center'>"
 		      	      		+	value.ORDERS_STATUS	
 		      	      		+	"</td>"
-			      	      	+	dnumber;
 		      	      	if(value.ORDERS_STATUS == "주문/결제"){
 	      	      			str1 +=	"<td>"
 	      	      				 +	"<input class='hyperButton' type='button' id='orderCancel' name='orderCancel' value='주문취소' onclick='fn_orderCancel("+value.ORDERS_PRONUM+")' >"
 	      	      				 +  "</td>";
 		      	      	}else if(value.ORDERS_STATUS == "배송중"){
-		      	      		str1 +=	"<td>" 
+		      	      		str1 +=	"<td><a href='#this' id='DTracker' onclick='fn_sweetTracker("+value.ORDERS_DNUM+")'>"+value.ORDERS_DNUM+"</a>"
+		      	      			 +	"<td>" 
 		      	      			 +  "<input class='hyperButton' type='button' id='Buychk' name='Buychk' value='구매확정' onclick='fn_Buychk("+value.ORDERS_PRONUM+")' >"
 		      	      			 +  "</td>";
-		      	      	}else {
-		      	      		
+		      	      	}else if(value.ORDERS_STATUS == "거래완료"){
+		      	      		str1 +=	"<td><a href='#this' id='DTracker' onclick='fn_sweetTracker("+value.ORDERS_DNUM+")'>"+value.ORDERS_DNUM+"</a>"
 		      	      	}
 		      	      	str1 +=	"<td align='center'>"
 	      	      			 +	new Date(value.ORDERS_DATE).toLocaleString()

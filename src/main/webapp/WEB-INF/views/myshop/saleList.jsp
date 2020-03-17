@@ -558,28 +558,28 @@ function fn_selectMySaleListCallback1(data) {
 	
 	if(tabNo == 1){
 		body = $("#main_table1 tbody");
-		dnum3 += "<th align='center'><img src=<c:url value='/resources/images/myshop_sstatus.png'/>></th>";
+		dnum3 += "<th style='text-align:center;'><img src=<c:url value='/resources/images/myshop_sstatus.png'/>></th>";
 	}else if(tabNo == 2){
 		body = $("#main_table2 tbody");	
-		dnum1 += "<th align='center'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>";
-		dnum2 += "<th align='center'><img src=<c:url value='/resources/images/myshop_dnum.png'/>></th>";
-		dnum3 += "<th align='center'><img src=<c:url value='/resources/images/myshop_sstatus.png'/>></th>";
+		dnum1 += "<th style='text-align:center;'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>";
+		dnum2 += "<th style='text-align:center;'><img src=<c:url value='/resources/images/myshop_dnum.png'/>></th>";
+		dnum3 += "<th style='text-align:center;'><img src=<c:url value='/resources/images/myshop_sstatus.png'/>></th>";
 	}else if(tabNo == 3){
 		body = $("#main_table3 tbody");
-		dnum1 += "<th align='center'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>";
-		dnum2 += "<th align='center'><img src=<c:url value='/resources/images/myshop_dnum.png'/>></th>";
+		dnum1 += "<th style='text-align:center;'><img src=<c:url value='/resources/images/myorder_list1.png'/>></th>";
+		dnum2 += "<th style='text-align:center;'><img src=<c:url value='/resources/images/myshop_dnum.png'/>></th>";
 	}
 	var str1 = "";	
 	body.empty();
 	str1 	+= 	"<tr>"
 		+ dnum1
-		+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list1.png'/>></th>"
-		+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list2.png'/>></th>"
-		+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list3.png'/>></th>"
-		+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list5.png'/>></th>"
+		+		"<th style='text-align:center;'><img src=<c:url value='/resources/images/mysale_list1.png'/>></th>"
+		+		"<th style='text-align:center;'><img src=<c:url value='/resources/images/mysale_list2.png'/>></th>"
+		+		"<th style='text-align:center;'><img src=<c:url value='/resources/images/mysale_list3.png'/>></th>"
+		+		"<th style='text-align:center;'><img src=<c:url value='/resources/images/mysale_list5.png'/>></th>"
 		+ dnum2
 		+ dnum3
-		+		"<th align='center'><img src=<c:url value='/resources/images/mysale_list4.png'/>></th>"
+		+		"<th style='text-align:center;'><img src=<c:url value='/resources/images/mysale_list4.png'/>></th>"
 		+	"</tr>";
 	if (total == 0) {
 
@@ -655,7 +655,6 @@ function fn_selectMySaleListCallback1(data) {
 		      	      	str1 += "<td align='center'>"
 		      	      		+	value.ORDERS_STATUS	
 		      	      		+	"</td>"
-
 							+	"<td align='center'>"
 							+	"<a href='#this' id='DTracker' onclick='fn_sweetTracker("+value.ORDERS_DNUM+")'>"+value.ORDERS_DNUM+"</a>"
 							+	"</td>"+"<td>-</td>";
