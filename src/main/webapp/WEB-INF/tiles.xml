@@ -292,4 +292,7 @@
       <put-attribute name="body" value="/WEB-INF/views/admin/orderModifyForm.jsp" />
    </definition>
    
+   <definition name="errorPage" extends="default">
+      <put-attribute name="body" value="/WEB-INF/views/common/errorPage.jsp" />
+   </definition>
 </tiles-definitions>
