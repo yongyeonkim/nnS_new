@@ -87,7 +87,11 @@ function back(){
 									<tr class="gradeA even" role="row">
 										<td style="text-align:center;vertical-align:middle;">
 											<input type="hidden" name="REPORT_NUM" id="REPORT_NUM" value="${list.REPORT_NUM }">
-												${list.REPORT_NUM}</td>
+												${list.REPORT_NUM}
+										   <!-- 알림추가 -->
+											<input type="hidden" id="IDX" name="IDX" value="${list.MEM_ID}">
+                                            <input type="hidden" id="IDX2" name="IDX2" value="${list.GOODS_SELLER_ID}">
+									    </td>
 										<td style="text-align:center;vertical-align:middle;">
 											<input type="hidden" name="title2" id="title2" value="${list.REPORT_NUM}">
 											<a href="#this" id="title" name="title">

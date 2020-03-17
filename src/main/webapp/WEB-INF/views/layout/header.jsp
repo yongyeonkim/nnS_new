@@ -118,12 +118,11 @@ a {color:#666;}
             </c:if>
          <li><a href="${contextPath}/nnS/logout" class="log">로그아웃</a></li> 
          <li><a href="${contextPath}/nnS/myPage">마이페이지</a></li>
-         <li><a href="${contextPath}/nnS/myshop">내상점</a></li> 
+         <li><a href="${contextPath}/nnS/myshop">내상점</a></li>
          </c:if>
       </ul>
-      
       <c:if test="${session_MEM_ID != null}">
-         <div class="dropdown">
+         <div class="dropdown" style="float:right;">
          <button class="dropbtn"><img style="width:30px; height:30px;" src="<c:url value="/resources/images/Bell.png"/>"/></button>
             <div class="count_number"></div>
             <div class="dropdown-content">

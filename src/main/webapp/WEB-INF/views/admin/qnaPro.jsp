@@ -67,8 +67,8 @@ $(function(){
                         	<input type="hidden" name="QNA_NUM" id="QNA_NUM" value="${map.QNA_NUM }">
                         	<input type="hidden" name="QNA_TYPE" id="QNA_TYPE" value="${map.QNA_TYPE }">
                                                     
-                             <input type="hidden" name="QNA_TITLE" id="QNA_TITLE" value="RE: ${map.QNA_TITLE }"/>
-                              
+                            <input type="hidden" name="QNA_TITLE" id="QNA_TITLE" value="RE: ${map.QNA_TITLE }"/>
+                            <input type="hidden" name="IDX" id="IDX" value="RE: ${map.QNA_WRITER }"/> 
                                                       
                        
                         <div>

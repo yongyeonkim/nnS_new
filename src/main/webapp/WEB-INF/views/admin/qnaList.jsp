@@ -101,7 +101,7 @@ function fn_selectBoardListCallback(data) {
 								+           '<td style="text-align:center;vertical-align:middle;">' + value.QNA_YORN + "</td>"
 								+           '<td style="text-align:center;vertical-align:middle;">' + value.QNA_DEL_GB + "</td>"
 								+			'<td style="text-align:center;vertical-align:middle;">'
-								+           "<input type='button' value='답변달기' onclick='openChild("+ value.QNA_NUM +");'>&nbsp;&nbsp;" 
+								+           "<input type='image' src='../resources/images/answer_write.png' width='30' height='30' onclick='openChild("+ value.QNA_NUM +");'>&nbsp;&nbsp;" 
 								+			"<input type='hidden' id='MEM_ID' value=" + value.MEM_ID + ">"	
 								+			 "<a href='/nnS/admin/adQnaDelete?QNA_NUM="+value.QNA_NUM+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()">' + "</a>" + "</td>"									
 								+		"</tr>"

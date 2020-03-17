@@ -99,7 +99,7 @@ a {color:#666;}
 		</ul>
 		
       <c:if test="${session_MEM_ID != null}">
-         <div class="dropdown">
+         <div class="dropdown" style="float:right;">
          <button class="dropbtn"><img style="width:30px; height:30px;" src="<c:url value="/resources/images/Bell.png"/>"/></button>
             <div class="count_number"></div>
             <div class="dropdown-content">

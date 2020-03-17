@@ -14,11 +14,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import nnS.admin.dao.AdminMemberDAO;
+import nnS.common.dao.InformDAO;
 
 @Service("adminMemberService")
 public class AdminMemberServiceImpl implements AdminMemberService{
 	
 	Logger log = Logger.getLogger(this.getClass());
+	
+	@Resource(name="informDAO")
+	private InformDAO informDAO;
 	
 	@Resource(name="adminMemberDAO")
 	private AdminMemberDAO adminMemberDAO;
@@ -56,6 +60,8 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 	@Override
 	public void updateReport(Map<String, Object> map) throws Exception{
 		adminMemberDAO.updateReport(map);
+		 informDAO.informInsert(map, "내 신고글에 처리상태가 변경되었습니다.");
+	     informDAO.informInsert2(map, "회원님에 신고가 처리되었습니다.");
 	}
 	
 	@Override
