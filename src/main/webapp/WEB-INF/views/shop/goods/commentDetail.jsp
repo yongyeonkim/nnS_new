@@ -6,14 +6,28 @@
     width: 100%;
 
     border-collapse: collapse;
+    border-style: solid;
+    border: 1px;
+  	padding: 20px;
     text-align: center;    
     vertical-align: center;
   }
-  .comments tr {
-    border-top: 1px solid #444444;
+  
+  .comments th {
+  	background: #ffda73;
+  	font-size: 12px;
+  	text-decoration: inherit;
   }
+
+  .comments tr {
+  
+  }
+  
   .comments td {
-  	padding: 20px
+    border-style: solid;
+    border: 1px;
+  	padding: 20px;
+  	font-size:11px;
   }
   
   .contentClass{
