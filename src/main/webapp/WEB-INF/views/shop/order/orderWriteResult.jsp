@@ -54,7 +54,7 @@
 				</tr>
 				<tr>
 					<td>
-						${orderM.MEM_NAME}
+						${order.ORDERS_NAME}
 					</td>
 					<td>
 						${orderM.MEM_PHONE}
