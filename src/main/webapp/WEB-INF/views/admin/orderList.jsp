@@ -7,6 +7,7 @@ function delchk(){
     return confirm("주문취소하시겠습니까?");
    
 }
+
 $(document).ready(function() {
 	fn_selectBoardList(1);
 });
@@ -23,8 +24,11 @@ function fn_selectBoardList(pageNo) {
 
 function fn_selectBoardListCallback(data) {
 	var total = data.TOTAL;
+	var count = $(".dataTables_info");
 	var body = $("table>tbody");
 	body.empty();
+	count.empty();
+	count.append("총 주문 수 : "+ total);
 	if (total == 0) {
 		var str = "<tr align=\"center\">" + "<td colspan='9'>조회된 주문이 없습니다.</td>"
 				+ "</tr>";
@@ -55,10 +59,12 @@ function fn_selectBoardListCallback(data) {
 									+			'<td style="text-align:center;vertical-align:middle;">' + value.ORDERS_TCOST + "</td>"
 									+			'<td style="text-align:center;vertical-align:middle;">' + value.ORDERS_STATUS + "</td>"
 									+			'<td style="text-align:center;vertical-align:middle;">' + new Date(value.ORDERS_DATE).toLocaleString() + "</td>"
+									+			'<td style="text-align:center;vertical-align:middle;">'+value.ORDERS_DEL_GB + "</td>"
 									+			'<td style="text-align:center;vertical-align:middle;">'
 									+				"<a href='/nnS/admin/orderModify?ORDERS_NUM="+value.ORDERS_NUM+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Cog_font_awesome.svg/32px-Cog_font_awesome.svg.png">'+ "</a>"	
 									+			"<input type='hidden' id='MEM_ID' value=" + value.MEM_ID + ">"	
-									+			 "<a href='/nnS/admin/orderCancel?ORDERS_PRONUM="+value.ORDERS_PRONUM+"'>" + '<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Trash_font_awesome.svg/32px-Trash_font_awesome.svg.png" onclick="return delchk()">' + "</a>" + "</td>"									
+									+			 "<a href='/nnS/admin/orderCancel?ORDERS_PRONUM="+value.ORDERS_PRONUM+"'>" + '<input type="image" src="../resources/images/cancel.png" width="32" height="32"  onclick="return delchk()">'								
+									+            "</a>" + "</td>"	
 									+		"</tr>";
 						});
 		body.append(str);
@@ -122,15 +128,16 @@ function fn_selectBoardListCallback(data) {
 								aria-describedby="dataTables-example_info">
 								<thead>
 									<tr role="row">
-										<th style="width: 9%; text-align:center;">주문번호</th>
+										<th style="width: 7%; text-align:center;">주문번호</th>
 										<th style="width: 7%; text-align:center;">구매자</th>
 										<th style="width: 7%; text-align:center;">판매자</th>										
-										<th style="width: 19%; text-align:center;">상품명</th>
-										<th style="width: 31%; text-align:center;">배송지</th>
-										<th style="width: 6%; text-align:center;">결제가</th>
-										<th style="width: 6%; text-align:center;">주문상태</th>
-										<th style="width: 6%; text-align:center;">주문일자</th>
-										<th style="width: 6%; text-align:center;">관리</th>
+										<th style="width: 18%; text-align:center;">상품명</th>
+										<th style="width: 30%; text-align:center;">배송지</th>
+										<th style="width: 5%; text-align:center;">결제가</th>
+										<th style="width: 7%; text-align:center;">주문상태</th>
+										<th style="width: 7%; text-align:center;">주문일자</th>
+										<th style="width: 5%; text-align:center;">삭제여부</th>
+										<th style="width: 7%; text-align:center;">관리</th>
 									</tr>
 								</thead>
 								<tbody class="body">

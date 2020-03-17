@@ -19,5 +19,8 @@ public class AdminGoodsDAO extends AbstractDAO{
 	public void deleteGoods(Map<String, Object> map) throws Exception{
 		update("adminGoods.goodsDelete", map);
 	}
+	public void orderCancel(Map<String, Object> map) throws Exception{
+		update("adminGoods.orderCancel", map);
 
+}
 }

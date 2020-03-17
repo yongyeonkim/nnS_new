@@ -10,6 +10,7 @@
 <![CDATA[
 
 	SELECT  ROW_NUMBER() OVER (ORDER BY N.BOARD_NUM DESC) RNUM,
+	        N.BOARD_DEL_GB,
 			N.BOARD_NUM,
 	        N.BOARD_TITLE,
 	        M.MEM_ID,
@@ -23,7 +24,6 @@
 	        FROM    MEMBER
 	        ) M
 	WHERE   N.BOARD_WRITER = M.MEM_NUM(+)
-	AND     BOARD_DEL_GB = 'N'
 	
 ]]>
 <include refid="common.pagingPost"/>
@@ -48,7 +48,8 @@
 <![CDATA[
 
    SELECT  ROW_NUMBER() OVER (ORDER BY N.NOTICE_NUM DESC) RNUM,
-         N.NOTICE_NUM,
+           N.NOTICE_NUM,
+           N.NOTICE_DEL_GB,
            N.NOTICE_TITLE,
            N.NOTICE_CONTENT,
            M.MEM_ID,
@@ -61,7 +62,6 @@
            FROM    MEMBER
            ) M
    WHERE   N.NOTICE_WRITER = MEM_NUM(+)
-   AND     NOTICE_DEL_GB = 'N'
    
 ]]>
 <include refid="common.pagingPost"/>
@@ -88,6 +88,7 @@
 		        DECODE(B.QNA_NUM, A.QNA_NUM, 'Y', 'N') AS QNA_YORN
 		FROM    (
 		        SELECT  Q.QNA_NUM,
+		                Q.QNA_DEL_GB,
 		                Q.QNA_TITLE,
 		                M.MEM_ID,
 		                Q.QNA_DATE,
@@ -103,7 +104,6 @@
 		                ) M
 		        WHERE   Q.QNA_WRITER = M.MEM_NUM(+)
 		        AND     Q.QNA_PARENT IS NULL
-		        AND     Q.QNA_DEL_GB = 'N'
 		         <include refid="qnatype"/>
 		        ) A
 		LEFT OUTER JOIN

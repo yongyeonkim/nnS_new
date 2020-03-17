@@ -49,7 +49,7 @@
    WHERE (INFORM_USER= (SELECT MEM_NUM FROM MEMBER WHERE MEM_ID =#{MEM_ID})
    OR INFORM_USER IS NULL)
    AND   INFORM_CONFIRM = 'N'
-   ORDER BY INFORM_NUM
+   ORDER BY INFORM_NUM DESC
    </select>
    
    <update id="confirmUpdate" parameterType="hashmap">

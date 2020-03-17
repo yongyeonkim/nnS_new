@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/inform.css'/>" />
 <style>
 a {color:#666;}
+
 </style>
 <script type="text/javascript">
    var onSearch = function(){   
@@ -49,10 +50,16 @@ a {color:#666;}
 	   
 	   function callback(data){
 	      var total = data.list;
+	      var totalcount = data.TOTAL;
+	      var count = $(".count_number");
 	      var body = $("#inform");
+	      count.empty();
 	      body.empty();
+	      count.append(totalcount);
 	      var str = "";
 	      if (total == 0) {
+	    	 count.css("opacity","1");
+	    	 count.remove();
 	         str += "<tr>" + "<td colspan='4'>새로운 알림이 없습니다.</td>"
 	         + "</tr>";
 	         body.append(str);
@@ -69,6 +76,7 @@ a {color:#666;}
 	            });
 
 	            body.append(str);
+	            count.css("background-color","red");
 	      }
 	   }
 
@@ -117,10 +125,9 @@ a {color:#666;}
       <c:if test="${session_MEM_ID != null}">
          <div class="dropdown">
          <button class="dropbtn"><img style="width:30px; height:30px;" src="<c:url value="/resources/images/Bell.png"/>"/></button>
+            <div class="count_number"></div>
             <div class="dropdown-content">
               <table id="inform">
-                 <tbody>
-                 </tbody>
               </table>
             </div>
        </div>

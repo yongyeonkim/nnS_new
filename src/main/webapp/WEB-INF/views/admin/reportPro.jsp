@@ -28,8 +28,11 @@ function fn_selectBoardList(pageNo) {
 
 function fn_selectBoardListCallback(data) {
 	var total = data.TOTAL;
+	var count = $(".dataTables_info");
 	var body = $("table>tbody");
 	body.empty();
+	count.empty();
+	count.append("총 게시글 수 : "+ total);
 	if (total == 0) {
 		var str = "<tr align=\"center\">" + "<td colspan='9'>등록된 신고사항이 없습니다</td>"
 				+ "</tr>";

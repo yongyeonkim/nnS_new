@@ -37,4 +37,18 @@
     /*
     background-color: #3e8e41;
     */
-} 
+}
+.count_number { 
+               
+                width: 15px;
+                height: 15px;
+				opacity: 1;
+				color: white;
+				border-radius:75px;
+				text-align: center;
+				font-size:3px;
+				position: absolute;
+				top: 19%;
+				left: 56%;
+				
+			} 
