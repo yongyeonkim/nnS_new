@@ -36,7 +36,7 @@ public class BoardController {
 	@RequestMapping(value="/community/boardListPaging")
 	public ModelAndView boardListPaging(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
 		ModelAndView mv=new ModelAndView("jsonView");
-		
+
 		List<Map<String,Object>> list=boardService.selectBoardList(commandMap.getMap(), keyword, searchType);
 		mv.addObject("list",list);	
 		if(list.size() > 0){
@@ -50,8 +50,16 @@ public class BoardController {
 	
 	// 자유게시판 상세보기
 	@RequestMapping(value = "/community/boardDetail")
-	public ModelAndView boardDetail(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("boardDetail");
+	public ModelAndView boardDetail(@RequestParam(value = "appType", defaultValue="") String appType, HttpServletRequest request, CommandMap commandMap) throws Exception {
+		ModelAndView mv;
+		
+		if(appType == "m" || appType.equals("m")) {
+			mv = new ModelAndView("jsonView");
+			System.out.print("!@#!@#!#@" + request.getParameter("param1"));
+			commandMap.getMap().put("BOARD_NUM", request.getParameter("param1"));
+		}else {
+			mv = new ModelAndView("boardDetail");
+		}
 		
 		Map<String, Object> map = boardService.selectBoardDetail(commandMap.getMap());
 		mv.addObject("map", map.get("map"));

@@ -20,4 +20,6 @@ public interface ShopService {
 	void insertGoodsLike(Map<String, Object> map) throws Exception;
 	
 	void deleteGoodsLike(Map<String, Object> map) throws Exception;
+	
+	void writeToFile(String filename, String imageData, HttpServletRequest request) throws Exception;
 }

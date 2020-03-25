@@ -67,6 +67,8 @@ public class ShopController{
             mv.addObject("TOTAL", 0);
         }
     	System.out.println("@@@@@"+sortType);
+    	
+    	System.out.println("%%% " + mv);
     	return mv;
 	}
 	
@@ -123,8 +125,29 @@ public class ShopController{
 	}
 
 	@RequestMapping(value="/shop/goodsWrite", method = RequestMethod.POST)
-	public ModelAndView goodsWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/shop/goodsWrite_redirect");
+	public ModelAndView goodsWrite(@RequestParam(value = "appType", defaultValue="") String appType, CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv;
+		
+		if(appType == "m" || appType.equals("m")) {
+			mv = new ModelAndView("jsonView");
+			commandMap.getMap().put("MEM_ID", request.getParameter("m_MEM_ID"));
+			commandMap.getMap().put("GOODS_TITLE", request.getParameter("m_GOODS_TITLE"));
+			commandMap.getMap().put("GOODS_CONTENT", request.getParameter("m_GOODS_CONTENT"));
+			commandMap.getMap().put("GOODS_PRICE", request.getParameter("m_GOODS_PRICE"));
+			commandMap.getMap().put("GOODS_REGION", request.getParameter("m_GOODS_REGION"));
+			commandMap.getMap().put("GOODS_CATEGORY", request.getParameter("m_GOODS_CATEGORY"));
+			commandMap.getMap().put("GOODS_HASH", request.getParameter("m_GOODS_HASH"));
+			commandMap.getMap().put("GOODS_DCOST", request.getParameter("m_GOODS_DCOST"));
+			commandMap.getMap().put("GOODS_BRAND", request.getParameter("m_GOODS_BRAND"));
+			commandMap.getMap().put("GOODS_STATUS", request.getParameter("m_GOODS_STATUS"));
+			
+			shopService.writeToFile(request.getParameter("m_FILE_NAME"), request.getParameter("m_IMAGE_DATA"), request);
+			//System.out.println("image data = "+request.getParameter("m_IMAGE_DATA"));
+		}else {
+			mv = new ModelAndView("redirect:/shop/goodsWrite_redirect");
+		}
+		
+		//ModelAndView mv = new ModelAndView("redirect:/shop/goodsWrite_redirect");
 
 		shopService.insertGoods(commandMap.getMap(), request);
 		mv.addObject("IDX", commandMap.getMap().get("IDX"));
@@ -141,8 +164,21 @@ public class ShopController{
 	}
 	
 	@RequestMapping(value="/shop/goodsModifyForm")
-	public ModelAndView goodsModifyForm(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("goodsWriteForm");
+	public ModelAndView goodsModifyForm(@RequestParam(value = "appType", defaultValue="") String appType, HttpServletRequest request, CommandMap commandMap) throws Exception{
+		ModelAndView mv;
+		
+		if(appType == "m" || appType.equals("m")) {
+			mv = new ModelAndView("jsonView");
+			//댓글 사용자 조회를 위한 MEM_ID
+			//좋아요 여부 조회를 위한 LIKE_MEM_ID (세션)
+			commandMap.getMap().put("MEM_ID", request.getParameter("m_MEM_ID"));
+			commandMap.getMap().put("GOODS_NUM", request.getParameter("m_GOODS_NUM"));
+			commandMap.getMap().put("LIKE_MEM_ID", request.getParameter("m_LIKE_MEM_ID"));
+		}else {
+			mv = new ModelAndView("goodsWriteForm");
+		}
+		
+		//ModelAndView mv = new ModelAndView("goodsWriteForm");
 
 		Map<String,Object> map = shopService.selectGoodsDetail(commandMap.getMap());
 		mv.addObject("map", map.get("map"));
@@ -154,8 +190,27 @@ public class ShopController{
 	}
 	
 	@RequestMapping(value="/shop/goodsModify")
-	public ModelAndView goodsModify(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("goodsWriteResult");
+	public ModelAndView goodsModify(@RequestParam(value = "appType", defaultValue="") String appType, CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv;
+		
+		if(appType == "m" || appType.equals("m")) {
+			mv = new ModelAndView("jsonView");
+			commandMap.getMap().put("GOODS_NUM", request.getParameter("m_GOODS_NUM"));
+			commandMap.getMap().put("MEM_ID", request.getParameter("m_MEM_ID"));
+			commandMap.getMap().put("GOODS_TITLE", request.getParameter("m_GOODS_TITLE"));
+			commandMap.getMap().put("GOODS_CONTENT", request.getParameter("m_GOODS_CONTENT"));
+			commandMap.getMap().put("GOODS_PRICE", request.getParameter("m_GOODS_PRICE"));
+			commandMap.getMap().put("GOODS_REGION", request.getParameter("m_GOODS_REGION"));
+			commandMap.getMap().put("GOODS_CATEGORY", request.getParameter("m_GOODS_CATEGORY"));
+			commandMap.getMap().put("GOODS_HASH", request.getParameter("m_GOODS_HASH"));
+			commandMap.getMap().put("GOODS_DCOST", request.getParameter("m_GOODS_DCOST"));
+			commandMap.getMap().put("GOODS_BRAND", request.getParameter("m_GOODS_BRAND"));
+			commandMap.getMap().put("GOODS_STATUS", request.getParameter("m_GOODS_STATUS"));
+		}else {
+			mv = new ModelAndView("redirect:/shop/goodsWrite_redirect");
+		}
+		
+		//ModelAndView mv = new ModelAndView("goodsWriteResult");
 
 		shopService.updateGoods(commandMap.getMap(), request);
 		mv.addObject("IDX", commandMap.getMap().get("IDX"));
@@ -164,8 +219,17 @@ public class ShopController{
 	}
 	
 	@RequestMapping(value="/shop/goodsDelete")
-	public ModelAndView goodsDelete(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/shop");
+	public ModelAndView goodsDelete(@RequestParam(value = "appType", defaultValue="") String appType, HttpServletRequest request, CommandMap commandMap) throws Exception{
+		ModelAndView mv;
+		
+		if(appType == "m" || appType.equals("m")) {
+			mv = new ModelAndView("jsonView");
+			commandMap.getMap().put("GOODS_NUM", request.getParameter("m_GOODS_NUM"));
+		}else {
+			mv = new ModelAndView("redirect:/shop");
+		}
+		
+		//ModelAndView mv = new ModelAndView("redirect:/shop");
 		
 		shopService.deleteGoods(commandMap.getMap());
 		
@@ -174,8 +238,21 @@ public class ShopController{
 	
 	// 상품 상세보기
 	@RequestMapping(value="/shop/goodsDetail")
-	public ModelAndView goodsDetail(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("goodsDetail");
+	public ModelAndView goodsDetail(@RequestParam(value = "appType", defaultValue="") String appType, CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv;
+		
+		if(appType == "m" || appType.equals("m")) {
+			mv = new ModelAndView("jsonView");
+			//댓글 사용자 조회를 위한 MEM_ID
+			//좋아요 여부 조회를 위한 LIKE_MEM_ID (세션)
+			commandMap.getMap().put("MEM_ID", request.getParameter("m_MEM_ID"));
+			commandMap.getMap().put("GOODS_NUM", request.getParameter("m_GOODS_NUM"));
+			commandMap.getMap().put("LIKE_MEM_ID", request.getParameter("m_LIKE_MEM_ID"));
+		}else {
+			mv = new ModelAndView("goodsDetail");
+		}
+		
+		//ModelAndView mv = new ModelAndView("goodsDetail");
 		Map<String,Object> map = shopService.selectGoodsDetail(commandMap.getMap());
 		
 		String filePath_temp = request.getContextPath() + "/file/";
