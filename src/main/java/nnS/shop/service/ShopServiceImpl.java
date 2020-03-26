@@ -1,12 +1,21 @@
 package nnS.shop.service;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 
 import nnS.shop.dao.ShopDAO;
@@ -100,7 +109,7 @@ public class ShopServiceImpl implements ShopService {
 		
 		// 상품정보 등록 쿼리 실행
 		shopDAO.insertGoods(map);
-		System.out.println("****12132* " + map);
+		//System.out.println("****12132* " + map);
 		
 		// 상품 등록 시 IDX 값을 받아 이미지 테이블에 값들을 담아줌
 		if(img_templist!="") { // img_list가 비어있지 않을 경우			
@@ -172,7 +181,33 @@ public class ShopServiceImpl implements ShopService {
 	
 	@Override
 	public void deleteGoodsLike(Map<String, Object> map) throws Exception{
-		shopDAO.deleteGoodsLike(map);
+	shopDAO.deleteGoodsLike(map);
 	}
 
+	@Override
+	public void writeToFile(String filename, String imageData, HttpServletRequest request){
+		FileOutputStream fos = null;
+		byte decode[] = Base64.decodeBase64(imageData);
+		
+		byte[] pData;
+		pData = imageData.getBytes();
+	    
+		int readCount = 0;
+	    String url = request.getSession().getServletContext().getRealPath("") + "/file/";
+				
+		if(pData == null){
+	        return;
+	    }
+		
+	    try{
+	    	fos = new FileOutputStream(new File(url + filename));
+	    	fos.write(decode);
+	    	
+	    }catch(Throwable e){
+	        e.printStackTrace(System.out);
+	        
+	    }finally {
+	    	try {fos.close();}catch(IOException e) {e.printStackTrace();}
+	    }
+	}
 }
