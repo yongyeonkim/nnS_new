@@ -61,6 +61,25 @@ public class MyshopController {
 	  
 		return mv; 
 	}
+	
+	//모바일
+	@RequestMapping(value="/myshopM/selectOrderList",method=RequestMethod.GET) 
+	public ModelAndView selectOrderListM(CommandMap commandMap, HttpServletRequest request, @RequestParam(value = "tabNo", defaultValue="") String tabNo) throws Exception { 
+		ModelAndView mv = new ModelAndView("jsonView"); 
+		List<Map<String,Object>> list;
+		if(tabNo.equals("1")) {
+			list = myshopService.selectMyOrderList1(commandMap.getMap());
+		}else if(tabNo.equals("2")) {
+			list = myshopService.selectMyOrderList2(commandMap.getMap());
+		}else if(tabNo.equals("3")) {
+			list = myshopService.selectMyOrderList3(commandMap.getMap());
+		}else {
+			list = myshopService.selectMyOrderList1(commandMap.getMap());
+			System.out.println("asdsaasd");
+		}
+		mv.addObject("list", list);
+		return mv; 
+	}
 
 	// 판매내역 조회
 	@RequestMapping(value="/myshop/saleList")
