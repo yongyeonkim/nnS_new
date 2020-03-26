@@ -9,7 +9,7 @@ public class CommunityController {
 
 	@RequestMapping(value = "/community")
 	public ModelAndView communityMain() throws Exception {
-		ModelAndView mv = new ModelAndView("/community/notice/noticeList");
+		ModelAndView mv = new ModelAndView("noticeList");
 		
 		return mv;		
 	}

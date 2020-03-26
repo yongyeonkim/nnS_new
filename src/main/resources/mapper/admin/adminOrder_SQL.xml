@@ -81,12 +81,14 @@
 </select>
 <!-- 주문수정 -->
 <select id="updateorder" parameterType="hashmap">
+<![CDATA[
     UPDATE ORDERS SET
        ORDERS_DZIPCODE = #{ORDERS_DZIPCODE},
        ORDERS_DADD1 = #{ORDERS_DADD1},
        ORDERS_DADD2 = #{ORDERS_DADD2},
        ORDERS_PHONE = #{ORDERS_PHONE}
     WHERE ORDERS_NUM = #{ORDERS_NUM}   
+]]>
 </select>
 <!-- 주문삭제 -->
 

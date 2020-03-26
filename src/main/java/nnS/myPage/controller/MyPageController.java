@@ -63,7 +63,7 @@ public class MyPageController {
 		HttpSession session = request.getSession();
 		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
 		myPageService.updateAccountModify(commandMap.getMap());
-		ModelAndView mv = new ModelAndView("accountModifyForm");
+		ModelAndView mv = new ModelAndView("redirect:/myPage/accountDetail");
 		Map<String,Object> map = myPageService.selectAccountInfo(commandMap.getMap());	
 		mv.addObject("map",map);
 		return mv;

@@ -226,7 +226,7 @@ public class ShopController{
 			mv = new ModelAndView("jsonView");
 			commandMap.getMap().put("GOODS_NUM", request.getParameter("m_GOODS_NUM"));
 		}else {
-			mv = new ModelAndView("redirect:/shop");
+			mv = new ModelAndView("redirect:/shop/allGoodsList");
 		}
 		
 		//ModelAndView mv = new ModelAndView("redirect:/shop");
