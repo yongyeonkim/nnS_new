@@ -53,8 +53,16 @@ public class NoticeController {
 
 	// 공지사항 상세보기
 	@RequestMapping(value = "/community/noticeDetail")
-	public ModelAndView noticeDetail(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("noticeDetail");
+	public ModelAndView noticeDetail(@RequestParam(value = "appType", defaultValue="") String appType, CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv;
+		
+		if(appType == "m" || appType.equals("m")) {
+			mv = new ModelAndView("jsonView");
+			System.out.print("!@#!@#!#@" + request.getParameter("NOTICE_NUM"));
+			commandMap.getMap().put("NOTICE_NUM", request.getParameter("NOTICE_NUM"));
+		}else {
+			mv = new ModelAndView("noticeDetail");
+		}
 		
 		Map<String, Object> map = noticeService.selectNoticeDetail(commandMap.getMap());
 		mv.addObject("map", map.get("map"));

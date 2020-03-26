@@ -64,8 +64,16 @@ public class QnaController {
 		
 	
 	  @RequestMapping(value = "/community/qnaDetail") 
-	  public ModelAndView qnaDetail(CommandMap commandMap, HttpServletRequest request) throws Exception { 
-		  ModelAndView mv = new ModelAndView("qnaDetail");
+	  public ModelAndView qnaDetail(@RequestParam(value = "appType", defaultValue="") String appType, CommandMap commandMap, HttpServletRequest request) throws Exception { 
+		  ModelAndView mv;
+		  
+		  if(appType == "m" || appType.equals("m")) {
+				mv = new ModelAndView("jsonView");
+				System.out.print("!@#!@#!#@" + request.getParameter("QNA_NUM"));
+				commandMap.getMap().put("QNA_NUM", request.getParameter("QNA_NUM"));
+			}else {
+				mv = new ModelAndView("qnaDetail");
+			}
 		  
 		  HttpSession session = request.getSession();
 		  commandMap.put("session_MEM_ID", session.getAttribute("session_MEM_ID"));
@@ -106,12 +114,20 @@ public class QnaController {
 	}
 	
 	@RequestMapping(value = "/community/qnaWrite")
-	public ModelAndView qnaWrite(CommandMap commandMap, HttpServletRequest request) throws Exception {
-		ModelAndView mv = new ModelAndView("redirect:/community/qnaDetail");
-		
-		HttpSession session = request.getSession();
-		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
-		qnaService.insertQnaBoard(commandMap.getMap(),request);
+	public ModelAndView qnaWrite(@RequestParam(value = "appType", defaultValue="") String appType,CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv;
+		  
+		  if(appType == "m" || appType.equals("m")) {
+				mv = new ModelAndView("jsonView");
+				System.out.print("!@#!@#!#@" + request.getParameter("MEM_ID"));
+				commandMap.getMap().put("MEM_ID", request.getParameter("MEM_ID"));
+				qnaService.insertQnaBoard(commandMap.getMap());
+			}else {
+				mv = new ModelAndView("redirect:/community/qnaDetail");
+				HttpSession session = request.getSession();
+				commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
+				qnaService.insertQnaBoard(commandMap.getMap(),request);
+			}
 		mv.addObject("QNA_NUM", commandMap.get("QNA_NUM"));
 		
 		return mv;		

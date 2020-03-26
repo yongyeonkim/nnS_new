@@ -32,14 +32,20 @@ public class ReportController {
 	}
 	
 	@RequestMapping(value="/community/reportWrite")
-	public ModelAndView reportWrite(CommandMap commandMap,HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/community/reportList");
+	public ModelAndView reportWrite(@RequestParam(value = "appType", defaultValue="") String appType, CommandMap commandMap,HttpServletRequest request) throws Exception{
+		ModelAndView mv;
 		
-		HttpSession session = request.getSession();
-		commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
-		
-		reportService.insertReportBoard(commandMap.getMap(),request);
-		
+		 if(appType == "m" || appType.equals("m")) {
+				mv = new ModelAndView("jsonView");
+				System.out.print("!@#!@#!#@" + request.getParameter("MEM_ID"));
+				commandMap.getMap().put("MEM_ID", request.getParameter("MEM_ID"));
+				reportService.insertReportBoard(commandMap.getMap());
+			}else {
+				mv = new ModelAndView("redirect:/community/reportList");
+				HttpSession session = request.getSession();
+				commandMap.put("MEM_ID", session.getAttribute("session_MEM_ID"));
+				reportService.insertReportBoard(commandMap.getMap(),request);
+			}
 		return mv;		
 	}
 	
@@ -82,8 +88,16 @@ public class ReportController {
     }
 
 	@RequestMapping(value = "/community/reportDetail")
-	public ModelAndView reportDetail(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("reportDetail");
+	public ModelAndView reportDetail(@RequestParam(value = "appType", defaultValue="") String appType,CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv;
+		
+		if(appType == "m" || appType.equals("m")) {
+			mv = new ModelAndView("jsonView");
+			System.out.print("!@#!@#!#@" + request.getParameter("REPORT_NUM"));
+			commandMap.getMap().put("REPORT_NUM", request.getParameter("REPORT_NUM"));
+		}else {
+			mv = new ModelAndView("reportDetail");
+		}
 		
 		Map<String,Object> map = reportService.selectReportDetail(commandMap.getMap());
 		mv.addObject("map", map.get("map"));

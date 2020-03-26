@@ -49,6 +49,14 @@ public class QnaServiceImpl implements QnaService{
 		}
 		
 	}
+	
+	@Override
+	public void insertQnaBoard(Map<String, Object> map) throws Exception{
+		// TODO Auto-generated method stub
+		qnaDAO.insertQnaBoard(map);
+		
+		map.put("IDX", map.get("QNA_NUM"));
+	}
 
 	@Override
 	public Map<String, Object> selectQnaDetail(Map<String, Object> map) throws Exception {//상세보기

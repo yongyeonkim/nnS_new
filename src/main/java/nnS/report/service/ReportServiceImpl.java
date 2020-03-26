@@ -46,6 +46,11 @@ Logger log = Logger.getLogger(this.getClass());
 		} 
 	}
 
+	public void insertReportBoard(Map<String, Object> map) throws Exception{
+		// TODO Auto-generated method stub
+		reportDAO.insertReportBoard(map);
+		map.put("IDX", map.get("REPORT_NUM"));
+	}
 
 
 	@Override

@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -121,8 +122,10 @@ public class CommentController {
 	
 	
 	@RequestMapping(value="/community/boardDetail/commentList")
-	public ModelAndView boardCommentPaging(CommandMap commandMap) throws Exception{
+	public ModelAndView boardCommentPaging(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
+		
+		System.out.println("dㄹㅇㅁㄻㄹㄴㅁㄹㄴㅁㄻㄹㄴㅁㄻㄴ=================="+commandMap.getMap());
 		
 		List<Map<String, Object>> list = commentService.selectBoardCommentList(commandMap.getMap());
 		mv.addObject("list", list);
@@ -136,8 +139,13 @@ public class CommentController {
 	}
 	
 	@RequestMapping(value="/community/boardDetail/commentWrite")
-	public ModelAndView boardCommentWrite(CommandMap commandMap) throws Exception{
+	public ModelAndView boardCommentWrite(@RequestParam(value = "appType", defaultValue="") String appType, CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/community/boardDetail");
+		
+		if(appType == "m" || appType.equals("m")) {
+			System.out.println("!@#!@#!#@" + request.getParameter("COMMENTS_PARENT"));
+			commandMap.getMap().put("BOARD_NUM", request.getParameter("COMMENTS_PARENT"));
+		}
 		
 		commentService.insertBoardComment(commandMap.getMap());
 		
@@ -147,13 +155,18 @@ public class CommentController {
 	}
 	
 	@RequestMapping(value="/community/boardDetail/commentDelete")
-	public ModelAndView boardCommentDelete(CommandMap commandMap) throws Exception{
+	public ModelAndView boardCommentDelete(@RequestParam(value = "appType", defaultValue="") String appType, CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/community/boardDetail");
+		
+		if(appType == "m" || appType.equals("m")) {
+			System.out.println("!@#!@#!#@" + request.getParameter("COMMENTS_PARENT"));
+			commandMap.getMap().put("BOARD_NUM", request.getParameter("COMMENTS_PARENT"));
+		}
+		mv.addObject("BOARD_NUM", commandMap.get("BOARD_NUM"));
+		
 		commentService.deleteBoardComment(commandMap.getMap());
 		
-		mv.addObject("BOARD_NUM", commandMap.get("BOARD_NUM"));
 		
 		return mv;
 	}
-	
 }
