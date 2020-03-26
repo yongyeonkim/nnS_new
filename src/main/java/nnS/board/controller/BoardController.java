@@ -36,7 +36,7 @@ public class BoardController {
 	@RequestMapping(value="/community/boardListPaging")
 	public ModelAndView boardListPaging(CommandMap commandMap, @RequestParam(value = "keyword", defaultValue="") String keyword, @RequestParam(value="searchType", defaultValue="") String searchType, HttpServletRequest request) throws Exception {
 		ModelAndView mv=new ModelAndView("jsonView");
-
+		
 		List<Map<String,Object>> list=boardService.selectBoardList(commandMap.getMap(), keyword, searchType);
 		mv.addObject("list",list);	
 		if(list.size() > 0){
@@ -55,8 +55,8 @@ public class BoardController {
 		
 		if(appType == "m" || appType.equals("m")) {
 			mv = new ModelAndView("jsonView");
-			System.out.print("!@#!@#!#@" + request.getParameter("param1"));
-			commandMap.getMap().put("BOARD_NUM", request.getParameter("param1"));
+			System.out.print("!@#!@#!#@" + request.getParameter("BOARD_NUM"));
+			commandMap.getMap().put("BOARD_NUM", request.getParameter("BOARD_NUM"));
 		}else {
 			mv = new ModelAndView("boardDetail");
 		}
@@ -88,8 +88,17 @@ public class BoardController {
 	
 	// 자유게시판 수정폼
 	@RequestMapping(value = "/community/boardModifyForm")
-	public ModelAndView boardModifyForm(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("boardModifyForm");
+	public ModelAndView boardModifyForm(@RequestParam(value = "appType", defaultValue="") String appType,CommandMap commandMap,HttpServletRequest request) throws Exception {
+		ModelAndView mv;
+		
+		if(appType == "m" || appType.equals("m")) {
+			mv = new ModelAndView("jsonView");
+			System.out.println("!@#!@#!#@" + request.getParameter("BOARD_NUM"));
+			commandMap.getMap().put("BOARD_NUM", request.getParameter("BOARD_NUM"));
+		}else {
+			mv = new ModelAndView("boardDetail");
+		}
+		
 		Map<String, Object> map = boardService.selectBoardDetail(commandMap.getMap());
 		mv.addObject("map", map.get("map"));
 		mv.addObject("list", map.get("list"));
